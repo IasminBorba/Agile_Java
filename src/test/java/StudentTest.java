@@ -1,7 +1,6 @@
-import junit.awtui.TestRunner;
 import junit.framework.TestCase;
 
-public class StudentTest extends TestRunner{
+public class StudentTest extends TestCase {
     public void testCreate() {
     }
 }
