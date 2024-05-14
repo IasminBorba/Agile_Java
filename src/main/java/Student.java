@@ -1,9 +1,9 @@
 class Student {
-    String myName;
+    String name;
     Student(String name) {
-        myName = name;
+        this.name = name;
     }
     String getName() {
-        return myName;
+        return name;
     }
 }
