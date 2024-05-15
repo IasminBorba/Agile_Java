@@ -1,8 +1,10 @@
+package studentinfo;
+
 import java.util.ArrayList;
 class CourseSession {
-    private String department;
-    private String number;
-    private ArrayList<Student> students = new ArrayList<Student>();
+    private final String department;
+    private final String number;
+    private final ArrayList<Student> students = new ArrayList<>();
 
     CourseSession(String department, String number){
         this.department = department;

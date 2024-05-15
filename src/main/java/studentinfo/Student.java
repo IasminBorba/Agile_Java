@@ -1,5 +1,7 @@
+package studentinfo;
+
 class Student {
-    private String name;
+    private final String name;
     Student(String name) {
         this.name = name;
     }
