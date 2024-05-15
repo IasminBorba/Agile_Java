@@ -1,4 +1,5 @@
 import junit.framework.TestCase;
+import java.util.ArrayList;
 public class CourseSessionTest extends TestCase{
     public void testCreate(){
         CourseSession session = new CourseSession("ENGL", "101");
@@ -12,7 +13,7 @@ public class CourseSessionTest extends TestCase{
         Student student1 = new Student("Cain DiVoe");
         session.enroll(student1);
         assertEquals(1, session.getNumberOfStudents());
-        java.util.ArrayList<Student> allStudents = session.getAllStudents();
+        ArrayList<Student> allStudents = session.getAllStudents();
         assertEquals(1, allStudents.size());
         assertEquals(student1, allStudents.getFirst());
 
