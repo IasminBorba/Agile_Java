@@ -1,7 +1,9 @@
-class Pawn {
-    String color;
+package pieces;
 
-    Pawn(String color){
+public class Pawn {
+    public String color;
+
+    public Pawn(String color){
         this.color = color;
     }
 
@@ -9,7 +11,7 @@ class Pawn {
         this.color = "white";
     }
 
-    String getColor(){
+    public String getColor(){
         return  color;
     }
 }

@@ -1,10 +1,14 @@
+package chess;
+
+import pieces.Pawn;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class Board {
     int pawnsWhite;
     int pawnsBlack;
-    private final ArrayList<Pawn> pawns = new ArrayList<>();
+    public final ArrayList<Pawn> pawns = new ArrayList<>();
     public Board(int pawnsWhite, int pawnsBlack) {
         this.pawnsWhite = pawnsWhite;
         this.pawnsBlack = pawnsBlack;

@@ -1,18 +1,20 @@
+package chess;
 import junit.framework.TestCase;
+import pieces.Pawn;
 
 public class BoardTest extends  TestCase{
-    private Board session;
+    public Board session;
 
     public void setUp() {
         session = new Board(0,0);
     }
     public void testCreateBoard(){
-        assertEquals(0, session.getPawnsWhite());
-        assertEquals(0, session.getPawnsBlack());
+        Board board = new Board(1,4);
+        assertEquals(1, board.getPawnsWhite());
+        assertEquals(4, board.getPawnsBlack());
     }
 
     public void testAddPawns(){
-
         Pawn pawnWhiteFirst = new Pawn("white");
         assertEquals("white",pawnWhiteFirst.getColor());
 
