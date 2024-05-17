@@ -1,4 +1,4 @@
-package studentinfo;
+package sisbook.studentinfo;
 
 import java.util.*;
 import junit.framework.*;

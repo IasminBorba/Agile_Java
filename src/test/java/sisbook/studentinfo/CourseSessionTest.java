@@ -1,12 +1,12 @@
-package studentinfo;
+package sisbook.studentinfo;
 
 import java.util.*;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
 public class CourseSessionTest extends TestCase{
-    private CourseSession session;
-    private Date startDate;
+    public CourseSession session;
+    public Date startDate;
 
     public void setUp() {
         startDate = DateUtil.createDate(2003,1, 6);

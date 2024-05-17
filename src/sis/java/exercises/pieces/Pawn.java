@@ -1,4 +1,4 @@
-package pieces;
+package exercises.pieces;
 
 public class Pawn {
     public String color;

@@ -1,5 +1,7 @@
-import chess.BoardTest;
-import pieces.PawnTest;
+package exercises;
+
+import exercises.chess.BoardTest;
+import exercises.pieces.PawnTest;
 
 public class AllTestsChess {
     public static junit.framework.TestSuite suite() {

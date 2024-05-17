@@ -1,9 +1,9 @@
-package studentinfo;
+package sisbook.studentinfo;
 
 import java.util.*;
 
-class DateUtil {
-    static Date createDate(int year, int month, int date) {
+public class DateUtil {
+    public static Date createDate(int year, int month, int date) {
         GregorianCalendar calendar = new GregorianCalendar();
         calendar.clear();
         calendar.set(Calendar.YEAR, year);
