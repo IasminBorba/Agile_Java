@@ -8,6 +8,7 @@ public class AllTestsChess {
         junit.framework.TestSuite suite = new junit.framework.TestSuite();
         suite.addTestSuite(BoardTest.class);
         suite.addTestSuite(PawnTest.class);
+        suite.addTestSuite(CharacterTest.class);
         return suite;
     }
 }

@@ -15,4 +15,12 @@ public class PawnTest extends TestCase {
         Pawn pawnWithoutColor = new Pawn();
         assertEquals("white", pawnWithoutColor.getColor());
     }
+
+    public void testRepresentation(){
+        Pawn testPawnWhiteRepresentation = new Pawn("white");
+        assertEquals(testPawnWhiteRepresentation.representation,"p");
+
+        Pawn testPawnBlackRepresentation = new Pawn("black");
+        assertEquals(testPawnBlackRepresentation.representation,"P");
+    }
 }
