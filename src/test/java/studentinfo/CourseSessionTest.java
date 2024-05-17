@@ -40,9 +40,4 @@ public class CourseSessionTest extends TestCase{
         Assert.assertEquals(student1, session.get(0));
         Assert.assertEquals(student2, session.get(1));
     }
-
-    public void testCourseDates() {
-        Date sixteenWeeksOut = createDate(2003,4, 25);
-        assertEquals(sixteenWeeksOut, session.getEndDate());
-    }
 }

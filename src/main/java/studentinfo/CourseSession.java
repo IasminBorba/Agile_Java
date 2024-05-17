@@ -8,27 +8,33 @@ class CourseSession {
     private final ArrayList<Student> students = new ArrayList<>();
     private final Date startDate;
 
-    CourseSession(String department, String number, Date startDate){
+    ArrayList<Student> getAllStudents() {
+        return students;
+    }
+
+    CourseSession(String department, String number, Date startDate) {
         this.department = department;
         this.number = number;
         this.startDate = startDate;
     }
 
-    String getDepartment(){
+    String getDepartment() {
         return department;
     }
-    String getNumber(){
+
+    String getNumber() {
         return number;
     }
-    int getNumberOfStudents(){
-        return  students.size();
+
+    int getNumberOfStudents() {
+        return students.size();
     }
 
-    void enroll(Student student){
+    void enroll(Student student) {
         students.add(student);
     }
 
-    Student get(int index){
+    Student get(int index) {
         return students.get(index);
     }
 
@@ -45,7 +51,7 @@ class CourseSession {
         return calendar.getTime();
     }
 
-    Date getStartDate(){
+    Date getStartDate() {
         return startDate;
     }
 }
