@@ -3,8 +3,8 @@ package studentinfo;
 public class RosterReporter {
 
     static final String NEWLINE = System.lineSeparator();
-    static final String ROSTER_REPORT_HEADER = "Student" + NEWLINE + "-" + NEWLINE;
-    static final String ROSTER_REPORT_FOOTER = NEWLINE + "# students = ";
+    static final String ROSTER_REPORT_HEADER = STR."Student\{NEWLINE}-\{NEWLINE}";
+    static final String ROSTER_REPORT_FOOTER = STR."\{NEWLINE}# students = ";
     private final CourseSession session;
 
     RosterReporter(CourseSession session) {
