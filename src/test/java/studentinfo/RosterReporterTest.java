@@ -9,11 +9,7 @@ public class RosterReporterTest extends TestCase {
         session.enroll(new Student("B"));
         String rosterReport = new RosterReporter(session).getReport();
         assertEquals(
-                RosterReporter.ROSTER_REPORT_HEADER +
-                "A" + RosterReporter.NEWLINE +
-                "B" + RosterReporter.NEWLINE +
-                RosterReporter.ROSTER_REPORT_FOOTER + "2" +
-                RosterReporter.NEWLINE,
+                STR."\{RosterReporter.ROSTER_REPORT_HEADER}A\{RosterReporter.NEWLINE}B\{RosterReporter.NEWLINE}\{RosterReporter.ROSTER_REPORT_FOOTER}2\{RosterReporter.NEWLINE}",
                 rosterReport
         );
     }
