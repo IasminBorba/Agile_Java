@@ -8,10 +8,6 @@ public class CourseSession {
     private final ArrayList<Student> students = new ArrayList<>();
     private final Date startDate;
 
-    public ArrayList<Student> getAllStudents() {
-        return students;
-    }
-
     public CourseSession(String department, String number, Date startDate) {
         this.department = department;
         this.number = number;
@@ -40,5 +36,23 @@ public class CourseSession {
 
     Date getStartDate() {
         return startDate;
+    }
+
+    public ArrayList<Student> getAllStudents() {
+        return students;
+    }
+
+    /**
+     * @return Date a última data da sessão do curso
+     */
+    Date getEndDate() {
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTime(startDate);
+        final int sessionLength = 16;final int daysInWeek = 7;
+        final int daysFromFridayToMonday = 3;
+        int numberOfDays =
+                sessionLength * daysInWeek - daysFromFridayToMonday;
+        calendar.add(Calendar.DAY_OF_YEAR, numberOfDays);
+        return calendar.getTime();
     }
 }
