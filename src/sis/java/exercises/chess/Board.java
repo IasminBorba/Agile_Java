@@ -8,36 +8,31 @@ import java.util.Objects;
 public class Board {
     int pawnsWhite;
     int pawnsBlack;
-    public final ArrayList<Pawn> pawns = new ArrayList<>();
-    public final ArrayList<Pawn> rank = new ArrayList<Pawn>();
-    StringBuilder areasOfBoard = new StringBuilder();
+    public static final ArrayList<Pawn> pawns = new ArrayList<>();
+    public static final ArrayList<Pawn> rank = new ArrayList<>();
+    static StringBuilder areasOfBoard = new StringBuilder();
+
+    public static void addPawnsOfRank(String colorOfPawn, int positionOfPieces){
+        for (int y = 0; y < 8; y++) {
+            pawns.add(new Pawn(colorOfPawn));
+            rank.add(pawns.get(positionOfPieces));
+            areasOfBoard.append(rank.get(positionOfPieces).representation);
+            positionOfPieces++;
+        }
+        areasOfBoard.append("\n");
+    }
     public void initialize() {
         int positionOfPieces = 0;
         for (int x = 0; x < 7; x++) {
             if (Objects.equals(x, 6)) {
-                for (int y = 0; y < 8; y++) {
-                    pawns.add(new Pawn("white"));
-                    rank.add(pawns.get(positionOfPieces));
-                    areasOfBoard.append(rank.get(positionOfPieces).representation);
-                    positionOfPieces++;
-                }
-                areasOfBoard.append("\n");
-            } if (Objects.equals(x,1)){
-                for (int y = 0; y < 8; y++) {
-                    pawns.add(new Pawn("black"));
-                    rank.add(pawns.get(positionOfPieces));
-                    areasOfBoard.append(rank.get(positionOfPieces).representation);
-                    positionOfPieces++;
-                }
-                areasOfBoard.append("\n");
+                Board.addPawnsOfRank("white", positionOfPieces);
+                positionOfPieces += 8;
+            } if (Objects.equals(x,1)) {
+                Board.addPawnsOfRank("black", positionOfPieces);
+                positionOfPieces += 8;
             } else {
-                for (int y = 0; y < 8; y++) {
-                    pawns.add(new Pawn(" "));
-                    rank.add(pawns.get(positionOfPieces));
-                    areasOfBoard.append(rank.get(positionOfPieces).representation);
-                    positionOfPieces++;
-                }
-                areasOfBoard.append("\n");
+                Board.addPawnsOfRank(" ",positionOfPieces);
+                positionOfPieces += 8;
             }
         }
     }
