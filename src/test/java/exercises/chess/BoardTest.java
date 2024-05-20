@@ -12,5 +12,25 @@ public class BoardTest extends  TestCase{
     public void testCreateBoard(){
         assertEquals(8, session.getPawnsWhite());
         assertEquals(8, session.getPawnsBlack());
+
+        String secondRank = session.areasOfBoard.substring(54,62);
+        assertEquals("pppppppp", secondRank);
+
+        String seventhRank = session.areasOfBoard.substring(9,17);
+        assertEquals("PPPPPPPP", seventhRank);
+
+        String areasOfBoard = session.areasOfBoard.toString();
+        assertEquals(
+        "........\n" +
+                "PPPPPPPP\n" +
+                "........\n" +
+                "........\n" +
+                "........\n" +
+                "........\n" +
+                "pppppppp\n" +
+                "........\n",
+                areasOfBoard
+        );
+        System.out.println(session.areasOfBoard.toString());
     }
 }

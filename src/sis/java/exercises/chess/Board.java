@@ -9,22 +9,36 @@ public class Board {
     int pawnsWhite;
     int pawnsBlack;
     public final ArrayList<Pawn> pawns = new ArrayList<>();
-    public final ArrayList<Pawn> row = new ArrayList<Pawn>();
-    public final ArrayList<String> board = new ArrayList<String>();
+    public final ArrayList<Pawn> rank = new ArrayList<Pawn>();
+    StringBuilder areasOfBoard = new StringBuilder();
     public void initialize() {
-        int aux = 8;
-        for (int x = 0; x < aux; x++) {
-            if (Objects.equals(x, 1)){
-                row.add(new Pawn("black"));
-                board.add("PPPPPPPP");
-            } if (Objects.equals(x,5)){
-                row.add(new Pawn("white"));
-                board.add("pppppppp");
+        int positionOfPieces = 0;
+        for (int x = 0; x < 7; x++) {
+            if (Objects.equals(x, 6)) {
+                for (int y = 0; y < 8; y++) {
+                    pawns.add(new Pawn("white"));
+                    rank.add(pawns.get(positionOfPieces));
+                    areasOfBoard.append(rank.get(positionOfPieces).representation);
+                    positionOfPieces++;
+                }
+                areasOfBoard.append("\n");
+            } if (Objects.equals(x,1)){
+                for (int y = 0; y < 8; y++) {
+                    pawns.add(new Pawn("black"));
+                    rank.add(pawns.get(positionOfPieces));
+                    areasOfBoard.append(rank.get(positionOfPieces).representation);
+                    positionOfPieces++;
+                }
+                areasOfBoard.append("\n");
             } else {
-                row.add(new Pawn(" "));
-                board.add("........");
+                for (int y = 0; y < 8; y++) {
+                    pawns.add(new Pawn(" "));
+                    rank.add(pawns.get(positionOfPieces));
+                    areasOfBoard.append(rank.get(positionOfPieces).representation);
+                    positionOfPieces++;
+                }
+                areasOfBoard.append("\n");
             }
-            System.out.println(board.get(x));
         }
     }
 
@@ -39,7 +53,8 @@ public class Board {
         pawns.add(pawnsColor);
         if (Objects.equals(aux, "white")) {
             this.pawnsWhite += 1;
-        } else {
+        }
+        if (Objects.equals(aux, "black")) {
             this.pawnsBlack += 1;
         }
     }

@@ -13,7 +13,7 @@ public class Pawn {
             this.representation = "P";
         }
         if(color.equals(" ")){
-            this.representation = " ";
+            this.representation = ".";
         }
     }
 
