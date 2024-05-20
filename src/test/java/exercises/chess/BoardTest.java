@@ -13,6 +13,10 @@ public class BoardTest extends  TestCase{
         assertEquals(8, session.getPawnsWhite());
         assertEquals(8, session.getPawnsBlack());
 
+        assertEquals(".", session.get(0).representation);
+
+        assertEquals(64, session.getNumberOfPawns());
+
         String secondRank = session.areasOfBoard.substring(54,62);
         assertEquals("pppppppp", secondRank);
 
