@@ -12,6 +12,9 @@ public class Pawn {
         if(color.equals("black")){
             this.representation = "P";
         }
+        if(color.equals(" ")){
+            this.representation = " ";
+        }
     }
 
     public Pawn() {
