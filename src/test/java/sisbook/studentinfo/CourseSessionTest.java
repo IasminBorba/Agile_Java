@@ -8,7 +8,7 @@ import static sisbook.studentinfo.DateUtil.createDate;
 public class CourseSessionTest extends TestCase{
     public CourseSession session;
     public Date startDate;
-
+    private static final int CREDITS = 3;
     public void setUp() {
         startDate = createDate(2003,1, 6);
         session = createCourseSession();
@@ -24,7 +24,9 @@ public class CourseSessionTest extends TestCase{
     }
 
     private CourseSession createCourseSession() {
-        return CourseSession.create("ENGL", "101", startDate);
+        CourseSession session = CourseSession.create("ENGL", "101", startDate);
+        session.setNumberOfCredits(CourseSessionTest.CREDITS);
+        return session;
     }
 
     public void testCourseDates() {
@@ -44,11 +46,13 @@ public class CourseSessionTest extends TestCase{
     public void testEnrollStudents(){
         Student student1 = new Student("Cain DiVoe");
         session.enroll(student1);
+        assertEquals(CREDITS, student1.getCredits());
         Assert.assertEquals(1, session.getNumberOfStudents());
         Assert.assertEquals(student1, session.get(0));
 
         Student student2 = new Student("Coralee DeVaughn");
         session.enroll(student2);
+        assertEquals(CREDITS, student2.getCredits());
         Assert.assertEquals(2, session.getNumberOfStudents());
         Assert.assertEquals(student1, session.get(0));
         Assert.assertEquals(student2, session.get(1));

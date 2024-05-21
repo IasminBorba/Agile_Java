@@ -8,6 +8,7 @@ public class CourseSession {
     private final ArrayList<Student> students = new ArrayList<>();
     private final Date startDate;
     private static int count;
+    private int numberOfCredits;
 
     private CourseSession(String department, String number, Date startDate) {
         this.department = department;
@@ -33,7 +34,8 @@ public class CourseSession {
     }
 
     public void enroll(Student student) {
-        students.add(student);
+        student.addCredits(numberOfCredits);
+        students.add(student) ;
     }
 
     Student get(int index) {
@@ -57,6 +59,10 @@ public class CourseSession {
     }
     static int getCount(){
         return count;
+    }
+
+    void setNumberOfCredits(int numberOfCredits){
+        this.numberOfCredits = numberOfCredits;
     }
 
     /**
