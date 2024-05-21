@@ -3,27 +3,31 @@ package sisbook.studentinfo;
 import java.util.*;
 import junit.framework.Assert;
 import junit.framework.TestCase;
-
-import static sisbook.studentinfo.CourseSession.*;
+import static sisbook.studentinfo.DateUtil.createDate;
 
 public class CourseSessionTest extends TestCase{
     public CourseSession session;
     public Date startDate;
 
+    public void setUp() {
+        startDate = createDate(2003,1, 6);
+        session = createCourseSession();
+    }
     public void testCount() {
         CourseSession.resetCount();
         createCourseSession();
-        assertEquals(1, getCount());
+        assertEquals(1, CourseSession.getCount());
         createCourseSession();
-        assertEquals(2, getCount());
+        assertEquals(2, CourseSession.getCount());
     }
 
     private CourseSession createCourseSession() {
         return new CourseSession("ENGL", "101", startDate);
     }
-    public void setUp() {
-        startDate = DateUtil.createDate(2003,1, 6);
-        session = createCourseSession();
+
+    public void testCourseDates() {
+        Date sixteenWeeksOut = createDate(2003, 4, 25);
+        assertEquals(sixteenWeeksOut, session.getEndDate());
     }
     public void testCreate(){
         assertEquals("101", session.getNumber());
