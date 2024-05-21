@@ -24,7 +24,7 @@ public class CourseSessionTest extends TestCase{
     }
 
     private CourseSession createCourseSession() {
-        return new CourseSession("ENGL", "101", startDate);
+        return CourseSession.create("ENGL", "101", startDate);
     }
 
     public void testCourseDates() {
