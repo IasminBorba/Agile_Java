@@ -4,19 +4,34 @@ import java.util.*;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import static sisbook.studentinfo.CourseSession.*;
+
 public class CourseSessionTest extends TestCase{
     public CourseSession session;
     public Date startDate;
 
+    public void testCount() {
+        CourseSession.resetCount();
+        createCourseSession();
+        assertEquals(1, getCount());
+        createCourseSession();
+        assertEquals(2, getCount());
+    }
+
+    private CourseSession createCourseSession() {
+        return new CourseSession("ENGL", "101", startDate);
+    }
     public void setUp() {
         startDate = DateUtil.createDate(2003,1, 6);
-        session = new CourseSession("ENGL", "101", startDate);
+        session = createCourseSession();
     }
     public void testCreate(){
         assertEquals("101", session.getNumber());
         assertEquals("ENGL", session.getDepartment());
         assertEquals(0, session.getNumberOfStudents());
         assertEquals(startDate, session.getStartDate());
+
+        System.out.println(session.getEndDate());
     }
     public void testEnrollStudents(){
         Student student1 = new Student("Cain DiVoe");
