@@ -3,7 +3,6 @@ package sisbook.report;
 import sisbook.studentinfo.*;
 
 public class RosterReporter {
-
     static final String NEWLINE = System.lineSeparator();
     static final String ROSTER_REPORT_HEADER = STR."Student\{NEWLINE}-\{NEWLINE}";
     static final String ROSTER_REPORT_FOOTER = STR."\{NEWLINE}# students = ";
