@@ -7,11 +7,13 @@ public class CourseSession {
     private final String number;
     private final ArrayList<Student> students = new ArrayList<>();
     private final Date startDate;
+    private static int count;
 
     public CourseSession(String department, String number, Date startDate) {
         this.department = department;
         this.number = number;
         this.startDate = startDate;
+        CourseSession.incrementCount();
     }
 
     String getDepartment() {
@@ -40,6 +42,17 @@ public class CourseSession {
 
     public ArrayList<Student> getAllStudents() {
         return students;
+    }
+
+    private static void incrementCount(){
+        count = count + 1;
+    }
+
+    static void resetCount(){
+        count = 0;
+    }
+    static int getCount(){
+        return count;
     }
 
     /**
