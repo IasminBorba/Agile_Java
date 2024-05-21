@@ -45,7 +45,7 @@ public class CourseSession {
     }
 
     private static void incrementCount(){
-        count++;
+        count = count + 1;
     }
 
     static void resetCount(){

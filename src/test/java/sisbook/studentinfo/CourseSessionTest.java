@@ -19,6 +19,8 @@ public class CourseSessionTest extends TestCase{
         assertEquals(1, CourseSession.getCount());
         createCourseSession();
         assertEquals(2, CourseSession.getCount());
+        startDate = DateUtil.createDate(2003,1, 6);
+        session = createCourseSession();
     }
 
     private CourseSession createCourseSession() {
