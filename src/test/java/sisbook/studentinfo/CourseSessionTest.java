@@ -29,6 +29,7 @@ public class CourseSessionTest extends TestCase{
         Date sixteenWeeksOut = createDate(2003, 4, 25);
         assertEquals(sixteenWeeksOut, session.getEndDate());
     }
+
     public void testCreate(){
         assertEquals("101", session.getNumber());
         assertEquals("ENGL", session.getDepartment());
@@ -37,6 +38,7 @@ public class CourseSessionTest extends TestCase{
 
         System.out.println(session.getEndDate());
     }
+
     public void testEnrollStudents(){
         Student student1 = new Student("Cain DiVoe");
         session.enroll(student1);
