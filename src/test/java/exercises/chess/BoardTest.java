@@ -1,40 +1,35 @@
 package exercises.chess;
+import exercises.util.StringUtil;
 import junit.framework.TestCase;
 
 public class BoardTest extends  TestCase{
-    public Board session;
+    public Board board;
 
 
     public void setUp() {
-        session = new Board(8,8);
-        session.initialize();
+        board = new Board();
     }
     public void testCreateBoard(){
-        assertEquals(8, session.getPawnsWhite());
-        assertEquals(8, session.getPawnsBlack());
+        board.initialize();
 
-        assertEquals(".", session.get(0).representation);
+//        assertEquals(8, board.pieceCount());
+        assertEquals(16, board.getPiecesWhite());
+        assertEquals(16, board.getPiecesBlack());
 
-        assertEquals(64, session.getNumberOfPawns());
+//        String secondRank = board.getRank(2);
+//        assertEquals("pppppppp", secondRank);
+//
+//        String seventhRank = board.getRank(7);
+//        assertEquals("PPPPPPPP", seventhRank);
 
-        String secondRank = session.areasOfBoard.substring(54,62);
-        assertEquals("pppppppp", secondRank);
-
-        String seventhRank = session.areasOfBoard.substring(9,17);
-        assertEquals("PPPPPPPP", seventhRank);
-
-        String areasOfBoard = session.areasOfBoard.toString();
+        String blankRank = StringUtil.appendNewLine("........");
         assertEquals(
-        "........\n" +
-                "PPPPPPPP\n" +
-                "........\n" +
-                "........\n" +
-                "........\n" +
-                "........\n" +
-                "pppppppp\n" +
-                "........\n",
-                areasOfBoard
+                StringUtil.appendNewLine("RNBQKBNR") +
+                        StringUtil.appendNewLine("PPPPPPPP") +
+                        blankRank + blankRank + blankRank + blankRank +
+                        StringUtil.appendNewLine("pppppppp") +
+                        StringUtil.appendNewLine("rnbqkbnr"),
+                board.printBoard()
         );
-        System.out.println(session.areasOfBoard.toString());
     }
 }

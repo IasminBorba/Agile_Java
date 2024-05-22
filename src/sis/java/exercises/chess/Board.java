@@ -1,63 +1,108 @@
 package exercises.chess;
 
-import exercises.pieces.Pawn;
+import exercises.pieces.Piece;
+import exercises.util.StringUtil;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Board {
-    int pawnsWhite;
-    int pawnsBlack;
-    public static final ArrayList<Pawn> pawns = new ArrayList<>();
-    public static final ArrayList<Pawn> rank = new ArrayList<>();
-    static StringBuilder areasOfBoard = new StringBuilder();
+    int piecesWhite;
+    int piecesBlack;
+    private final ArrayList<Piece> pieces = new ArrayList<>();
+    private final ArrayList<ArrayList<Piece>> rank = new ArrayList<>();
+    public static final StringBuilder areasOfBoard = new StringBuilder();
 
-    public static void addPawnsOfRank(String colorOfPawn, int positionOfPieces){
-        final ArrayList<Pawn> rank = new ArrayList<>();
-        for (int y = 0; y < 8; y++) {
-            pawns.add(new Pawn(colorOfPawn));
-            rank.add(pawns.get(positionOfPieces));
-            positionOfPieces++;
-        }
-        for (Pawn pawn : rank) {
-            areasOfBoard.append(pawn.representation);
-        }
-        areasOfBoard.append("\n");
-    }
+    public Board(){}
+
     public void initialize() {
-        int positionOfPieces = 0;
-        for (int x = 0; x < 8; x++) {
-            if (Objects.equals(x, 6)) {
-                Board.addPawnsOfRank("white", positionOfPieces);
-                positionOfPieces += 8;
-            } else if (Objects.equals(x,1)) {
-                Board.addPawnsOfRank("black", positionOfPieces);
-                positionOfPieces += 8;
-            } else {
-                Board.addPawnsOfRank(" ",positionOfPieces);
-                positionOfPieces += 8;
-            }
+        this.piecesWhite = 16;
+        this.piecesBlack = 16;
+    }
+
+    public String printBoard(){
+        rank.add(addFirstAndSeventhRank(new ArrayList<>(), "black"));
+        addFirstAndSeventhRank(pieces, "black");
+        ArrayList<Piece> firstRank = rank.getFirst();
+        for (Piece pieces: firstRank) {
+            areasOfBoard.append(pieces.getRepresentation());
         }
+        areasOfBoard.append(StringUtil.NEWLINE);
+
+
+        rank.add(addPiecesPawnsRank(new ArrayList<>(), "black"));
+        addPiecesPawnsRank(pieces, "black");
+        ArrayList<Piece> firstRankPawns = rank.get(1);
+        for (Piece pieces: firstRankPawns) {
+            areasOfBoard.append(pieces.getRepresentation());
+        }
+        areasOfBoard.append(StringUtil.NEWLINE);
+
+        for(int x = 0; x < 4; x++){
+            areasOfBoard.append(".".repeat(8));
+            areasOfBoard.append(StringUtil.NEWLINE);
+        }
+
+
+        rank.add(addPiecesPawnsRank(new ArrayList<>(), "white"));
+        addPiecesPawnsRank(pieces, "white");
+        ArrayList<Piece> secondRankPawns = rank.get(2);
+        for (Piece pieces: secondRankPawns) {
+            areasOfBoard.append(pieces.getRepresentation());
+        }
+        areasOfBoard.append(StringUtil.NEWLINE);
+
+
+        rank.add(addFirstAndSeventhRank(new ArrayList<>(), "white"));
+        addFirstAndSeventhRank(pieces, "white");
+        ArrayList<Piece> seventhRank = rank.get(3);
+        for (Piece pieces: seventhRank) {
+            areasOfBoard.append(pieces.getRepresentation());
+        }
+        areasOfBoard.append(StringUtil.NEWLINE);
+
+        return areasOfBoard.toString();
     }
 
+    private ArrayList<Piece> addFirstAndSeventhRank(ArrayList<Piece> aux, String color) {
+        aux.add(Piece.create(color, "rook"));
+        aux.add(Piece.create(color, "knight"));
+        aux.add(Piece.create(color, "bishop"));
+        aux.add(Piece.create(color, "queen"));
+        aux.add(Piece.create(color, "king"));
+        aux.add(Piece.create(color, "bishop"));
+        aux.add(Piece.create(color, "knight"));
+        aux.add(Piece.create(color, "rook"));
+        return aux;
+    }
+
+    private ArrayList<Piece> addPiecesPawnsRank(ArrayList<Piece> aux, String color) {
+        for (int z = 0; z < 8; z++) {
+            aux.add(Piece.create(color, "pawn"));
+        }
+        return aux;
+    }
     public Board(int pawnsWhite, int pawnsBlack) {
-        this.pawnsWhite = pawnsWhite;
-        this.pawnsBlack = pawnsBlack;
+        this.piecesWhite = pawnsWhite;
+        this.piecesBlack = pawnsBlack;
+    }
+    int pieceCount(){
+        return pieces.size();
     }
 
-    int getNumberOfPawns(){
-        return  pawns.size();
+//    String get(int index){
+//        return rank.get(index).getRepresentation();
+//    }
+
+    String getRank(int index){
+        ArrayList<Piece> aux = rank.get(index-1);
+        String aux2 = aux.toString();
+        return aux2;
+    }
+    int getPiecesWhite(){
+        return piecesWhite;
     }
 
-    Pawn get(int index){
-        return pawns.get(index);
-    }
-
-    int getPawnsWhite(){
-        return pawnsWhite;
-    }
-
-    int getPawnsBlack(){
-        return pawnsBlack;
+    int getPiecesBlack(){
+        return piecesBlack;
     }
 }
