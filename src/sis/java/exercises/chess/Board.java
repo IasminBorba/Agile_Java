@@ -12,7 +12,9 @@ public class Board {
     private final ArrayList<ArrayList<Piece>> rank = new ArrayList<>();
     public static final StringBuilder areasOfBoard = new StringBuilder();
 
-    public Board(){}
+    public Board(){
+        initialize();
+    }
 
     public void initialize() {
         this.piecesWhite = 16;
@@ -81,22 +83,18 @@ public class Board {
         }
         return aux;
     }
-    public Board(int pawnsWhite, int pawnsBlack) {
-        this.piecesWhite = pawnsWhite;
-        this.piecesBlack = pawnsBlack;
-    }
+
     int pieceCount(){
         return pieces.size();
     }
 
-//    String get(int index){
-//        return rank.get(index).getRepresentation();
-//    }
-
-    String getRank(int index){
-        ArrayList<Piece> aux = rank.get(index-1);
-        String aux2 = aux.toString();
-        return aux2;
+    String getRank(int index) {
+        ArrayList<Piece> aux = rank.get(index - 1);
+        StringBuilder aux2 = new StringBuilder();
+        for (Piece piece : aux) {
+            aux2.append(piece != null ? piece.getRepresentation() : ".");
+        }
+        return aux2.toString();
     }
     int getPiecesWhite(){
         return piecesWhite;
