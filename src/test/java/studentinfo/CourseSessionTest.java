@@ -1,9 +1,10 @@
-package sisbook.studentinfo;
+package studentinfo;
 
 import java.util.*;
 import junit.framework.Assert;
 import junit.framework.TestCase;
-import static sisbook.studentinfo.DateUtil.createDate;
+
+import static studentinfo.DateUtil.createDate;
 
 public class CourseSessionTest extends TestCase{
     public CourseSession session;

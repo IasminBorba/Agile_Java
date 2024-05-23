@@ -1,4 +1,4 @@
-package sisbook.studentinfo;
+package studentinfo;
 import junit.framework.TestSuite;
 
 public class AllTests {

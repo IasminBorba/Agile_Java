@@ -1,4 +1,4 @@
-package sisbook.studentinfo;
+package studentinfo;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
