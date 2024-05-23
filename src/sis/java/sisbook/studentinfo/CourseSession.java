@@ -2,7 +2,7 @@ package sisbook.studentinfo;
 
 import java.util.*;
 
-public class CourseSession {
+public class CourseSession implements Comparable<CourseSession>{
     private final String department;
     private final String number;
     private final ArrayList<Student> students = new ArrayList<>();
@@ -21,11 +21,11 @@ public class CourseSession {
         return new CourseSession(department, number, startDate);
     }
 
-    String getDepartment() {
+    public String getDepartment() {
         return department;
     }
 
-    String getNumber() {
+    public String getNumber() {
         return number;
     }
 
@@ -77,5 +77,13 @@ public class CourseSession {
                 sessionLength * daysInWeek - daysFromFridayToMonday;
         calendar.add(Calendar.DAY_OF_YEAR, numberOfDays);
         return calendar.getTime();
+    }
+
+    public int compareTo(CourseSession that) {
+        int compare = this.getDepartment().compareTo(that.getDepartment());
+        if (compare != 0) {
+            return compare;
+        }
+        return this.getNumber().compareTo(that.getNumber());
     }
 }
