@@ -1,9 +1,12 @@
 package sisbook.studentinfo;
 
 
+import java.util.ArrayList;
+
 public class Student {
+    private final ArrayList<String> grades = new ArrayList<>();
     private final String name;
-    public int GPA;
+    public double GPA;
     private int credits;
     static final int CREDITS_REQUIRED_FOR_FULL_TIME = 12;
     static final String IN_STATE = "CO";
@@ -12,19 +15,34 @@ public class Student {
     public Student(String name) {
         this.name = name;
         credits = 0;
-        this.GPA = getGPA();
+        this.GPA = getGpa();
 
     }
     public String getName() {
         return name;
     }
 
-    public void addGrade(int grade){
-        GPA += grade;
+    public void addGrade(String grade){
+        grades.add(grade);
     }
 
-    public int getGPA(){
-        return GPA;
+    double getGpa(){
+        if (grades.isEmpty()){
+            return 0.0;
+        }
+        double total = 0.0;
+        for (String grade: grades){
+            if (grade.equals("A")){
+                total += 4;
+            } else if (grade.equals("B")) {
+                total +=3;
+            } else if (grade.equals("C")) {
+                total += 2;
+            } else if (grade.equals("D")) {
+                total +=1;
+            }
+        }
+        return total / grades.size();
     }
 
     boolean isFullTime(){
