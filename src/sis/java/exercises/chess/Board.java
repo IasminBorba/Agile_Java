@@ -22,6 +22,16 @@ public class Board {
         this.piecesWhite = getPiecesWhite();
         this.piecesBlack = getPiecesBlack();
     }
+    public void addPiecesToTheBoard(){
+        addPieces("others", "black", 0);
+        addPieces("pawn", "black", 1);
+
+        addPieces("", "black", 0);
+
+        addPieces("pawn", "white",6);
+        addPieces("others", "white",7);
+    }
+
     public void addPieces(String piece, String color, int index){
         if (Objects.equals(piece, "")){
             for(int x = 0; x < 4; x++){
@@ -44,19 +54,6 @@ public class Board {
             piecesOnTheBoard.append(StringUtil.NEWLINE);
         }
     }
-    public void addPiecesToTheBoard(){
-        addPieces("others", "black", 0);
-        addPieces("pawn", "black", 1);
-
-        addPieces("", "black", 0);
-
-        addPieces("pawn", "white",6);
-        addPieces("others", "white",7);
-    }
-
-    public String print(){
-        return piecesOnTheBoard.toString();
-    }
 
     private ArrayList<Piece> addPiecesOfRank(ArrayList<Piece> aux, String color, String piece) {
         if (Objects.equals(piece, "others")) {
@@ -74,6 +71,10 @@ public class Board {
             }
         }
         return aux;
+    }
+
+    public String print(){
+        return piecesOnTheBoard.toString();
     }
 
     int pieceCount(){

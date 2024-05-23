@@ -1,5 +1,7 @@
 package exercises.pieces;
 
+import java.util.Objects;
+
 public class Piece {
     private final String color;
     private final String name;
@@ -35,7 +37,13 @@ public class Piece {
     public static Piece create(String color, String name){
         return new Piece(color, name);
     }
+    public boolean isBlack(Piece piece){
+        return Objects.equals(piece.getColor(), "black");
+    }
 
+    public boolean isWhite(Piece piece){
+        return Objects.equals(piece.getColor(), "white");
+    }
     public String getColor(){
         return  color;
     }
