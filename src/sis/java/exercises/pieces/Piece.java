@@ -1,7 +1,5 @@
 package exercises.pieces;
 
-import sisbook.studentinfo.CourseSession;
-
 public class Piece {
     private final String color;
     private final String name;
