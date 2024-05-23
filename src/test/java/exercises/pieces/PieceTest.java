@@ -18,7 +18,7 @@ public class PieceTest extends TestCase {
 
         Piece secondPiece = createPieceBlack();
         assertEquals("black",secondPiece.getColor());
-        assertEquals("king", firstPiece.getName());
-        assertEquals("K", firstPiece.getRepresentation());
+        assertEquals("king", secondPiece.getName());
+        assertEquals("K", secondPiece.getRepresentation());
     }
 }
