@@ -1,8 +1,11 @@
-package sisbook.report;
+package report;
 
 import junit.framework.TestCase;
-import sisbook.studentinfo.*;
-import static sisbook.report.ReportConstant.NEWLINE;
+import studentinfo.CourseSession;
+import studentinfo.DateUtil;
+import studentinfo.Student;
+
+import static report.ReportConstant.NEWLINE;
 
 public class RosterReporterTest extends TestCase {
     public void testRosterReport() {

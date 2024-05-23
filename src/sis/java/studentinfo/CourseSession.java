@@ -1,4 +1,4 @@
-package sisbook.studentinfo;
+package studentinfo;
 
 import java.util.*;
 
