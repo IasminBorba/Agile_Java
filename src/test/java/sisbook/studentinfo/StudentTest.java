@@ -52,23 +52,22 @@ public class StudentTest extends TestCase {
         assertTrue(student.isInState());
     }
 
-    public void testCalculateGpa(){
+    public void testCalculateGpa() {
         Student student = new Student("a");
-        assertEquals(0.0, student.getGpa(), GRADE_TOLERANCE);
-
+        assertGpa(0.0, student);
         student.addGrade("A");
-        assertEquals(4.0, student.getGpa(), GRADE_TOLERANCE);
-
+        assertGpa(4.0, student);
         student.addGrade("B");
-        assertEquals(3.5, student.getGpa(), GRADE_TOLERANCE);
-
+        assertGpa(3.5, student);
         student.addGrade("C");
-        assertEquals(3.0, student.getGpa(), GRADE_TOLERANCE);
-
+        assertGpa(3.0, student);
         student.addGrade("D");
-        assertEquals(2.5, student.getGpa(), GRADE_TOLERANCE);
-
+        assertGpa(2.5, student);
         student.addGrade("F");
-        assertEquals(2.0, student.getGpa(), GRADE_TOLERANCE);
+        assertGpa(2.0, student) ;
+    }
+
+    private void assertGpa(double expectedGpa, Student student) {
+        assertEquals(expectedGpa, student.getGpa(), GRADE_TOLERANCE);
     }
 }
