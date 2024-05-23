@@ -10,7 +10,7 @@ public class BoardTest extends  TestCase{
         board = new Board();
     }
     public void testCreateBoard(){
-        assertEquals(0, board.pieceCount());
+        assertEquals(32, board.pieceCount());
         assertEquals(16, board.getPiecesWhite());
         assertEquals(16, board.getPiecesBlack());
 
@@ -21,7 +21,7 @@ public class BoardTest extends  TestCase{
                         blankRank + blankRank + blankRank + blankRank +
                         StringUtil.appendNewLine("pppppppp") +
                         StringUtil.appendNewLine("rnbqkbnr"),
-                board.printBoard()
+                board.print()
         );
 
         String secondRank = board.getRank(2);
@@ -29,5 +29,8 @@ public class BoardTest extends  TestCase{
 
         String seventhRank = board.getRank(3);
         assertEquals("pppppppp", seventhRank);
+
+        assertEquals(32, board.pieceCount());
+        System.out.println(board.pieceCount());
     }
 }

@@ -9,8 +9,8 @@ public class Board {
     int piecesWhite;
     int piecesBlack;
     private final ArrayList<Piece> pieces = new ArrayList<>();
-    private final ArrayList<ArrayList<Piece>> rank = new ArrayList<>();
-    public static final StringBuilder areasOfBoard = new StringBuilder();
+    private final ArrayList<ArrayList<Piece>> ranks = new ArrayList<>();
+    public static final StringBuilder piecesOnTheBoard = new StringBuilder();
 
     public Board(){
         initialize();
@@ -19,50 +19,51 @@ public class Board {
     public void initialize() {
         this.piecesWhite = 16;
         this.piecesBlack = 16;
+
+        addPiecesToTheBoard();
     }
 
-    public String printBoard(){
-        rank.add(addFirstAndSeventhRank(new ArrayList<>(), "black"));
+    public void addPiecesToTheBoard(){
+        ranks.add(addFirstAndSeventhRank(new ArrayList<>(), "black"));
         addFirstAndSeventhRank(pieces, "black");
-        ArrayList<Piece> firstRank = rank.getFirst();
+        ArrayList<Piece> firstRank = ranks.getFirst();
         for (Piece pieces: firstRank) {
-            areasOfBoard.append(pieces.getRepresentation());
+            piecesOnTheBoard.append(pieces.getRepresentation());
         }
-        areasOfBoard.append(StringUtil.NEWLINE);
+        piecesOnTheBoard.append(StringUtil.NEWLINE);
 
-
-        rank.add(addPiecesPawnsRank(new ArrayList<>(), "black"));
-        addPiecesPawnsRank(pieces, "black");
-        ArrayList<Piece> firstRankPawns = rank.get(1);
+        ranks.add(addPawnPiecesRank(new ArrayList<>(), "black"));
+        addPawnPiecesRank(pieces, "black");
+        ArrayList<Piece> firstRankPawns = ranks.get(1);
         for (Piece pieces: firstRankPawns) {
-            areasOfBoard.append(pieces.getRepresentation());
+            piecesOnTheBoard.append(pieces.getRepresentation());
         }
-        areasOfBoard.append(StringUtil.NEWLINE);
+        piecesOnTheBoard.append(StringUtil.NEWLINE);
 
         for(int x = 0; x < 4; x++){
-            areasOfBoard.append(".".repeat(8));
-            areasOfBoard.append(StringUtil.NEWLINE);
+            piecesOnTheBoard.append(".".repeat(8));
+            piecesOnTheBoard.append(StringUtil.NEWLINE);
         }
 
-
-        rank.add(addPiecesPawnsRank(new ArrayList<>(), "white"));
-        addPiecesPawnsRank(pieces, "white");
-        ArrayList<Piece> secondRankPawns = rank.get(2);
+        ranks.add(addPawnPiecesRank(new ArrayList<>(), "white"));
+        addPawnPiecesRank(pieces, "white");
+        ArrayList<Piece> secondRankPawns = ranks.get(2);
         for (Piece pieces: secondRankPawns) {
-            areasOfBoard.append(pieces.getRepresentation());
+            piecesOnTheBoard.append(pieces.getRepresentation());
         }
-        areasOfBoard.append(StringUtil.NEWLINE);
+        piecesOnTheBoard.append(StringUtil.NEWLINE);
 
-
-        rank.add(addFirstAndSeventhRank(new ArrayList<>(), "white"));
+        ranks.add(addFirstAndSeventhRank(new ArrayList<>(), "white"));
         addFirstAndSeventhRank(pieces, "white");
-        ArrayList<Piece> seventhRank = rank.get(3);
+        ArrayList<Piece> seventhRank = ranks.get(3);
         for (Piece pieces: seventhRank) {
-            areasOfBoard.append(pieces.getRepresentation());
+            piecesOnTheBoard.append(pieces.getRepresentation());
         }
-        areasOfBoard.append(StringUtil.NEWLINE);
+        piecesOnTheBoard.append(StringUtil.NEWLINE);
+    }
 
-        return areasOfBoard.toString();
+    public String print(){
+        return piecesOnTheBoard.toString();
     }
 
     private ArrayList<Piece> addFirstAndSeventhRank(ArrayList<Piece> aux, String color) {
@@ -77,7 +78,7 @@ public class Board {
         return aux;
     }
 
-    private ArrayList<Piece> addPiecesPawnsRank(ArrayList<Piece> aux, String color) {
+    private ArrayList<Piece> addPawnPiecesRank(ArrayList<Piece> aux, String color) {
         for (int z = 0; z < 8; z++) {
             aux.add(Piece.create(color, "pawn"));
         }
@@ -89,12 +90,12 @@ public class Board {
     }
 
     String getRank(int index) {
-        ArrayList<Piece> aux = rank.get(index - 1);
-        StringBuilder aux2 = new StringBuilder();
-        for (Piece piece : aux) {
-            aux2.append(piece != null ? piece.getRepresentation() : ".");
+        ArrayList<Piece> boardRank = ranks.get(index - 1);
+        StringBuilder rankPiece = new StringBuilder();
+        for (Piece piece : boardRank) {
+            rankPiece.append(piece != null ? piece.getRepresentation() : ".");
         }
-        return aux2.toString();
+        return rankPiece.toString();
     }
     int getPiecesWhite(){
         return piecesWhite;
