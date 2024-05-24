@@ -3,7 +3,7 @@ package studentinfo;
 
 import java.util.ArrayList;
 
-public class Student implements Comparable<Student>{
+public class Student {
     static final int CREDITS_REQUIRED_FOR_FULL_TIME = 12;
     static final String IN_STATE = "CO";
     public String state = "";
@@ -11,7 +11,7 @@ public class Student implements Comparable<Student>{
     private int credits;
     public double GPA;
     private final ArrayList<Grade> grades = new ArrayList<>();
-    enum Grade {A, B, C, D, F}
+    public enum Grade {A, B, C, D, F}
     private GradingStrategy gradingStrategy = new RegularGradingStrategy();
 
     public Student(String name) {
@@ -25,7 +25,7 @@ public class Student implements Comparable<Student>{
         return name;
     }
 
-    boolean isFullTime(){
+    boolean isFullTime() {
         return credits >= CREDITS_REQUIRED_FOR_FULL_TIME;
     }
 
@@ -37,30 +37,31 @@ public class Student implements Comparable<Student>{
         this.credits += credits;
     }
 
-    boolean isInState(){
+    boolean isInState() {
         return state.equals(Student.IN_STATE);
     }
 
-    void setState(String state){
+    void setState(String state) {
         this.state = state.toUpperCase();
     }
 
-    double getGpa(){
-        if (grades.isEmpty()){
+    public void addGrade(Grade grade) {
+        grades.add(grade);
+    }
+
+    double getGpa() {
+        if (grades.isEmpty()) {
             return 0.0;
         }
         double total = 0.0;
-        for (Grade grade: grades){
+        for (Grade grade : grades) {
             total += gradingStrategy.getGradePointsFor(grade);
         }
         return total / grades.size();
     }
 
-    public void addGrade(Grade grade){
-        grades.add(grade);
-    }
 
-    void setGradingStrategy(GradingStrategy gradingStrategy){
+    void setGradingStrategy(GradingStrategy gradingStrategy) {
         this.gradingStrategy = gradingStrategy;
     }
 }
