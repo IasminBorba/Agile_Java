@@ -79,7 +79,11 @@ public class StudentTest extends TestCase {
         assertGpa(2.0, createHonorsStudent(Student.Grade.D));
         assertGpa(0.0, createHonorsStudent(Student.Grade.F));
     }
-
+    private Student createHonorsStudent(Student.Grade grade) {
+        Student student = createHonorsStudent();
+        student.addGrade(grade);
+        return student;
+    }
     private Student createHonorsStudent() {
         Student student = new Student("a");
         student.setGradingStrategy(new HonorsGradingStrategy());
