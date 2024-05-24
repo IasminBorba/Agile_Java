@@ -1,4 +1,4 @@
-package sisbook.report;
+package report;
 import junit.framework.TestSuite;
 
 public class AllTests {
