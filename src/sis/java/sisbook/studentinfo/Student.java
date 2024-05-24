@@ -3,8 +3,10 @@ package sisbook.studentinfo;
 
 import java.util.ArrayList;
 
-public class Student {
-    private final ArrayList<String> grades = new ArrayList<>();
+public class Student{
+    enum Grade {A, B, C, D, F}
+    private boolean isHonors = false;
+    private final ArrayList<Grade> grades = new ArrayList<>();
     private final String name;
     public double GPA;
     private int credits;
@@ -18,11 +20,15 @@ public class Student {
         this.GPA = getGpa();
 
     }
+
+    void setHonors() {
+        isHonors = true;
+    }
     public String getName() {
         return name;
     }
 
-    public void addGrade(String grade){
+    public void addGrade(Grade grade){
         grades.add(grade);
     }
 
@@ -31,17 +37,27 @@ public class Student {
             return 0.0;
         }
         double total = 0.0;
-        for (String grade: grades){
+        for (Grade grade: grades){
             total += gradePointsFor(grade);
         }
         return total / grades.size();
     }
 
-    int gradePointsFor(String grade){
-        if (grade.equals("A")) return 4;
-        if (grade.equals("B")) return 3;
-        if (grade.equals("C")) return 2;
-        if (grade.equals("D")) return 1;
+    int gradePointsFor(Grade grade){
+        int points = basicGradePointsFor(grade);
+        if (isHonors){
+            if(points > 0){
+                points += 1;
+            }
+        }
+        return points;
+    }
+
+    private int basicGradePointsFor(Grade grade) {
+        if (grade.equals(Grade.A)) return 4;
+        if (grade.equals(Grade.B)) return 3;
+        if (grade.equals(Grade.C)) return 2;
+        if (grade.equals(Grade.D)) return 1;
         return 0;
     }
 
