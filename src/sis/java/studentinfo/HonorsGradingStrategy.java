@@ -9,10 +9,12 @@ public class HonorsGradingStrategy implements GradingStrategy {
         return points;
     }
     int basicGradePointsFor(Student.Grade grade) {
-        if (grade == Student.Grade.A) return 4;
-        if (grade == Student.Grade.B) return 3;
-        if (grade == Student.Grade.C) return 2;
-        if (grade == Student.Grade.D) return 1;
-        return 0;
+        return switch (grade) {
+            case A -> 4;
+            case B -> 3;
+            case C -> 2;
+            case D -> 1;
+            default -> 0;
+        };
     }
 }
