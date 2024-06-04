@@ -12,7 +12,7 @@ public class Student {
     public double GPA;
     private final ArrayList<Grade> grades = new ArrayList<>();
     public enum Grade {A, B, C, D, F}
-    private GradingStrategy gradingStrategy = new RegularGradingStrategy();
+    private GradingStrategy gradingStrategy = new BasicGradingStrategy();
 
     public Student(String name) {
         this.name = name;
