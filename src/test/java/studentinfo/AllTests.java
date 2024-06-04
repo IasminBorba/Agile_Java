@@ -1,5 +1,6 @@
 package studentinfo;
 import junit.framework.TestSuite;
+import summer.SummerCourseSessionTest;
 
 public class AllTests {
     public static TestSuite suite() {
@@ -9,6 +10,7 @@ public class AllTests {
         suite.addTestSuite(DateUtilTest.class);
         suite.addTestSuite(BasicGradingStrategyTest.class);
         suite.addTestSuite(HonorsGradingStrategyTest.class);
+        suite.addTestSuite(SummerCourseSessionTest.class);
         return suite;
     }
 }
