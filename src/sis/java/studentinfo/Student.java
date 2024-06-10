@@ -1,7 +1,7 @@
 package studentinfo;
 
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class Student {
     static final int CREDITS_REQUIRED_FOR_FULL_TIME = 12;
@@ -25,11 +25,17 @@ public class Student {
         }
     }
     private GradingStrategy gradingStrategy = new BasicGradingStrategy();
+    private String firstName = "";
+    private String middleName = "";
+    private String lastName;
 
-    public Student(String name) {
-        this.name = name;
+    public Student(String fullName) {
+        this.name = fullName;
         credits = 0;
         this.GPA = getGpa();
+
+        List<String> nameParts = split(fullName);
+        setName(nameParts);
 
     }
 
@@ -72,8 +78,56 @@ public class Student {
         return total / grades.size();
     }
 
-
     void setGradingStrategy(GradingStrategy gradingStrategy) {
         this.gradingStrategy = gradingStrategy;
+    }
+
+    private void setName(List<String> nameParts){
+        this.lastName = removeLast(nameParts);
+        String name = removeLast(nameParts);
+
+        if (nameParts.isEmpty()) {
+            this.firstName = name;
+        } else {
+            this.middleName = name;
+            this.firstName = removeLast(nameParts);
+        }
+    }
+
+    private String removeLast(List<String> list){
+        if(list.isEmpty()){
+            return "";
+        }
+        return list.removeLast();
+    }
+
+    private List<String> split(String name) {
+        List<String> results = new ArrayList<String>();
+        StringBuffer word = new StringBuffer();
+        for (int index = 0; index < name.length(); index++) {
+            char ch = name.charAt(index);
+            if (!Character.isWhitespace(ch))
+                word.append(ch);
+            else
+            if (word.length() > 0) {
+                results.add(word.toString());
+                word = new StringBuffer();
+            }
+        }
+        if (word.length() > 0)
+            results.add(word.toString());
+        return results;
+    }
+
+    public String getFirstName(){
+        return firstName;
+    }
+
+    public String getMiddleName(){
+        return middleName;
+    }
+
+    public String getLastName(){
+        return lastName;
     }
 }

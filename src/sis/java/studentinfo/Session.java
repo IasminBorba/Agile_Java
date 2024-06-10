@@ -2,10 +2,9 @@ package studentinfo;
 
 import java.util.*;
 abstract public class Session implements Comparable<Session> {
-    private static int count;
     private final String department;
     private final String number;
-    private final List<Student> students = new ArrayList<>();
+    private final Vector<Student> students = new Vector<>();
     private final Date startDate;
     private int numberOfCredits;
     protected Session(String department, String number, Date startDate) {
@@ -38,6 +37,21 @@ abstract public class Session implements Comparable<Session> {
     public void enroll(Student student) {
         student.addCredits(numberOfCredits);
         students.add(student);
+    }
+
+    double averageGpaForPartTimeStudents() {
+        double total = 0.0;
+        int count = 0;
+        for (Enumeration<Student> it = students.elements();
+             it.hasMoreElements(); ) {
+            Student student = it.nextElement();
+            if (student.isFullTime())
+                continue;
+            count++;
+            total += student.getGpa();
+        }
+        if (count == 0) return 0.0;
+        return total / count;
     }
 
     Student get(int index) {
