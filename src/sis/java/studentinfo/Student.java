@@ -7,7 +7,7 @@ public  class Student implements Comparable{
     static final int CREDITS_REQUIRED_FOR_FULL_TIME = 12;
     static final String IN_STATE = "CO";
     public String state = "";
-    private String name;
+    private final String name;
     private int credits;
     public double GPA;
     private final ArrayList<Grade> grades = new ArrayList<>();
@@ -35,7 +35,7 @@ public  class Student implements Comparable{
     private String middleName = "";
     private String lastName;
 
-    private final List<Integer> charges = new ArrayList<Integer>();
+    private final List<Integer> charges = new ArrayList<>();
 
     public Student(String fullName) {
         this.name = fullName;
@@ -109,21 +109,11 @@ public  class Student implements Comparable{
         return list.removeLast();
     }
 
-    private List<String> split(String name) {
-        List<String> results = new ArrayList<String>();
-        StringBuffer word = new StringBuffer();
-        for (int index = 0; index < name.length(); index++) {
-            char ch = name.charAt(index);
-            if (!Character.isWhitespace(ch))
-                word.append(ch);
-            else
-            if (word.length() > 0) {
-                results.add(word.toString());
-                word = new StringBuffer();
-            }
+    private List<String> split(String fullName) {
+        List<String> results = new ArrayList<>();
+        for (String name: fullName.split(" ")){
+            results.add(name);
         }
-        if (word.length() > 0)
-            results.add(word.toString());
         return results;
     }
 
