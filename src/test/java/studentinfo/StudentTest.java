@@ -101,4 +101,13 @@ public class StudentTest extends TestCase {
         student.setGradingStrategy(new HonorsGradingStrategy());
         return student;
     }
+
+    public void testCharges(){
+        Student student = new Student("a");
+        student.addCharge(500);
+        student.addCharge(200);
+        student.addCharge(399);
+
+        assertEquals(1099, student.totalCharges());
+    }
 }

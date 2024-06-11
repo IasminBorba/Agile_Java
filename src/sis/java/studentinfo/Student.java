@@ -3,14 +3,20 @@ package studentinfo;
 
 import java.util.*;
 
-public class Student {
+public  class Student implements Comparable{
     static final int CREDITS_REQUIRED_FOR_FULL_TIME = 12;
     static final String IN_STATE = "CO";
     public String state = "";
-    private final String name;
+    private String name;
     private int credits;
     public double GPA;
     private final ArrayList<Grade> grades = new ArrayList<>();
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
+    }
+
     public enum Grade {
         A(4), B(3), C(2), D(1), F(0);
 
@@ -28,6 +34,8 @@ public class Student {
     private String firstName = "";
     private String middleName = "";
     private String lastName;
+
+    private final List<Integer> charges = new ArrayList<Integer>();
 
     public Student(String fullName) {
         this.name = fullName;
@@ -129,5 +137,17 @@ public class Student {
 
     public String getLastName(){
         return lastName;
+    }
+
+    public void addCharge(int charge) {
+        charges.add(charge);
+    }
+
+    public int totalCharges(){
+        int total = 0;
+        for (Integer charge: charges) {
+            total += charge;
+        }
+        return total;
     }
 }
