@@ -1,7 +1,7 @@
 package studentinfo;
 
 import java.util.*;
-abstract public class Session implements Comparable<Session> {
+abstract public class Session implements Comparable<Session>, Iterable<Student> {
     private final String department;
     private final String number;
     private final Vector<Student> students = new Vector<>();
@@ -12,12 +12,19 @@ abstract public class Session implements Comparable<Session> {
         this.number = number;
         this.startDate = startDate;
     }
+
+    @Override
+    public Iterator<Student> iterator() {
+        return students.iterator();
+    }
+
     public int compareTo(Session that) {
         int compare = this.getDepartment().compareTo(that.getDepartment());
         if (compare != 0)
             return compare;
         return this.getNumber().compareTo(that.getNumber());
     }
+
     void setNumberOfCredits(int numberOfCredits) {
         this.numberOfCredits = numberOfCredits;
     }
@@ -42,8 +49,8 @@ abstract public class Session implements Comparable<Session> {
     double averageGpaForPartTimeStudents() {
         double total = 0.0;
         int count = 0;
-        for (Enumeration<Student> it = students.elements();
-             it.hasMoreElements(); ) {
+
+        for (Enumeration<Student> it = students.elements(); it.hasMoreElements(); ) {
             Student student = it.nextElement();
             if (student.isFullTime())
                 continue;

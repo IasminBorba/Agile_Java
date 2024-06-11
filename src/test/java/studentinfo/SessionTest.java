@@ -71,4 +71,36 @@ abstract public class SessionTest extends TestCase {
         student.addCredits(Student.CREDITS_REQUIRED_FOR_FULL_TIME);
         return student;
     }
+
+    public void testIterate(){
+        enrollStudents(session);
+
+        List<Student> results = new ArrayList<>();
+        for (Student student: session){
+            results.add(student);
+        }
+        assertEquals(session.getAllStudents(), results);
+    }
+
+    private void enrollStudents(Session session){
+        session.enroll(new Student("1"));
+        session.enroll(new Student("2"));
+        session.enroll(new Student("3"));
+    }
+
+    public void testCasting(){
+        List students = new ArrayList();
+        students.add(new Student("a"));
+        students.add(new Student("b"));
+
+        List names = new ArrayList();
+
+        Iterator it = students.iterator();
+        while(it.hasNext()){
+            Student student = (Student)it.next();
+            names.add(student.getName());
+        }
+        assertEquals("a", names.getFirst());
+        assertEquals("b", names.getLast());
+    }
 }
