@@ -110,4 +110,12 @@ public class StudentTest extends TestCase {
 
         assertEquals(1099, student.totalCharges());
     }
+
+    public void testBadlyFormattedName(){
+        try {
+            new Student("a b c d");
+            fail("expected exception from 4-part name");
+        } catch (StudentNameFormatException success){
+        }
+    }
 }

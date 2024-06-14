@@ -40,9 +40,13 @@ public  class Student implements Comparable{
     public Student(String fullName) {
         this.name = fullName;
         credits = 0;
-        this.GPA = getGpa();
 
         List<String> nameParts = split(fullName);
+        final int maximumNumberOfNameParts = 3;
+
+        if(nameParts.size() > maximumNumberOfNameParts){
+            throw new StudentNameFormatException();
+        }
         setName(nameParts);
 
     }
