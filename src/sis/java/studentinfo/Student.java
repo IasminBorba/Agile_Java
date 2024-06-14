@@ -45,7 +45,8 @@ public  class Student implements Comparable{
         final int maximumNumberOfNameParts = 3;
 
         if(nameParts.size() > maximumNumberOfNameParts){
-            throw new StudentNameFormatException();
+            String message = "Student name '" + fullName + "' contains more than " + maximumNumberOfNameParts + " parts";
+            throw new StudentNameFormatException(message);
         }
         setName(nameParts);
 

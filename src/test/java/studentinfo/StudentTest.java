@@ -115,7 +115,8 @@ public class StudentTest extends TestCase {
         try {
             new Student("a b c d");
             fail("expected exception from 4-part name");
-        } catch (StudentNameFormatException success){
+        } catch (StudentNameFormatException expectedException){
+            assertEquals("Student name 'a b c d' contains more than 3 parts", expectedException.getMessage());
         }
     }
 }

@@ -106,18 +106,21 @@ abstract public class SessionTest extends TestCase {
         assertEquals("b", names.getLast());
     }
 
-    public void testSessionUrl(){
+    public void testSessionUrl() throws SessionException {
         final String url = "httsp://course.langrsoft.com/cmsc300";
-//        session.setUrl(url);
+        session.setUrl(url);
         assertEquals(url, session.getUrl().toString());
     }
 
-    public void testInvalidSessionUrl(){
+    public void testInvalidSessionUrl() {
         final String url = "httsp://course.langrsoft.com/cmsc300";
         try {
             session.setUrl(url);
             fail("expected exception due to invalid protocol in URL");
-        } catch (MalformedURLException success){
+        }
+        catch (SessionException expectedException) {
+            Throwable cause = expectedException.getCause();
+            assertEquals(MalformedURLException.class, cause.getClass());
         }
     }
 }
