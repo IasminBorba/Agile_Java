@@ -2,7 +2,7 @@ package studentinfo;
 
 
 import java.util.*;
-import java.util.logging.Logger;
+import java.util.logging.*;
 
 public  class Student implements Comparable{
     static final int CREDITS_REQUIRED_FOR_FULL_TIME = 12;
@@ -38,6 +38,7 @@ public  class Student implements Comparable{
     static final int MAX_NAME_PARTS = 3;
     static final String TOO_MANY_NAME_PARTS_MSG = "Student name '%s' contains more than %d parts";
     private final List<Integer> charges = new ArrayList<>();
+    final static Logger logger = Logger.getLogger(Student.class.getName());
 
     public Student(String fullName) {
         this.name = fullName;
@@ -47,11 +48,10 @@ public  class Student implements Comparable{
 
         if(nameParts.size() > MAX_NAME_PARTS){
             String message = String.format(Student.TOO_MANY_NAME_PARTS_MSG, fullName, MAX_NAME_PARTS);
-            log(message);
+            Student.logger.info(message);
             throw new StudentNameFormatException(message);
         }
         setName(nameParts);
-
     }
 
     public String getName() {
@@ -146,10 +146,5 @@ public  class Student implements Comparable{
             total += charge;
         }
         return total;
-    }
-
-    private void log(String message){
-        Logger logger = Logger.getLogger(getClass().getName());
-        logger.info(message);
     }
 }
