@@ -1,12 +1,16 @@
 package studentinfo;
 
 import java.util.*;
+import java.net.*;
+
 abstract public class Session implements Comparable<Session>, Iterable<Student> {
     private final String department;
     private final String number;
     private final Vector<Student> students = new Vector<>();
     private final Date startDate;
     private int numberOfCredits;
+    private URL url;
+
     protected Session(String department, String number, Date startDate) {
         this.department = department;
         this.number = number;
@@ -84,5 +88,13 @@ abstract public class Session implements Comparable<Session>, Iterable<Student> 
                 getSessionLength() * daysInWeek - daysFromFridayToMonday;
         calendar.add(Calendar.DAY_OF_YEAR, numberOfDays);
         return calendar.getTime();
+    }
+
+    public void setUrl(String urlString) throws MalformedURLException{
+        this.url = new URL(urlString);
+    }
+
+    public URL getUrl(){
+        return url;
     }
 }
