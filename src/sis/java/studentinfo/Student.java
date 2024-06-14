@@ -2,6 +2,7 @@ package studentinfo;
 
 
 import java.util.*;
+import java.util.logging.Logger;
 
 public  class Student implements Comparable{
     static final int CREDITS_REQUIRED_FOR_FULL_TIME = 12;
@@ -46,6 +47,7 @@ public  class Student implements Comparable{
 
         if(nameParts.size() > MAX_NAME_PARTS){
             String message = String.format(Student.TOO_MANY_NAME_PARTS_MSG, fullName, MAX_NAME_PARTS);
+            log(message);
             throw new StudentNameFormatException(message);
         }
         setName(nameParts);
@@ -144,5 +146,10 @@ public  class Student implements Comparable{
             total += charge;
         }
         return total;
+    }
+
+    private void log(String message){
+        Logger logger = Logger.getLogger(getClass().getName());
+        logger.info(message);
     }
 }
