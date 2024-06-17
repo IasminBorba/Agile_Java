@@ -1,6 +1,7 @@
 package report;
 
 import studentinfo.CourseSession;
+import studentinfo.Session;
 import studentinfo.Student;
 
 public class RosterReporter {
@@ -8,9 +9,9 @@ public class RosterReporter {
     static final String NEWLINE = System.lineSeparator();
     static final String ROSTER_REPORT_HEADER = STR."Student\{NEWLINE}-\{NEWLINE}";
     static final String ROSTER_REPORT_FOOTER = STR."\{NEWLINE}# students = ";
-    private final CourseSession session;
+    private final Session session;
 
-    RosterReporter(CourseSession session) {
+    RosterReporter(Session session) {
         this.session = session;
     }
 

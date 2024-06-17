@@ -3,17 +3,15 @@ package studentinfo;
 import java.util.*;
 import java.net.*;
 
-abstract public class Session implements Comparable<Session>, Iterable<Student> {
-    private final String department;
-    private final String number;
+abstract public class Session implements Iterable<Student> {
+    private final Course course;
     private final Vector<Student> students = new Vector<>();
     private final Date startDate;
     private int numberOfCredits;
     private URL url;
 
     protected Session(Course course, Date startDate) {
-        this.department = course.getDepartment();
-        this.number = course.getNumber();
+        this.course = course;
         this.startDate = startDate;
     }
 
@@ -34,11 +32,11 @@ abstract public class Session implements Comparable<Session>, Iterable<Student> 
     }
 
     public String getDepartment() {
-        return department;
+        return course.getDepartment();
     }
 
     public String getNumber() {
-        return number;
+        return course.getNumber();
     }
 
     int getNumberOfStudents() {

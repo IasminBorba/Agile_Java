@@ -6,11 +6,11 @@ public class CourseSession extends Session {
     private static int count;
 
     public static CourseSession create(Course course, Date startDate) {
+        incrementCount();
         return new CourseSession(course, startDate);
     }
     protected CourseSession(Course course, Date startDate) {
         super(course, startDate);
-        CourseSession.incrementCount();
     }
     static private void incrementCount() {
         ++count;

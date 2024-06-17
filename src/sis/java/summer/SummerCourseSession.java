@@ -4,7 +4,7 @@ import java.util.*;
 import studentinfo.*;
 
 public class SummerCourseSession extends Session {
-    public static SummerCourseSession create(Course course, Date startDate) {
+    public static Session create(Course course, Date startDate) {
         return new SummerCourseSession(course, startDate);
     }
 
