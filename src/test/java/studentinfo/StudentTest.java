@@ -23,11 +23,11 @@ public class StudentTest extends TestCase {
         assertEquals("", secondStudent.getMiddleName());
 
         final String thirdStudentName = "Raymond Douglas Davies";
-        System.out.println(thirdStudentName);
+
         Student thirdStudent = new Student(thirdStudentName);
-//        assertEquals("Raymond", thirdStudent.getFirstName());
+        assertEquals("Raymond", thirdStudent.getFirstName());
         assertEquals("Davies", thirdStudent.getLastName());
-//        assertEquals("Douglas", thirdStudent.getMiddleName());
+        assertEquals("Douglas", thirdStudent.getMiddleName());
     }
 
     public void testStudentStatus() {
@@ -126,5 +126,13 @@ public class StudentTest extends TestCase {
             assertEquals(message, expectedException.getMessage());
             assertEquals(message, ((TestHandler)handler).getMessage());
         }
+    }
+
+    public void testLoggingHierarchy() {
+        Logger logger = Logger.getLogger("sis.studentinfo.Student");
+        assertTrue(logger == Logger.getLogger("sis.studentinfo.Student"));
+        Logger parent = Logger.getLogger("sis.studentinfo");
+        assertEquals(parent, logger.getParent());
+        assertEquals(Logger.getLogger("sis"), parent.getParent());
     }
 }
