@@ -11,9 +11,9 @@ abstract public class Session implements Comparable<Session>, Iterable<Student> 
     private int numberOfCredits;
     private URL url;
 
-    protected Session(String department, String number, Date startDate) {
-        this.department = department;
-        this.number = number;
+    protected Session(Course course, Date startDate) {
+        this.department = course.getDepartment();
+        this.number = course.getNumber();
         this.startDate = startDate;
     }
 

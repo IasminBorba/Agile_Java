@@ -7,7 +7,7 @@ public class PerformanceTest extends TestCase {
 
     public void testInitialization(){
         Performance performance = new Performance();
-//        performance.setScores(75, 72, 90, 60);
+        performance.setScores(new int[] {75, 72, 90, 60});
         assertEquals(74.25, performance.average(), tolerance);
     }
 
@@ -33,7 +33,7 @@ public class PerformanceTest extends TestCase {
         Performance performance = new Performance();
         performance.setScores(new int[] {75, 72, 90, 60});
         assertEquals(74.25, performance.average(), tolerance);
-//        performance.setScores(100, 90);
+        performance.setScores(new int[]{100, 90});
         assertEquals(95.0, performance.average(), tolerance);
     }
 }

@@ -4,12 +4,12 @@ import java.util.*;
 import studentinfo.*;
 
 public class SummerCourseSession extends Session {
-    public static SummerCourseSession create(String department, String number, Date startDate) {
-        return new SummerCourseSession(department, number, startDate);
+    public static SummerCourseSession create(Course course, Date startDate) {
+        return new SummerCourseSession(course, startDate);
     }
 
-    private SummerCourseSession(String department, String number, Date startDate) {
-        super(department, number, startDate);
+    private SummerCourseSession(Course course, Date startDate) {
+        super(course, startDate);
     }
 
     protected int getSessionLength() {

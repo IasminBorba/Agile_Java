@@ -35,6 +35,7 @@ public  class Student implements Comparable{
     private String firstName = "";
     private String middleName = "";
     private String lastName;
+    private String id;
     static final int MAX_NAME_PARTS = 3;
     static final String TOO_MANY_NAME_PARTS_MSG = "Student name '%s' contains more than %d parts";
     private final List<Integer> charges = new ArrayList<>();
@@ -148,5 +149,13 @@ public  class Student implements Comparable{
             total += charge;
         }
         return total;
+    }
+
+    public void setId(String id){
+        this.id = id;
+    }
+
+    public String getId(){
+        return id;
     }
 }
