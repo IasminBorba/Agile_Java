@@ -26,18 +26,37 @@ public class CourseTest extends TestCase {
         assertEquals(courseA, courseAPrime2);
 
         assertEquals(courseAPrime, courseA);
-
         assertEquals(courseA, courseAPrime);
+
         assertTrue(courseA.equals(courseAPrime));
         assertFalse(courseA == courseAPrime);
         assertNotSame(courseA, courseAPrime);
 
         assertFalse(courseA.equals(null));
         assertFalse(courseA.equals("CMSC-120"));
+    }
 
+    public void testHashCode(){
+        Course courseA = new Course("NURS", "201");
+        Course courseAPrime = new Course("NURS", "201");
 
+        assertEquals(courseA.hashCode(), courseAPrime.hashCode());
+        assertEquals(courseA.hashCode(), courseA.hashCode());
+    }
+
+    public void testHashCodePerformance(){
+        final int count = 20000;
+        long start = System.currentTimeMillis();
         Map<Course, String> map = new HashMap<>();
-        map.put(courseA, "");
-        assertTrue(map.containsKey(courseA));
+
+        for(int i=0; i < count; i++){
+            Course course = new Course("C" + i, "" + i);
+            map.put(course, "");
+        }
+
+        long stop = System.currentTimeMillis();
+        long elapsed = stop - start;
+        final long arbitraryThreshold = 200;
+        assertTrue("elapsed time = " + elapsed, elapsed < arbitraryThreshold);
     }
 }

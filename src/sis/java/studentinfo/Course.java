@@ -28,4 +28,13 @@ public class Course {
         Course that = (Course) object;
         return this.department.equals(that.department) && this.number.equals(that.number);
     }
+
+    @Override
+    public int hashCode(){
+        final int hashMultiplier = 41;
+        int result = 7;
+        result = result * hashMultiplier + department.hashCode();
+        result = result * hashMultiplier + number.hashCode();
+        return result;
+    }
 }
