@@ -17,16 +17,15 @@ public class CourseReportTest extends TestCase {
         report.add(create("CZEC", "220", date));
         report.add(create("ITAL", "330", date));
         assertEquals(
-        "CZEC 200" + NEWLINE +
-                "CZEC 220" + NEWLINE +
-                "ENGL 101" + NEWLINE +
-                "ITAL 330" + NEWLINE +
-                "ITAL 410" + NEWLINE,
-                report.text()
-        );
+        String.format("CZEC 200" + NEWLINE +
+                    "CZEC 220" + NEWLINE +
+                    "ENGL 101" + NEWLINE +
+                    "ITAL 330" + NEWLINE +
+                    "ITAL 410" + NEWLINE),
+                    report.text());
     }
 
-    private CourseSession create(String name, String number, Date date) {
+    private Session create(String name, String number, Date date) {
         return CourseSession.create(new Course(name, number), date);
     }
 }

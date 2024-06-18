@@ -5,7 +5,7 @@ import java.util.*;
 public class CourseSession extends Session {
     private static int count;
 
-    public static CourseSession create(Course course, Date startDate) {
+    public static Session create(Course course, Date startDate) {
         incrementCount();
         return new CourseSession(course, startDate);
     }

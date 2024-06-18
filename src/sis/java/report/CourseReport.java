@@ -1,14 +1,15 @@
 package report;
 
 import studentinfo.CourseSession;
+import studentinfo.Session;
 
 import java.util.ArrayList;
 
 public class CourseReport {
     private final ArrayList<CourseSession> sessions = new ArrayList<>();
 
-    public void add(CourseSession session){
-        sessions.add(session);
+    public void add(Session session){
+        sessions.add((CourseSession)session);
     }
 
     public String text(){
