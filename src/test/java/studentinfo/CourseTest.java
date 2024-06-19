@@ -59,4 +59,9 @@ public class CourseTest extends TestCase {
         final long arbitraryThreshold = 200;
         assertTrue("elapsed time = " + elapsed, elapsed < arbitraryThreshold);
     }
+
+    public void testToString(){
+        Course course = new Course("ENGL", "301");
+        assertEquals("ENGL 301", course.toString());
+    }
 }
