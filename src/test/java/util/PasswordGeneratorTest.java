@@ -7,8 +7,8 @@ public class PasswordGeneratorTest extends TestCase {
         PasswordGenerator generator = new PasswordGenerator();
         generator.setRandom(new MockRandom('A'));
         assertEquals("ABCDEFGH", generator.generatePassword());
-        generator.setRandom(new MockRandom('C'));
-        assertEquals("CDEFGHIJ", generator.generatePassword());
+        generator.setRandom(new MockRandom('H'));
+        assertEquals("HIJKLMNO", generator.generatePassword());
     }
 
     class MockRandom extends java.util.Random {
