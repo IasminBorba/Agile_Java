@@ -2,21 +2,22 @@ package report;
 
 import junit.framework.TestCase;
 import studentinfo.*;
-
-import static report.ReportConstant.NEWLINE;
+import java.io.*;
 
 public class RosterReporterTest extends TestCase {
-    public void testRosterReport() {
+    public void testRosterReport() throws IOException {
         Session session = CourseSession.create(new Course("ENGL", "101"),
                         DateUtil.createDate(2003, 1, 6));
         session.enroll(new Student("A"));
         session.enroll(new Student("B"));
-        String rosterReport = new RosterReporter(session).getReport();
+        Writer writer = new StringWriter();
+        new RosterReporter(session).writeReport(writer);
+        String rosterReport = writer.toString();
         assertEquals(
-        RosterReporter.ROSTER_REPORT_HEADER +
-                "A" + NEWLINE +
-                "B" + NEWLINE +
-                RosterReporter.ROSTER_REPORT_FOOTER + "2" + NEWLINE,
+                String.format(RosterReporter.ROSTER_REPORT_HEADER +
+                "A%n" +
+                "B%n" +
+                RosterReporter.ROSTER_REPORT_FOOTER, 2),
                 rosterReport
         );
     }

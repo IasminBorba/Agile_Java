@@ -3,7 +3,7 @@ package studentinfo;
 import java.util.*;
 import java.net.*;
 
-abstract public class Session implements Iterable<Student> {
+abstract public class Session implements Iterable<Student>, Comparable<Session>{
     private final Course course;
     private final Vector<Student> students = new Vector<>();
     private final Date startDate;

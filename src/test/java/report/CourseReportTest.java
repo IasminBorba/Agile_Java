@@ -4,8 +4,6 @@ import junit.framework.*;
 import java.util.*;
 import studentinfo.*;
 
-import static report.RosterReporter.NEWLINE;
-
 
 public class CourseReportTest extends TestCase {
     public void testReport() {
@@ -17,11 +15,11 @@ public class CourseReportTest extends TestCase {
         report.add(create("CZEC", "220", date));
         report.add(create("ITAL", "330", date));
         assertEquals(
-        String.format("CZEC 200" + NEWLINE +
-                    "CZEC 220" + NEWLINE +
-                    "ENGL 101" + NEWLINE +
-                    "ITAL 330" + NEWLINE +
-                    "ITAL 410" + NEWLINE),
+        String.format("CZEC 200%n" +
+                    "CZEC 220%n" +
+                    "ENGL 101%n" +
+                    "ITAL 330%n" +
+                    "ITAL 410%n"),
                     report.text());
     }
 

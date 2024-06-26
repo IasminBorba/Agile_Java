@@ -1,40 +1,38 @@
 package report;
 
-import studentinfo.CourseSession;
-import studentinfo.Session;
-import studentinfo.Student;
+import studentinfo.*;
+import java.io.*;
+
+import static java.lang.String.format;
 
 public class RosterReporter {
-
-    static final String NEWLINE = System.lineSeparator();
-    static final String ROSTER_REPORT_HEADER = STR."Student\{NEWLINE}-\{NEWLINE}";
-    static final String ROSTER_REPORT_FOOTER = STR."\{NEWLINE}# students = ";
+    static final String ROSTER_REPORT_HEADER = "Student%n-%n";
+    static final String ROSTER_REPORT_FOOTER = "%n# students = %d%n";
     private final Session session;
+    private Writer writer;
 
     RosterReporter(Session session) {
         this.session = session;
     }
 
-    String getReport() {
-        StringBuilder buffer = new StringBuilder();
-        writeHeader(buffer);
-        writeBody(buffer);
-        writeFooter(buffer);
-        return buffer.toString();
+    void writeReport(Writer writer) throws IOException{
+        this.writer = writer;
+        writeHeader();
+        writeBody();
+        writeFooter();
     }
 
-    void writeHeader(StringBuilder buffer){
-        buffer.append(ROSTER_REPORT_HEADER);
+    private void writeHeader() throws IOException{
+        writer.write(format(ROSTER_REPORT_HEADER));
     }
 
-    void writeBody(StringBuilder buffer){
+    void writeBody() throws IOException{
         for(Student student: session.getAllStudents()){
-            buffer.append(student.getName());
-            buffer.append(NEWLINE);
+            writer.write(format(student.getName() + "%n"));
         }
     }
 
-    void writeFooter(StringBuilder buffer){
-        buffer.append(ROSTER_REPORT_FOOTER).append(session.getAllStudents().size()).append(NEWLINE);
+    private void writeFooter() throws IOException{
+        writer.write(format(ROSTER_REPORT_FOOTER, session.getAllStudents().size()));
     }
 }
