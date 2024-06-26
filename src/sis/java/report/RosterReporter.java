@@ -21,6 +21,14 @@ public class RosterReporter {
         writeBody();
         writeFooter();
     }
+    void writeReport(String filename) throws IOException{
+        Writer bufferedWriter = new BufferedWriter(new FileWriter(filename));
+        try {
+            writeReport(bufferedWriter);
+        } finally {
+            bufferedWriter.close();
+        }
+    }
 
     private void writeHeader() throws IOException{
         writer.write(format(ROSTER_REPORT_HEADER));
