@@ -29,11 +29,9 @@ public class CourseCatalog {
 
     public void load(String filename) throws IOException, ClassNotFoundException{
         ObjectInputStream input = null;
-        try{
+        try {
             input = new ObjectInputStream(new FileInputStream(filename));
-            int numberOfSessions = input.readInt();
             sessions = (List<Session>)input.readObject();
-
         } finally {
             input.close();
         }

@@ -1,6 +1,6 @@
 package studentinfo;
 
-public class Course {
+public class Course implements java.io.Serializable{
     private final String department;
     private final String number;
 

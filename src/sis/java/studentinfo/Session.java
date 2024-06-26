@@ -3,9 +3,9 @@ package studentinfo;
 import java.util.*;
 import java.net.*;
 
-abstract public class Session implements Iterable<Student>, Comparable<Session>{
+abstract public class Session implements Iterable<Student>, Comparable<Session>, java.io.Serializable{
     private final Course course;
-    private final Vector<Student> students = new Vector<>();
+    private final transient List<Student> students = new ArrayList<>();
     private final Date startDate;
     private int numberOfCredits;
     private URL url;
@@ -52,8 +52,7 @@ abstract public class Session implements Iterable<Student>, Comparable<Session>{
         double total = 0.0;
         int count = 0;
 
-        for (Enumeration<Student> it = students.elements(); it.hasMoreElements(); ) {
-            Student student = it.nextElement();
+        for (Student student: students) {
             if (student.isFullTime())
                 continue;
             count++;

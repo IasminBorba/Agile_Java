@@ -1,8 +1,7 @@
 package studentinfo;
 
 import junit.framework.TestCase;
-
-import java.util.List;
+import java.util.*;
 
 public class CourseCatalogTest extends TestCase {
     private CourseCatalog catalog;
@@ -11,7 +10,7 @@ public class CourseCatalogTest extends TestCase {
     private Course course1;
     private Course course2;
 
-    protected void setup(){
+    protected void setUp() {
         catalog = new CourseCatalog();
         course1 = new Course("a", "1");
         course2 = new Course("a", "1");
@@ -20,7 +19,7 @@ public class CourseCatalogTest extends TestCase {
         session1.setNumberOfCredits(3);
 
         session2 = CourseSession.create(course2, DateUtil.createDate(1,17,2005));
-        session2.setNumberOfCredits(5);
+        session2.enroll(new Student("a"));
 
         catalog.add(session1);
         catalog.add(session2);
