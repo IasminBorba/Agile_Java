@@ -26,7 +26,7 @@ public class CourseCatalogTest extends TestCase {
     }
 
     public void testStoreAndLoad() throws Exception{
-        final String filename = "CourseCatalog.testAdd.txt";
+        final String filename = "CourseCatalogTest.testAdd.txt";
         catalog.store(filename);
         catalog.clearAll();
         assertEquals(0, catalog.getSessions().size());

@@ -4,6 +4,7 @@ import java.util.*;
 import java.net.*;
 
 abstract public class Session implements Iterable<Student>, Comparable<Session>, java.io.Serializable{
+    private transient String name;
     private final Course course;
     private final transient List<Student> students = new ArrayList<>();
     private final Date startDate;
