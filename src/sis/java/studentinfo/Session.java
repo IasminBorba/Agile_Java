@@ -1,12 +1,14 @@
 package studentinfo;
 
+import java.io.*;
 import java.util.*;
 import java.net.*;
 
-abstract public class Session implements Iterable<Student>, Comparable<Session>, java.io.Serializable{
-    private transient String name;
+abstract public class Session implements Comparable<Session>, Iterable<Student>, java.io.Serializable {
+    public static final long serialVersionUID = 1L;
+    private String name;
     private final Course course;
-    private final transient List<Student> students = new ArrayList<>();
+    private transient List<Student> students = new ArrayList<>();
     private final Date startDate;
     private int numberOfCredits;
     private URL url;
@@ -107,5 +109,22 @@ abstract public class Session implements Iterable<Student>, Comparable<Session>,
 
     public int getNumberOfCredits(){
         return numberOfCredits;
+    }
+
+    private void writeObject(ObjectOutputStream output) throws IOException{
+        output.defaultWriteObject();
+        output.writeInt(students.size());
+        for(Student student: students)
+            output.writeObject(student.getLastName());
+    }
+
+    private void readObject(ObjectInputStream input) throws Exception{
+        input.defaultReadObject();
+        students = new ArrayList<>();
+        int size = input.readInt();
+        for (int i = 0; i < size; i++) {
+            String lastName = (String)input.readObject();
+            students.add(Student.findByLastName(lastName));
+        }
     }
 }

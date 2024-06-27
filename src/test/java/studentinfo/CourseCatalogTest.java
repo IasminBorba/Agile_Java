@@ -25,7 +25,7 @@ public class CourseCatalogTest extends TestCase {
         catalog.add(session2);
     }
 
-    public void testStoreAndLoad() throws Exception{
+    public void testStoreAndLoad() throws Exception {
         final String filename = "CourseCatalogTest.testAdd.txt";
         catalog.store(filename);
         catalog.clearAll();
@@ -36,6 +36,11 @@ public class CourseCatalogTest extends TestCase {
         assertEquals(2, sessions.size());
         assertSession(session1, sessions.getFirst());
         assertSession(session2, sessions.get(1));
+
+        Session session = sessions.get(1);
+        assertSession(session2, session);
+        Student student = session.getAllStudents().getFirst();
+        assertEquals("a", student.getLastName());
     }
 
     private void assertSession(Session expected, Session retrieved){

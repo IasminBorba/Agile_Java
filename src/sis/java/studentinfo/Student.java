@@ -190,4 +190,8 @@ public  class Student implements Comparable{
     public boolean isOff(Flag flag){
         return !isOn(flag);
     }
+
+    public static Student findByLastName(String lastName){
+        return new Student(lastName);
+    }
 }
