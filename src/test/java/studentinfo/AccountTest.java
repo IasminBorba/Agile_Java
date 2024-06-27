@@ -1,7 +1,6 @@
 package studentinfo;
 
 import junit.framework.TestCase;
-
 import java.math.BigDecimal;
 
 public class AccountTest extends TestCase {

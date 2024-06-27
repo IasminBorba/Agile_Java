@@ -1,7 +1,6 @@
 package studentinfo;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.math.*;
 
 public class Account {
     private BigDecimal balance = new BigDecimal("0.00");

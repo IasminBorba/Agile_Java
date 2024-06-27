@@ -1,6 +1,5 @@
 package studentinfo;
 
-
 public class HonorsGradingStrategy extends BasicGradingStrategy {
     public int getGradePointsFor(Student.Grade grade) {
         int points = super.getGradePointsFor(grade);

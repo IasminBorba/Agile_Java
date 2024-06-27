@@ -1,9 +1,7 @@
 package studentinfo;
 
 import junit.framework.TestCase;
-
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class CourseTest extends TestCase {
     public void testCreate(){

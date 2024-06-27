@@ -1,12 +1,11 @@
 package studentinfo;
 
 import junit.framework.TestCase;
-
-import java.util.logging.Handler;
-import java.util.logging.Logger;
+import java.util.logging.*;
 
 public class StudentTest extends TestCase {
     private static final double GRADE_TOLERANCE = 0.85;
+
     public void testCreate() {
         final String firstStudentName = "Jane Doe";
         Student firstStudent = new Student(firstStudentName);
@@ -23,7 +22,6 @@ public class StudentTest extends TestCase {
         assertEquals("", secondStudent.getMiddleName());
 
         final String thirdStudentName = "Raymond Douglas Davies";
-
         Student thirdStudent = new Student(thirdStudentName);
         assertEquals("Raymond", thirdStudent.getFirstName());
         assertEquals("Davies", thirdStudent.getLastName());
@@ -32,7 +30,6 @@ public class StudentTest extends TestCase {
 
     public void testStudentStatus() {
         Student student = new Student("a");
-
         assertEquals(0, student.getCredits());
         assertFalse(student.isFullTime());
 
@@ -51,7 +48,6 @@ public class StudentTest extends TestCase {
 
     public void testInState(){
         Student student = new Student("a");
-
         assertFalse(student.isInState());
 
         student.setState(Student.IN_STATE);
@@ -94,11 +90,13 @@ public class StudentTest extends TestCase {
         assertGpa(2.0, createHonorsStudent(Student.Grade.D));
         assertGpa(0.0, createHonorsStudent(Student.Grade.F));
     }
+
     private Student createHonorsStudent(Student.Grade grade) {
         Student student = createHonorsStudent();
         student.addGrade(grade);
         return student;
     }
+
     private Student createHonorsStudent() {
         Student student = new Student("a");
         student.setGradingStrategy(new HonorsGradingStrategy());

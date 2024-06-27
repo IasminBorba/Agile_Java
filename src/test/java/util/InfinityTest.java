@@ -3,7 +3,6 @@ package util;
 import junit.framework.TestCase;
 
 public class InfinityTest extends TestCase {
-
     public void testInfinity(){
         final float tolerance = 0.5f;
         final float x = 1f;

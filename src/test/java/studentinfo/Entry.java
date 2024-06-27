@@ -11,9 +11,9 @@ public class Entry {
 
     @Override
     public boolean equals(Object object){
-        if(object.getClass() != this.getClass()){
+        if(object.getClass() != this.getClass())
             return false;
-        }
+
         Entry that = (Entry) object;
         return this.grade == that.grade && this.message.equals(that.message);
     }

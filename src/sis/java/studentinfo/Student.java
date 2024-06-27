@@ -1,10 +1,10 @@
 package studentinfo;
 
-
+import java.io.Serializable;
 import java.util.*;
 import java.util.logging.*;
 
-public  class Student implements Comparable{
+public  class Student implements Comparable, Serializable{
     static final int CREDITS_REQUIRED_FOR_FULL_TIME = 12;
     static final String IN_STATE = "CO";
     public String state = "";
@@ -97,13 +97,13 @@ public  class Student implements Comparable{
 
     double getGpa() {
         Student.logger.fine("begin getGpa " + System.currentTimeMillis());
-        if (grades.isEmpty()) {
+        if (grades.isEmpty())
             return 0.0;
-        }
+
         double total = 0.0;
-        for (Grade grade : grades) {
+        for (Grade grade : grades)
             total += gradingStrategy.getGradePointsFor(grade);
-        }
+
         Student.logger.fine("end getGpa " + System.currentTimeMillis());
         return total / grades.size();
     }
@@ -125,17 +125,16 @@ public  class Student implements Comparable{
     }
 
     private String removeLast(List<String> list){
-        if(list.isEmpty()){
+        if(list.isEmpty())
             return "";
-        }
+
         return list.removeLast();
     }
 
     private List<String> split(String fullName) {
         List<String> results = new ArrayList<>();
-        for (String name: fullName.split(" ")){
+        for (String name: fullName.split(" "))
             results.add(name);
-        }
         return results;
     }
 
@@ -157,9 +156,9 @@ public  class Student implements Comparable{
 
     public int totalCharges(){
         int total = 0;
-        for (Integer charge: charges) {
+        for (Integer charge: charges)
             total += charge;
-        }
+
         return total;
     }
 
@@ -172,15 +171,13 @@ public  class Student implements Comparable{
     }
 
     public void set(Flag... flags){
-        for(Flag flag: flags){
+        for(Flag flag: flags)
             settings |= flag.mask;
-        }
     }
 
     public void unset(Flag... flags){
-        for(Flag flag: flags){
+        for(Flag flag: flags)
             settings &= ~flag.mask;
-        }
     }
 
     public boolean isOn(Flag flag){

@@ -3,7 +3,6 @@ package report;
 import junit.framework.TestCase;
 import studentinfo.*;
 import java.util.*;
-import studentinfo.Entry;
 
 public class ReportCardTest extends TestCase {
     private ReportCard card;
@@ -11,6 +10,7 @@ public class ReportCardTest extends TestCase {
     public void setUp() {
         card = new ReportCard();
     }
+
     public void testMessage(){
         assertEquals(ReportCard.A_MESSAGE, card.getMessage(Student.Grade.A));
         assertEquals(ReportCard.B_MESSAGE, card.getMessage(Student.Grade.B));
@@ -23,9 +23,9 @@ public class ReportCardTest extends TestCase {
         Set<Student.Grade> expectedGrades = EnumSet.allOf(Student.Grade.class);
         Set<Student.Grade> grades = EnumSet.noneOf(Student.Grade.class);
 
-        for(Student.Grade grade: card.getMessages().keySet()){
+        for(Student.Grade grade: card.getMessages().keySet())
             grades.add(grade);
-        }
+
         assertEquals(expectedGrades, grades);
     }
 
@@ -38,18 +38,17 @@ public class ReportCardTest extends TestCase {
         expectedMessages.add(ReportCard.F_MESSAGE);
 
         Collection<String> messages = card.getMessages().values();
-        for(String message: messages){
+        for(String message: messages)
             assertTrue(expectedMessages.contains(message));
-        }
+
         assertEquals(expectedMessages.size(), messages.size());
     }
 
     public void testEntries(){
         Set<Entry> entries = new HashSet<>();
 
-        for(Map.Entry<Student.Grade, String> entry: card.getMessages().entrySet()){
+        for(Map.Entry<Student.Grade, String> entry: card.getMessages().entrySet())
             entries.add(new Entry(entry.getKey(), entry.getValue()));
-        }
 
         Set<Entry> expectedEntries = new HashSet<>();
         expectedEntries.add(new Entry(Student.Grade.A, ReportCard.A_MESSAGE));

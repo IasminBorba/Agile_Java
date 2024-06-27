@@ -1,7 +1,6 @@
 package studentinfo;
 
 import junit.framework.TestCase;
-
 import java.net.MalformedURLException;
 import java.util.*;
 import static studentinfo.DateUtil.createDate;
@@ -78,9 +77,9 @@ abstract public class SessionTest extends TestCase {
         enrollStudents(session);
 
         List<Student> results = new ArrayList<>();
-        for (Student student: session){
+        for (Student student: session)
             results.add(student);
-        }
+
         assertEquals(session.getAllStudents(), results);
     }
 

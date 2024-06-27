@@ -2,6 +2,7 @@ package studentinfo;
 
 import java.util.*;
 import java.io.*;
+
 public class CourseCatalog {
     private List<Session> sessions = new ArrayList<>();
 

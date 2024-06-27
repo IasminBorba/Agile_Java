@@ -1,4 +1,5 @@
 package studentinfo;
+
 import junit.framework.TestSuite;
 import summer.SummerCourseSessionTest;
 

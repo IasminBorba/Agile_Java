@@ -1,6 +1,5 @@
 package studentinfo;
 
-import java.util.logging.Handler;
 import java.util.logging.*;
 
 public class TestHandler extends Handler {

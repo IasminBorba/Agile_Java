@@ -16,13 +16,13 @@ public class Performance {
     }
 
     public double average(){
-        if(tests.length == 0){
+        if(tests.length == 0)
             return 0.0;
-        }
+
         int total = 0;
-        for (int score: tests){
+        for (int score: tests)
             total += score;
-        }
+
         return (double)total/tests.length;
     }
 

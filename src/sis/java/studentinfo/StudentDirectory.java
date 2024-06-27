@@ -1,15 +1,29 @@
 package studentinfo;
 
-import java.util.*;
+import java.io.*;
+import db.*;
 
 public class StudentDirectory {
-    private final Map<String, Student> students = new HashMap<>();
+    private static final String DIR_BASENAME = "studentDir";
+    private final DataFile db;
 
-    public void add(Student student){
-        students.put(student.getId(), student);
+    public StudentDirectory() throws IOException{
+        db = DataFile.open(DIR_BASENAME);
     }
 
-    public Student findById(String id){
-        return students.get(id);
+    public void add(Student student) throws IOException {
+        db.add(student.getId(), student);
+    }
+
+    public Student findById(String id) throws IOException {
+        return (Student)db.findBy(id);
+    }
+
+    public void close() throws IOException{
+        db.close();
+    }
+
+    public void remove(){
+        db.deleteFiles();
     }
 }

@@ -4,8 +4,9 @@ import java.io.*;
 import java.util.*;
 import java.net.*;
 
-abstract public class Session implements Comparable<Session>, Iterable<Student>, java.io.Serializable {
-    public static final long serialVersionUID = 1L;
+abstract public class Session implements Comparable<Session>, Iterable<Student>, Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private String name;
     private final Course course;
     private transient List<Student> students = new ArrayList<>();
@@ -84,8 +85,7 @@ abstract public class Session implements Comparable<Session>, Iterable<Student>,
         calendar.setTime(getStartDate());
         final int daysInWeek = 7;
         final int daysFromFridayToMonday = 3;
-        int numberOfDays =
-                getSessionLength() * daysInWeek - daysFromFridayToMonday;
+        int numberOfDays = getSessionLength() * daysInWeek - daysFromFridayToMonday;
         calendar.add(Calendar.DAY_OF_YEAR, numberOfDays);
         return calendar.getTime();
     }
@@ -111,6 +111,7 @@ abstract public class Session implements Comparable<Session>, Iterable<Student>,
         return numberOfCredits;
     }
 
+    @Serial
     private void writeObject(ObjectOutputStream output) throws IOException{
         output.defaultWriteObject();
         output.writeInt(students.size());
@@ -118,6 +119,7 @@ abstract public class Session implements Comparable<Session>, Iterable<Student>,
             output.writeObject(student.getLastName());
     }
 
+    @Serial
     private void readObject(ObjectInputStream input) throws Exception{
         input.defaultReadObject();
         students = new ArrayList<>();

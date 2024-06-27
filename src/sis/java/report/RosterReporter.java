@@ -2,7 +2,6 @@ package report;
 
 import studentinfo.*;
 import java.io.*;
-
 import static java.lang.String.format;
 
 public class RosterReporter {
@@ -35,9 +34,8 @@ public class RosterReporter {
     }
 
     void writeBody() throws IOException{
-        for(Student student: session.getAllStudents()){
+        for(Student student: session.getAllStudents())
             writer.write(format(student.getName() + "%n"));
-        }
     }
 
     private void writeFooter() throws IOException{

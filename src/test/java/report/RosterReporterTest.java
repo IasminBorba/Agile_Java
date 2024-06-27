@@ -22,9 +22,9 @@ public class RosterReporterTest extends TestCase {
     private void assertReportContents(String rosterReport){
         assertEquals(
                 String.format(RosterReporter.ROSTER_REPORT_HEADER +
-                        "A%n" +
-                        "B%n" +
-                        RosterReporter.ROSTER_REPORT_FOOTER, 2),
+                "A%n" +
+                "B%n" +
+                RosterReporter.ROSTER_REPORT_FOOTER, 2),
                 rosterReport
         );
     }
@@ -33,7 +33,6 @@ public class RosterReporterTest extends TestCase {
         final String filename = "testFileReport.txt";
         try {
             delete(filename);
-
             new RosterReporter(session).writeReport(filename);
 
             StringBuffer buffer = new StringBuffer();
@@ -42,8 +41,8 @@ public class RosterReporterTest extends TestCase {
             BufferedReader reader = new BufferedReader(new FileReader(filename));
             while ((line = reader.readLine()) != null)
                 buffer.append(String.format(line + "%n"));
-            reader.close();
 
+            reader.close();
             assertReportContents(buffer.toString());
         } finally {
             delete(filename);
@@ -52,8 +51,7 @@ public class RosterReporterTest extends TestCase {
 
     private void delete(String filename){
         File file = new File(filename);
-        if(file.exists()){
+        if(file.exists())
             assertTrue("unable to delete" + filename, file.delete());
-        }
     }
 }
