@@ -35,36 +35,31 @@ public class AccountTest extends TestCase {
     }
 
     public void testTransferFromBank() {
-        Ach mockAch = new Ach()
-        {
+        account.setAch(createMockAch(AchStatus.SUCCESS));
+        final BigDecimal amount = new BigDecimal("50.00");
+        account.transferFromBank(amount);
+        assertEquals(amount, account.getBalance());
+    }
+
+    public void testFailedTransferFromBank() {
+        account.setAch(createMockAch(AchStatus.FAILURE));
+        final BigDecimal amount = new BigDecimal("50.00");
+        account.transferFromBank(amount);
+        assertEquals(new BigDecimal("0.00"), account.getBalance());
+    }
+
+    private Ach createMockAch(final AchStatus status){
+        return new MockAch() {
             public AchResponse issueDebit(AchCredentials credentials, AchTransactionData data) {
                 Assert.assertTrue(data.account.equals(ACCOUNT_NUMBER));
                 Assert.assertTrue(data.aba.equals(ABA));
+
                 AchResponse response = new AchResponse();
                 response.timestamp = new Date();
                 response.traceCode = "1";
                 response.status = AchStatus.SUCCESS;
                 return response;
             }
-            public AchResponse markTransactionAsNSF(AchCredentials credentials, AchTransactionData data, String traceCode) {
-                return null;
-            }
-            public AchResponse refundTransaction(AchCredentials credentials,AchTransactionData data, String traceCode) {
-                return null;
-            }
-            public AchResponse issueCredit(AchCredentials credentials, AchTransactionData data) {
-                return null;
-            }
-            public AchResponse voidSameDayTransaction(AchCredentials credentials, AchTransactionData data, String traceCode) {
-                return null;
-            }
-            public AchResponse queryTransactionStatus (AchCredentials credentials, AchTransactionData data, String traceCode) {
-                return null;
-            }
         };
-        account.setAch(mockAch);
-        final BigDecimal amount = new BigDecimal("50.00");
-        account.transferFromBank(amount);
-        assertEquals(amount, account.getBalance());
     }
 }
