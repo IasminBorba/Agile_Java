@@ -35,10 +35,11 @@ public class AccountTest extends TestCase {
     }
 
     public void testTransferFromBank() {
-        Ach mockAch = new Ach() {
+        Ach mockAch = new Ach()
+        {
             public AchResponse issueDebit(AchCredentials credentials, AchTransactionData data) {
-                Assert.assertTrue(data.account.equals(AccountTest.ACCOUNT_NUMBER));
-                Assert.assertTrue(data.aba.equals(AccountTest.ABA));
+                Assert.assertTrue(data.account.equals(ACCOUNT_NUMBER));
+                Assert.assertTrue(data.aba.equals(ABA));
                 AchResponse response = new AchResponse();
                 response.timestamp = new Date();
                 response.traceCode = "1";
