@@ -1,7 +1,6 @@
 package testing;
 
 import junit.framework.*;
-
 import java.util.*;
 
 public class SuiteBuilderTest extends TestCase {
@@ -11,6 +10,22 @@ public class SuiteBuilderTest extends TestCase {
         assertTrue(classes.contains("testing.SuiteBuilderTest"));
         assertFalse(classes.contains("testing.testclasses.NotATestClass"));
         assertFalse(classes.contains("testing.testclasses.AbstractTestClass"));
+    }
+
+    public void testAllTests(){
+        SuiteBuilder builder = new SuiteBuilder();
+        List<String> classes = builder.gatherTestClassNames();
+        TestSuite suite = builder.suite();
+
+        assertTrue(classes.contains("testing.SuiteBuilderTest"));
+        assertTrue(classes.contains("db.DataFileTest"));
+        assertTrue(classes.contains("report.ReportCardTest"));
+        assertTrue(classes.contains("studentinfo.CourseTest"));
+        assertTrue(classes.contains("summer.SummerCourseSessionTest"));
+        assertTrue(classes.contains("ui.StudentUITest"));
+        assertTrue(classes.contains("util.MathTest"));
+
+        assertEquals(25, suite.testCount());
     }
 
     public void testCreateSuite() {
