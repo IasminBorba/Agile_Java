@@ -25,7 +25,7 @@ public class SuiteBuilderTest extends TestCase {
         assertTrue(classes.contains("ui.StudentUITest"));
         assertTrue(classes.contains("util.MathTest"));
 
-        assertEquals(25, suite.testCount());
+        assertEquals(27, suite.testCount());
     }
 
     public void testCreateSuite() {
