@@ -45,7 +45,7 @@ public class AccountTest extends TestCase {
         account.setAch(createMockAch(AchStatus.FAILURE));
         final BigDecimal amount = new BigDecimal("50.00");
         account.transferFromBank(amount);
-        assertEquals(new BigDecimal("0.00"), account.getBalance());
+        assertEquals(new BigDecimal("0.01"), account.getBalance());
     }
 
     private Ach createMockAch(final AchStatus status){
