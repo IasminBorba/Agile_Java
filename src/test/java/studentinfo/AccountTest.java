@@ -51,13 +51,13 @@ public class AccountTest extends TestCase {
     private Ach createMockAch(final AchStatus status){
         return new MockAch() {
             public AchResponse issueDebit(AchCredentials credentials, AchTransactionData data) {
-                Assert.assertTrue(data.account.equals(ACCOUNT_NUMBER));
-                Assert.assertTrue(data.aba.equals(ABA));
+                Assert.assertTrue(data.account.equals(AccountTest.ACCOUNT_NUMBER));
+                Assert.assertTrue(data.aba.equals(AccountTest.ABA));
 
                 AchResponse response = new AchResponse();
                 response.timestamp = new Date();
                 response.traceCode = "1";
-                response.status = AchStatus.SUCCESS;
+                response.status = status;
                 return response;
             }
         };
