@@ -25,6 +25,10 @@ public class ServerTest extends TestCase {
     }
 
     protected void tearDown() throws Exception {
+        assertTrue(server.isAlive());
+        server.shutDown();
+        server.join(3000);
+        assertFalse(server.isAlive());
         TestUtil.delete(SearchTest.FILE);
     }
 
