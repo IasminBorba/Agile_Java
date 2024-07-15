@@ -3,7 +3,7 @@ package search;
 import java.util.*;
 
 public class Server extends Thread{
-    private final List<Search> queue = new LinkedList<>();
+    private final List<Search> queue = Collections.synchronizedList(new LinkedList<>());
     private final ResultsListener listener;
 
     public Server(ResultsListener listener){
@@ -19,7 +19,7 @@ public class Server extends Thread{
         }
     }
 
-    public void add(Search search){
+    public void add(Search search) throws Exception{
         queue.add(search);
     }
 

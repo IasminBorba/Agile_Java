@@ -73,7 +73,7 @@ public class Account implements Accountable{
         return data;
     }
 
-    public void withdraw(BigDecimal amount){
+    public synchronized void withdraw(BigDecimal amount){
         if (amount.compareTo(balance) > 0)
             return;
         balance = balance.subtract(amount);
