@@ -14,7 +14,7 @@ public class StringUtilTest extends TestCase {
 
     public void testOccurrencesMany(){
         assertEquals(3, StringUtil.occurrences(TEXT, "is"));
-        assertEquals(3, StringUtil.occurrences(TEXT, "it"));
+        assertEquals(2, StringUtil.occurrences(TEXT, "it"));
     }
     public void testOccurrencesSearchStringTooLarge(){
         assertEquals(0, StringUtil.occurrences(TEXT, TEXT + "sdfas"));

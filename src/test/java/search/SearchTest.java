@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 import java.io.*;
 
 public class SearchTest extends TestCase {
-    private static final String URL = "http://www.langrsoft.com";
+    private static final String URL = "https://www.langrsoft.com/";
     public void testCreate() throws IOException{
         Search search = new Search(URL, "x");
         assertEquals(URL, search.getUrl());
