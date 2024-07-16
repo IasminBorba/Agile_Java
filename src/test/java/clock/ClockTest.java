@@ -2,30 +2,49 @@ package clock;
 
 import junit.framework.*;
 import java.util.*;
+import java.util.concurrent.locks.*;
 
 public class ClockTest extends TestCase {
     private Clock clock;
-    private final Object monitor = new Object();
+    private Lock lock;
+    private Condition receivedEnoughTics;
+    protected void setUp() {
+        lock = new ReentrantLock();
+        receivedEnoughTics = lock.newCondition();
+    }
 
-    public void testClock() throws Exception{
-        final int seconds = 5;
+    public void testClock() throws Exception {
+        final int seconds = 2;
         final List<Date> tics = new ArrayList<>();
-        ClockListener listener = new ClockListener(){
-            private int count = 0;
-            public void update(Date date){
-                tics.add(date);
-                if(++count == seconds)
-                    synchronized (monitor){
-                        monitor.notifyAll();
-                    }
-            }
-        };
+        ClockListener listener = createClockListener(tics, seconds);
         clock = new Clock(listener);
-        synchronized (monitor) {
-            monitor.wait();
+        lock.lock();
+        try {
+            receivedEnoughTics.await();
+        }
+        finally {
+            lock.unlock();
         }
         clock.stop();
-        verify(tics, seconds);
+        verify(tics, seconds);}
+
+    private ClockListener createClockListener(
+            final List<Date> tics, final int seconds) {
+        return new ClockListener() {
+            private int count = 0;
+            public void update(Date date) {
+                tics.add(date);
+                if (++count == seconds) {
+                    lock.lock();
+                    try {
+                        receivedEnoughTics.signalAll();
+                    }
+                    finally {
+                        lock.unlock();
+                    }
+                }
+            }
+        };
     }
 
     private void verify(List<Date> tics, int seconds){
