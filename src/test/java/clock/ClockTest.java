@@ -14,7 +14,7 @@ public class ClockTest extends TestCase {
     }
 
     public void testClock() throws Exception {
-        final int seconds = 2;
+        final int seconds = 3;
         final List<Date> tics = new ArrayList<>();
         ClockListener listener = createClockListener(tics, seconds);
         clock = new Clock(listener);
@@ -26,10 +26,10 @@ public class ClockTest extends TestCase {
             lock.unlock();
         }
         clock.stop();
-        verify(tics, seconds);}
+        verify(tics, seconds);
+    }
 
-    private ClockListener createClockListener(
-            final List<Date> tics, final int seconds) {
+    private ClockListener createClockListener(final List<Date> tics, final int seconds) {
         return new ClockListener() {
             private int count = 0;
             public void update(Date date) {
