@@ -39,7 +39,7 @@ public class Server extends Thread{
     }
 
     private void execute(final Search search) {
-        new Thread(new Runnable() {
+        Thread thread = new Thread(new Runnable() {
             public void run() {
                 log(START_MSG, search);
                 search.execute();
@@ -47,7 +47,17 @@ public class Server extends Thread{
                 listener.executed(search);
                 completeLog.addAll(threadLog.get());
             }
-        }).start();
+        });
+
+        thread.setUncaughtExceptionHandler(
+            new Thread.UncaughtExceptionHandler(){
+                public void uncaughtException(Thread th, Throwable thrown) {
+                    completeLog.add(search + " " + thrown.getMessage());
+                    listener.executed(search);
+                }
+            }
+        );
+        thread.start();
     }
 
     private void log(String message, Search search){

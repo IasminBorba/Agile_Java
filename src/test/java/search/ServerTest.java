@@ -53,9 +53,26 @@ public class ServerTest extends TestCase {
             server.add(new Search(url, "xxx"));
     }
 
+    public void testException() throws Exception{
+        final String errorMessage = "problem";
+        Search faultySearch = new Search(URLS[0], ""){
+            public void execute() {
+                throw new RuntimeException(errorMessage);
+            }
+        };
+        server.add(faultySearch);
+        waitForResults(1);
+        List<String> log = server.getLog();
+        assertTrue(log.getFirst().contains(errorMessage));
+    }
+
     private void waitForResults() {
+        waitForResults(URLS.length);
+    }
+
+    private void waitForResults(int count) {
         long start = System.currentTimeMillis();
-        while (numberOfResults < URLS.length){
+        while (numberOfResults < count){
             try { Thread.sleep(1);}
             catch (InterruptedException e) {}
             if(System.currentTimeMillis() - start > TIMEOUT)
