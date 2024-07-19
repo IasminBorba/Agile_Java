@@ -10,8 +10,8 @@ public class AlarmClock implements Runnable{
     private static final Object monitor = new Object();
     private static final StringBuilder textAlarms = new StringBuilder();
 
-    public AlarmClock(List<List<Object>> alarms) throws InterruptedException {
-        this.alarms = new ArrayList<>(alarms);
+    public AlarmClock() throws InterruptedException {
+        this.alarms = new ArrayList<>();
         this.alarm = createClockListener();
         new Thread(this).start();
     }
@@ -22,8 +22,9 @@ public class AlarmClock implements Runnable{
 
     public void run(){
         LocalDateTime lastTime = LocalDateTime.now();
+        title();
         while (run){
-            try {Thread.sleep(1000); }
+            try {Thread.sleep(500); }
             catch (InterruptedException e){}
             LocalDateTime now = LocalDateTime.now();
             if(lastTime.getHour() == now.getHour()){
@@ -44,7 +45,6 @@ public class AlarmClock implements Runnable{
     }
 
     private ClockListener createClockListener() {
-        title();
         return new ClockListener() {
             int count = 0;
             public void update(Date date){
@@ -136,6 +136,10 @@ public class AlarmClock implements Runnable{
             textAlarms.append("ALARM: ").append(obj).append("\n");
             System.out.println("ALARM: " + obj + "\n");
         }
+    }
+
+    protected void addAlarm(String time, String textAlarm) {
+        alarms.add(convertHourText(time, textAlarm));
     }
 
     public String printAlarms(){
