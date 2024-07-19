@@ -6,15 +6,14 @@ import java.util.*;
 public class AlarmClock implements Runnable{
     private final ClockListener alarm;
     private boolean run = true;
-    public static List<List<Object>> alarms;
+    private final List<List<Object>> alarms;
     private static final Object monitor = new Object();
     private static final StringBuilder textAlarms = new StringBuilder();
 
     public AlarmClock(List<List<Object>> alarms) throws InterruptedException {
-        this.alarms = alarms;
+        this.alarms = new ArrayList<>(alarms);
         this.alarm = createClockListener();
         new Thread(this).start();
-        timer();
     }
 
     public void stop(){
@@ -36,14 +35,15 @@ public class AlarmClock implements Runnable{
         }
     }
 
-    private void timer() throws InterruptedException {
-        synchronized (monitor){
-            monitor.wait();
+    public void waitForCompletion() throws InterruptedException {
+        synchronized (monitor) {
+            while (run) {
+                monitor.wait();
+            }
         }
-        this.stop();
     }
 
-    private static ClockListener createClockListener() {
+    private ClockListener createClockListener() {
         title();
         return new ClockListener() {
             int count = 0;
@@ -61,6 +61,7 @@ public class AlarmClock implements Runnable{
 
                 if (count == alarms.size()) {
                     synchronized (monitor) {
+                        run = false;
                         monitor.notifyAll();
                     }
                 }
@@ -68,7 +69,7 @@ public class AlarmClock implements Runnable{
         };
     }
 
-    static List<Object> convertHourText(String time, String text) {
+    public static List<Object> convertHourText(String time, String text) {
         int hour = 0;
         int minute = 0;
         int count = 0;
@@ -79,10 +80,20 @@ public class AlarmClock implements Runnable{
             else
                 minute = Integer.parseInt(str);
         }
-        return List.of(hour, minute, text);
+        return Arrays.asList(hour, minute, text);
     }
 
-    private static void title(){
+    public void cancelAlarm(String textAlarm) {
+        synchronized (alarms) {
+            for (List<Object> alarm : alarms) {
+                if (alarm.get(2).equals(textAlarm)) {
+                    alarm.set(2, "CANCELED!");
+                }
+            }
+        }
+    }
+
+    private void title(){
         StringBuilder builder = new StringBuilder("Alarm List: ");
 
         sortAlarmList();
@@ -98,7 +109,7 @@ public class AlarmClock implements Runnable{
         System.out.println(builder.append("\n"));
     }
 
-    public static void sortAlarmList(){
+    public void sortAlarmList(){
         alarms.sort(new Comparator<>() {
             @Override
             public int compare(List<Object> alarm1, List<Object> alarm2) {
@@ -117,8 +128,8 @@ public class AlarmClock implements Runnable{
         });
     }
 
-    private static void addText(Object obj) {
-        if (obj.getClass().toString().equals("class java.util.Date")){
+    private void addText(Object obj) {
+        if (obj instanceof Date) {
             textAlarms.append(obj).append("\n");
             System.out.println(obj);
         } else {
