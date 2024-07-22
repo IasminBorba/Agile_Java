@@ -1,6 +1,6 @@
 package clock;
 
-import java.util.*;
+import java.time.LocalDateTime;
 
 public class Clock implements Runnable{
     private final ClockListener listener;
@@ -23,7 +23,7 @@ public class Clock implements Runnable{
             catch (InterruptedException e){}
             long now = System.currentTimeMillis();
             if((now/1000) - (lastTime/1000) >= 1){
-                listener.update(new Date());
+                listener.update(LocalDateTime.now());
                 lastTime = now;
             }
         }

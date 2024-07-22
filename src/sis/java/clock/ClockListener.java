@@ -1,7 +1,7 @@
 package clock;
 
-import java.util.*;
+import java.time.LocalDateTime;
 
 public interface ClockListener {
-    void update(Date date);
+    void update(LocalDateTime date);
 }
