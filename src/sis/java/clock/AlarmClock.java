@@ -8,7 +8,7 @@ public class AlarmClock implements Runnable{
     private boolean run = true;
     private final List<List<Object>> alarms;
     private static final Object monitor = new Object();
-    private static final StringBuilder textAlarms = new StringBuilder();
+    private final StringBuilder textAlarms = new StringBuilder();
 
     public AlarmClock() throws InterruptedException {
         this.alarms = new ArrayList<>();
@@ -29,6 +29,11 @@ public class AlarmClock implements Runnable{
             LocalDateTime now = LocalDateTime.now();
             if(lastTime.getHour() == now.getHour()){
                 if((now.getMinute()) - (lastTime.getMinute()) >= 1) {
+                    alarm.update(new Date());
+                    lastTime = now;
+                }
+            } else if (now.getHour() -  lastTime.getHour() >= 1) {
+                if(60 - (lastTime.getMinute()) >= 1) {
                     alarm.update(new Date());
                     lastTime = now;
                 }
