@@ -18,4 +18,8 @@ public class MultiHashMap<K, V> {
     public List<V> get(K key){
         return map.get(key);
     }
+
+    protected Set<Map.Entry<K, List<V>>> entrySet(){
+        return map.entrySet();
+    }
 }

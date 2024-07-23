@@ -47,6 +47,6 @@ public class MultiHashMapTest extends TestCase {
         Collection<String> retrieveEvents = events.get(date);
         assertEquals(1, retrieveEvents.size());
         Iterator<String> it = retrieveEvents.iterator();
-        return it.next();
+        return retrieveEvents.toString();
     }
 }
