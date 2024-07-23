@@ -1,6 +1,5 @@
 package util;
 
-import java.util.HashMap;
 import java.util.*;
 
 public class MultiHashMap<K, V> {
@@ -21,5 +20,21 @@ public class MultiHashMap<K, V> {
 
     protected Set<Map.Entry<K, List<V>>> entrySet(){
         return map.entrySet();
+    }
+
+    public interface Filter<T> {
+        boolean apply(T item);
+    }
+    public static <K,V> void filter(final MultiHashMap<K, ? super V> target, final MultiHashMap<K, V> source, final Filter<? super V> filter) {
+        for (K key : source.keys()) {
+            final List<V> values = source.get(key);
+            for (V value : values)
+                if (filter.apply(value))
+                    target.put(key, value);
+        }
+    }
+
+    public Set<K> keys(){
+        return map.keySet();
     }
 }
