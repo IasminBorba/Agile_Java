@@ -7,6 +7,7 @@ public class TestRunner {
     private Class testClass;
     private int failed = 0;
     private Set<Method> testMethods = null;
+    private Map<Method, Ignore> ignoredMethods = null;
 
     public static void main(String[] args) throws Exception {
         TestRunner runner = new TestRunner(args[0]);
@@ -32,9 +33,18 @@ public class TestRunner {
 
     private void loadTestMethods() {
         testMethods = new HashSet<Method>();
-        for (Method method: testClass.getDeclaredMethods())
+        ignoredMethods = new HashMap<>();
+        for (Method method : testClass.getDeclaredMethods()) {
             if (method.isAnnotationPresent(TestMethod.class))
-                testMethods.add(method);
+                if (method.isAnnotationPresent(Ignore.class)) {
+                    Ignore ignore = method.getAnnotation(Ignore.class);
+                } else
+                    testMethods.add(method);
+        }
+    }
+
+    public Map<Method, Ignore> getIgnoredMethods() {
+        return ignoredMethods;
     }
 
     public void run() {
