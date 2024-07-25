@@ -4,6 +4,7 @@ import java.util.*;
 import java.lang.reflect.*;
 
 public class TestRunner {
+    public static final String DEFAULT_IGNORE_REASON = "temporarily commenting out";
     private Class testClass;
     private int failed = 0;
     private Set<Method> testMethods = null;

@@ -1,11 +1,13 @@
 package testing;
 
-import java.lang.reflect.Method;
 import java.util.*;
+import java.lang.reflect.*;
 
 public class TestRunnerTest {
-    private TestRunner runner;
     public static final String IGNORE_REASON1 = "because";
+    public static final String IGNORE_REASON2 = "why not";
+    public static final String IGNORE_INITIALS = "jjl";
+    private TestRunner runner;
     private static final String methodNameA = "testA";
     private static final String methodNameB = "testB";
 
@@ -21,7 +23,10 @@ public class TestRunnerTest {
         Map.Entry<Method, Ignore> entry = getSoleEntry(ignoredMethods);
         assert "testC".equals(entry.getKey().getName()): "unexpected ignore method: " + entry.getKey();
         Ignore ignore = entry.getValue();
-        assert IGNORE_REASON1.equals(ignore.value());
+        String[] ignoreReasons = ignore.reasons();
+        assert 2 == ignoreReasons.length;
+        assert IGNORE_REASON1.equals(ignoreReasons[0]);
+        assert IGNORE_REASON2.equals(ignoreReasons[1]);
     }
 
     private <K, V> Map.Entry<K, V> getSoleEntry(Map<K, V> map) {
@@ -40,6 +45,28 @@ public class TestRunnerTest {
     public void multipleMethodTest() {
         runTests(MultipleMethodTest.class);
         verifyTests(methodNameA, methodNameB);
+    }
+
+    @TestMethod
+    public void ignoreWithDefaultReason() {
+        runTests(DefaultIgnoreMethodTest.class);
+        verifyTests(methodNameA, methodNameB);
+        Map<Method, Ignore> ignoredMethods = runner.getIgnoredMethods();
+        Map.Entry<Method, Ignore> entry = getSoleEntry(ignoredMethods);
+        Ignore ignore = entry.getValue();
+        assert TestRunner.DEFAULT_IGNORE_REASON.equals(ignore.reasons()[0]);
+    }
+
+    @TestMethod
+    public void dateTest() {
+        runTests(IgnoreDateTest.class);
+        Map<Method, Ignore> ignoredMethods = runner.getIgnoredMethods();
+        Map.Entry<Method, Ignore> entry = getSoleEntry(ignoredMethods);
+        Ignore ignore = entry.getValue();
+        testing.Date date = ignore.date();
+        assert 7 == date.month();
+        assert 25 == date.day();
+        assert 2024 == date.year();
     }
 
     private void runTests(Class testClass) {
@@ -82,13 +109,28 @@ class SingleMethodTest {
 
 class MultipleMethodTest {
     @TestMethod public void testA() {}
-
     @TestMethod public void testB() {}
 }
 
 class IgnoreMethodTest {
     @TestMethod public void testA() {}
     @TestMethod public void testB() {}
-    @Ignore(TestRunnerTest.IGNORE_REASON1)
+    @Ignore(reasons = {TestRunnerTest.IGNORE_REASON1, TestRunnerTest.IGNORE_REASON2},
+            initials = TestRunnerTest.IGNORE_INITIALS,
+            date=@Date(month=7, day=25, year=2024))
+        @TestMethod public void testC() {}
+}
+
+class DefaultIgnoreMethodTest {
+    @TestMethod public void testA() {}
+    @TestMethod public void testB() {}
+    @Ignore(initials=TestRunnerTest.IGNORE_INITIALS,
+            date=@Date(month=7, day=25, year=2024))
+        @TestMethod public void testC() {}
+}
+
+class IgnoreDateTest {
+    @Ignore(initials = TestRunnerTest.IGNORE_INITIALS,
+            date = @Date(month=7, day=25, year=2024))
         @TestMethod public void testC() {}
 }
