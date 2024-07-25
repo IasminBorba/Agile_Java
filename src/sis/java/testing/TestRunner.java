@@ -11,36 +11,37 @@ public class TestRunner {
     public static void main(String[] args) throws Exception {
         TestRunner runner = new TestRunner(args[0]);
         runner.run();
-
         System.out.println("passed: " + runner.passed() + " failed: " + runner.failed());
-
-        if(runner.failed() > 0)
+        if (runner.failed() > 0)
             System.exit(1);
     }
 
     public TestRunner(Class testClass) {
         this.testClass = testClass;
     }
+
     public TestRunner(String className) throws Exception {
         this(Class.forName(className));
     }
 
     public Set<Method> getTestMethods() {
-        if(testMethods == null)
+        if (testMethods == null)
             loadTestMethods();
         return testMethods;
     }
 
     private void loadTestMethods() {
-        testMethods = new HashSet<>();
-        for(Method method: testClass.getDeclaredMethods())
-            testMethods.add(method);
+        testMethods = new HashSet<Method>();
+        for (Method method: testClass.getDeclaredMethods())
+            if (method.isAnnotationPresent(TestMethod.class))
+                testMethods.add(method);
     }
 
     public void run() {
-        for (Method method: getTestMethods())
+        for (Method method : getTestMethods())
             run(method);
     }
+
     public void run(Method method) {
         try {
             Object testObject = testClass.newInstance();
