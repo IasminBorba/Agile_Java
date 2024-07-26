@@ -69,6 +69,13 @@ public class TestRunnerTest {
         assert 2024 == date.year();
     }
 
+    @TestMethod
+    public void packageAnnotations() {
+        Package pkg = this.getClass().getPackage();
+        TestPackage testPackage = pkg.getAnnotation(TestPackage.class);
+        assert testPackage.isPerformance();
+    }
+
     private void runTests(Class testClass) {
         runner = new TestRunner(testClass);
         runner.run();
