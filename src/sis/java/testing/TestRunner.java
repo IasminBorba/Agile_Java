@@ -39,6 +39,7 @@ public class TestRunner {
             if (method.isAnnotationPresent(TestMethod.class))
                 if (method.isAnnotationPresent(Ignore.class)) {
                     Ignore ignore = method.getAnnotation(Ignore.class);
+                    ignoredMethods.put(method, ignore);
                 } else
                     testMethods.add(method);
         }
