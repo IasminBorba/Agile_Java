@@ -5,7 +5,7 @@ import java.lang.reflect.*;
 
 public class TestRunner {
     public static final String DEFAULT_IGNORE_REASON = "temporarily commenting out";
-    private Class testClass;
+    private final Class testClass;
     private int failed = 0;
     private Set<Method> testMethods = null;
     private Map<Method, Ignore> ignoredMethods = null;
@@ -27,13 +27,14 @@ public class TestRunner {
     }
 
     public Set<Method> getTestMethods() {
-        if (testMethods == null)
+        if (testMethods == null) {
             loadTestMethods();
+        }
         return testMethods;
     }
 
     private void loadTestMethods() {
-        testMethods = new HashSet<Method>();
+        testMethods = new HashSet<>();
         ignoredMethods = new HashMap<>();
         for (Method method : testClass.getDeclaredMethods()) {
             if (method.isAnnotationPresent(TestMethod.class))
@@ -57,7 +58,7 @@ public class TestRunner {
     public void run(Method method) {
         try {
             Object testObject = testClass.newInstance();
-            method.invoke(testObject, new Object[]{});
+            method.invoke(testObject);
         } catch (InvocationTargetException e) {
             Throwable cause = e.getCause();
             if (cause instanceof AssertionError)
