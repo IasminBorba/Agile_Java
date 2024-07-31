@@ -14,6 +14,7 @@ public class Sis {
     Sis() {
         frame.setSize(WIDTH, HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().add(new CoursesPanel());
     }
 
     public void show() {

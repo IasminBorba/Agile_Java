@@ -3,6 +3,7 @@ package ui;
 import junit.framework.TestCase;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class SisTest extends TestCase {
     private Sis sis;
@@ -18,6 +19,15 @@ public class SisTest extends TestCase {
         assertEquals(Sis.HEIGHT, frame.getSize().getHeight(), tolerance);
         assertEquals(Sis.WIDTH, frame.getSize().getWidth(), tolerance);
         assertEquals(JFrame.EXIT_ON_CLOSE, frame.getDefaultCloseOperation());
+        assertTrue(containsCoursesPanel(frame));
+    }
+
+    private boolean containsCoursesPanel(JFrame frame) {
+        Container pane = frame.getContentPane();
+        for (Component component: pane.getComponents())
+            if (component instanceof CoursesPanel)
+                return true;
+        return false;
     }
 
     protected void tearDown() {
