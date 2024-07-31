@@ -5,27 +5,39 @@ import javax.swing.*;
 import static ui.CoursesPanel.*;
 
 public class CoursesPanelTest extends TestCase {
+    private CoursesPanel panel;
+
+    protected void setUp() {
+        panel = new CoursesPanel();
+    }
+
     public void testCreate() {
-        CoursesPanel panel = new CoursesPanel();
-        JLabel label = (JLabel) Util.getComponent(panel, LABEL_NAME);
-        assertEquals(LABEL_TEXT, label.getText());
+        assertLabelText(COURSES_LABEL_NAME, COURSES_LABEL_TEXT);
+        assertEmptyList(COURSES_LIST_NAME);
+        assertButtonText(ADD_BUTTON_NAME, ADD_BUTTON_TEXT);
+        assertLabelText(DEPARTMENT_LABEL_NAME, DEPARTMENT_LABEL_TEXT);
+        assertEmptyField(DEPARTMENT_FIELD_NAME);
+        assertLabelText(NUMBER_LABEL_NAME, NUMBER_LABEL_TEXT);
+        assertEmptyField(NUMBER_FIELD_NAME);
+    }
 
-        JList list = (JList) Util.getComponent(panel, COURSES_LIST_NAME);
+    private void assertLabelText(String name, String text) {
+        JLabel label = panel.getLabel(name);
+        assertEquals(text, label.getText());
+    }
+
+    private void assertEmptyField(String name) {
+        JTextField field = panel.getField(name);
+        assertEquals("", field.getText());
+    }
+
+    private void assertEmptyList(String name) {
+        JList list = panel.getList(name);
         assertEquals(0, list.getModel().getSize());
+    }
 
-        JButton button = (JButton) Util.getComponent(panel, ADD_BUTTON_NAME);
-        assertEquals(ADD_BUTTON_TEXT, button.getText());
-
-        JLabel departmentLabel = (JLabel)Util.getComponent(panel, DEPARTMENT_LABEL_NAME);
-        assertEquals(DEPARTMENT_LABEL_TEXT, departmentLabel.getText());
-
-        JTextField departmentField = (JTextField)Util.getComponent(panel, DEPARTMENT_FIELD_NAME);
-        assertEquals("", departmentField.getText());
-
-        JLabel numberLabel = (JLabel) Util.getComponent(panel, NUMBER_LABEL_NAME);
-        assertEquals(NUMBER_LABEL_TEXT, numberLabel.getText());
-
-        JTextField numberField = (JTextField) Util.getComponent(panel, NUMBER_FIELD_NAME);
-        assertEquals("", numberField.getText());
+    private void assertButtonText(String name, String text) {
+        JButton button = panel.getButton(name);
+        assertEquals(text, button.getText());
     }
 }
