@@ -2,10 +2,13 @@ package ui;
 
 import junit.framework.TestCase;
 import javax.swing.*;
+import java.awt.event.*;
+import studentinfo.*;
 import static ui.CoursesPanel.*;
 
 public class CoursesPanelTest extends TestCase {
     private CoursesPanel panel;
+    private boolean wasClicked;
 
     protected void setUp() {
         panel = new CoursesPanel();
@@ -39,5 +42,28 @@ public class CoursesPanelTest extends TestCase {
     private void assertButtonText(String name, String text) {
         JButton button = panel.getButton(name);
         assertEquals(text, button.getText());
+    }
+
+    public void testAddButtonClick() {
+        JButton button = panel.getButton(ADD_BUTTON_NAME);
+
+        wasClicked = false;
+        panel.addCourseAddListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                wasClicked =true;
+            }
+        });
+
+        button.doClick();
+        assertTrue(wasClicked);
+    }
+
+    public void testAddCourse() {
+        Course course = new Course("ENGL", "101");
+        panel.addCourse(course);
+        JList list = panel.getList(COURSES_LIST_NAME);
+
+        ListModel model = list.getModel();
+        assertEquals("ENGL-101", model.getElementAt(0).toString());
     }
 }
