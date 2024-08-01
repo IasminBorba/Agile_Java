@@ -2,9 +2,11 @@ package ui;
 
 import studentinfo.Course;
 import javax.swing.*;
+import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import static java.awt.GridBagConstraints.*;
+import static junit.framework.Assert.fail;
 
 public class CoursesPanel extends JPanel {
     static final String NAME = "coursesPanel";
@@ -41,10 +43,20 @@ public class CoursesPanel extends JPanel {
 
     private void createLayout() {
         JLabel coursesLabel = createLabel(COURSES_LABEL_NAME, COURSES_LABEL_TEXT);
+
         JList coursesList = createList(COURSES_LIST_NAME, coursesModel);
+        JScrollPane coursesScroll = new JScrollPane(coursesList);
+        coursesScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+
         setLayout(new BorderLayout());
-        add(coursesLabel, BorderLayout.NORTH);
-        add(coursesList, BorderLayout.CENTER);
+
+        final int pad = 6;
+        Border emptyBorder = BorderFactory.createEmptyBorder(pad,pad,pad,pad);
+        Border bevelBorder = BorderFactory.createBevelBorder(BevelBorder.RAISED);
+        Border titleBorder = BorderFactory.createTitledBorder(bevelBorder, COURSES_LABEL_TEXT);
+        setBorder(BorderFactory.createCompoundBorder(emptyBorder, titleBorder));
+
+        add(coursesScroll, BorderLayout.CENTER);
         add(createBottomPanel(), BorderLayout.SOUTH);
     }
 
@@ -154,6 +166,18 @@ public class CoursesPanel extends JPanel {
 
     JTextField getField(String name) {
         return (JTextField) Util.getComponent(this, name);
+    }
+
+    String getTitle() {
+        Border border = this.getBorder();
+        if (border instanceof CompoundBorder compoundBorder) {
+            Border innerBorder = compoundBorder.getInsideBorder();
+            if (innerBorder instanceof TitledBorder titledBorder)
+                return titledBorder.getTitle();
+            else
+                fail("Inner border is not an instance of TitledBorder");
+        }
+        return "Border is not an instance of CompoundBorder";
     }
 
     void setText(String textFieldName, String text) {

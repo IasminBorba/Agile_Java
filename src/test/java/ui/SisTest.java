@@ -19,6 +19,7 @@ public class SisTest extends TestCase {
         assertEquals(Sis.WIDTH, frame.getSize().getWidth(), tolerance);
         assertEquals(JFrame.EXIT_ON_CLOSE, frame.getDefaultCloseOperation());
         assertNotNull(Util.getComponent(frame, CoursesPanel.NAME));
+        assertEquals(Sis.COURSES_TITLE, frame.getTitle());
     }
 
     protected void tearDown() {

@@ -6,10 +6,11 @@ import java.awt.event.*;
 
 public class Sis {
     static final int WIDTH = 350;
-    static final int HEIGHT = 500;
+    static final int HEIGHT = 400;
     private CoursesPanel panel;
+    static final String COURSES_TITLE = "Course Listing";
+    private final JFrame frame = new JFrame(COURSES_TITLE);
 
-    private final JFrame frame = new JFrame();
     public static void main(String[] args) {
         new Sis().show();
     }

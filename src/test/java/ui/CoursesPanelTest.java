@@ -15,7 +15,7 @@ public class CoursesPanelTest extends TestCase {
     }
 
     public void testCreate() {
-        assertLabelText(COURSES_LABEL_NAME, COURSES_LABEL_TEXT);
+        assertTitleText(COURSES_LABEL_TEXT);
         assertEmptyList(COURSES_LIST_NAME);
         assertButtonText(ADD_BUTTON_NAME, ADD_BUTTON_TEXT);
         assertLabelText(DEPARTMENT_LABEL_NAME, DEPARTMENT_LABEL_TEXT);
@@ -27,6 +27,11 @@ public class CoursesPanelTest extends TestCase {
     private void assertLabelText(String name, String text) {
         JLabel label = panel.getLabel(name);
         assertEquals(text, label.getText());
+    }
+
+    private void assertTitleText(String text) {
+        String title = panel.getTitle();
+        assertEquals(text, title);
     }
 
     private void assertEmptyField(String name) {
