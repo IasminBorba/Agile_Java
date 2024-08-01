@@ -26,5 +26,22 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
+    <build>
+        <resources>
+            <resource>
+                <directory>src/sis/images</directory>
+                <includes>
+                    <include>**/*.gif</include>
+                </includes>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/images</directory>
+                <includes>
+                    <include>**/*.gif</include>
+                </includes>
+            </testResource>
+        </testResources>
+    </build>
 </project>
