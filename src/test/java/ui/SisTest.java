@@ -5,6 +5,7 @@ import studentinfo.*;
 import util.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 public class SisTest extends TestCase {
@@ -82,19 +83,28 @@ public class SisTest extends TestCase {
         JButton button = panel.getButton(CoursesPanel.ADD_BUTTON_NAME);
         assertFalse(button.isEnabled());
 
-        // Selecionar o campo de departamento e emular a digitação da letra 'A'
-        JTextField departmentField = panel.getField(CoursesPanel.DEPARTMENT_FIELD_NAME);
-        type(departmentField, 'A');
-        // Selecionar o campo de número e emular a digitação do número '1'
-        JTextField numberField = panel.getField(CoursesPanel.NUMBER_FIELD_NAME);
-        type(numberField, '1');
+        selectField(CoursesPanel.DEPARTMENT_FIELD_NAME);
+        type(KeyEvent.VK_A);
 
-        // Verificar se o botão está habilitado
+        selectField(CoursesPanel.NUMBER_FIELD_NAME);
+        type(KeyEvent.VK_1);
+
+        Thread.sleep(500);
+
         assertTrue(button.isEnabled());
     }
 
-    private void type(JTextField field, char character) {
-        KeyEvent keyEvent = new KeyEvent(field, KeyEvent.KEY_TYPED, System.currentTimeMillis(), 0, KeyEvent.VK_UNDEFINED, character);
-        field.dispatchEvent(keyEvent);
+    private void selectField(String name) throws Exception {
+        JTextField field = panel.getField(name);
+        Point point = field.getLocationOnScreen();
+        robot.mouseMove(point.x + field.getWidth() / 2, point.y + field.getHeight() / 2);
+        robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+        robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+    }
+
+    private void type(int key) throws Exception {
+        robot.keyPress(key);
+        robot.keyRelease(key);
+        Thread.sleep(500);
     }
 }
