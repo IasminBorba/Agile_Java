@@ -5,6 +5,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import static java.awt.GridBagConstraints.*;
 import static junit.framework.Assert.fail;
 
@@ -23,6 +24,7 @@ public class CoursesPanel extends JPanel {
     static final String NUMBER_LABEL_TEXT = "Number";
     private JButton addButton;
     private final DefaultListModel coursesModel = new DefaultListModel();
+    static final char ADD_BUTTON_MNEMONIC = 'A';
 
     public static void main(String[] args) {
         show(new CoursesPanel());
@@ -62,6 +64,7 @@ public class CoursesPanel extends JPanel {
 
     JPanel createBottomPanel() {
         addButton = createButton(ADD_BUTTON_NAME, ADD_BUTTON_TEXT);
+        addButton.setMnemonic(ADD_BUTTON_MNEMONIC);
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
@@ -186,5 +189,17 @@ public class CoursesPanel extends JPanel {
 
     String getText(String textFIeldName) {
         return getField(textFIeldName).getText();
+    }
+
+    void setEnabled(String name, boolean state) {
+        getButton(name).setEnabled(state);
+    }
+
+    void addFieldListener(String name, KeyListener listener) {
+        getField(name).addKeyListener(listener);
+    }
+
+    int getCourseCount() {
+        return coursesModel.capacity();
     }
 }

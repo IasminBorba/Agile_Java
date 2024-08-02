@@ -22,6 +22,7 @@ public class Sis {
 
     private void initialize() {
         createCoursePanel();
+        createKeyListeners();
 
         ImageIcon imageIcon = ImageUtil.create("images/courses.gif");
         frame.setIconImage(imageIcon.getImage());
@@ -55,5 +56,28 @@ public class Sis {
     private void addCourse() {
         Course course = new Course(panel.getText(CoursesPanel.DEPARTMENT_FIELD_NAME), panel.getText(CoursesPanel.NUMBER_FIELD_NAME));
         panel.addCourse(course);
+    }
+
+    void createKeyListeners() {
+        KeyListener listener = new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                setAddButtonState();
+            }
+        };
+        panel.addFieldListener(CoursesPanel.DEPARTMENT_FIELD_NAME,
+                listener);
+        panel.addFieldListener(CoursesPanel.NUMBER_FIELD_NAME, listener);
+        setAddButtonState();
+    }
+
+    void setAddButtonState() {
+        panel.setEnabled(CoursesPanel.ADD_BUTTON_NAME,
+                !isEmptyField(CoursesPanel.DEPARTMENT_FIELD_NAME) &&
+                        !isEmptyField(CoursesPanel.NUMBER_FIELD_NAME));
+    }
+
+    private boolean isEmptyField(String field) {
+        String value = panel.getText(field);
+        return value.trim().isEmpty();
     }
 }
