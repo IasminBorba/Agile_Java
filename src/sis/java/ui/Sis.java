@@ -2,9 +2,7 @@ package ui;
 
 import studentinfo.*;
 import util.ImageUtil;
-
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 
 public class Sis {
@@ -25,8 +23,8 @@ public class Sis {
     private void initialize() {
         createCoursePanel();
 
-        Image image = ImageUtil.create("/images/courses.gif");
-        frame.setIconImage(image);
+        ImageIcon imageIcon = ImageUtil.create("images/courses.gif");
+        frame.setIconImage(imageIcon.getImage());
 
         frame.setSize(WIDTH, HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

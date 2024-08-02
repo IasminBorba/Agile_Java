@@ -1,15 +1,14 @@
 package util;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class ImageUtil {
-    public static Image create(String path) {
+    public static ImageIcon create(String path) {
         java.net.URL imageURL = ImageUtil.class.getClassLoader().getResource(path);
         if (imageURL == null) {
             return null;
         }
-        return new ImageIcon(imageURL).getImage();
+        return new ImageIcon(imageURL);
     }
 }
 

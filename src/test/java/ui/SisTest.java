@@ -24,7 +24,7 @@ public class SisTest extends TestCase {
         assertEquals(Sis.COURSES_TITLE, frame.getTitle());
 
         Image image = frame.getIconImage();
-        assertEquals(image, ImageUtil.create("/images/courses.gif"));
+        assertEquals(image, ImageUtil.create("images/courses.gif").getImage());
     }
 
     protected void tearDown() {

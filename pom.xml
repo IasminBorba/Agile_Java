@@ -29,7 +29,7 @@
     <build>
         <resources>
             <resource>
-                <directory>src/sis/images</directory>
+                <directory>src/sis/resources/images</directory>
                 <includes>
                     <include>**/*.gif</include>
                 </includes>
@@ -37,7 +37,7 @@
         </resources>
         <testResources>
             <testResource>
-                <directory>src/test/images</directory>
+                <directory>src/test/resources/images</directory>
                 <includes>
                     <include>**/*.gif</include>
                 </includes>
