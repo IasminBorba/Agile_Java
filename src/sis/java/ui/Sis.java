@@ -61,6 +61,15 @@ public class Sis {
         document.setDocumentFilter(new UpcaseFilter());
     }
 
+    private void createLimitFilters() {
+        JTextField fieldDepartment = panel.getField(CoursesPanel.DEPARTMENT_FIELD_NAME);
+        JTextField fieldNumber = panel.getField(CoursesPanel.NUMBER_FIELD_NAME);
+        AbstractDocument documentDepartment = (AbstractDocument) fieldDepartment.getDocument();
+        AbstractDocument documentNumber = (AbstractDocument) fieldNumber.getDocument();
+        documentDepartment.setDocumentFilter(new LimitFilter(4));
+        documentNumber.setDocumentFilter(new LimitFilter(2));
+    }
+
     private void addCourse() {
         Course course = new Course(panel.getText(CoursesPanel.DEPARTMENT_FIELD_NAME), panel.getText(CoursesPanel.NUMBER_FIELD_NAME));
         panel.addCourse(course);
