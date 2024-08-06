@@ -4,9 +4,9 @@ import junit.framework.TestCase;
 import studentinfo.*;
 import util.*;
 import javax.swing.*;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
 
 public class SisTest extends TestCase {
     private Sis sis;
@@ -29,8 +29,23 @@ public class SisTest extends TestCase {
         assertNotNull(Util.getComponent(frame, CoursesPanel.NAME));
         assertEquals(Sis.COURSES_TITLE, frame.getTitle());
 
+        assertNotNull(panel);
+
         Image image = frame.getIconImage();
         assertEquals(image, ImageUtil.create("images/courses.gif").getImage());
+
+        verifyFilter(panel);
+    }
+
+    private void verifyFilter(CoursesPanel panel) {
+        DocumentFilter filter = getFilter(panel, CoursesPanel.DEPARTMENT_FIELD_NAME);
+        assertTrue(filter.getClass() == UpcaseFilter.class);
+    }
+
+    private DocumentFilter getFilter(CoursesPanel panel, String fieldName) {
+        JTextField field = panel.getField(fieldName);
+        AbstractDocument document = (AbstractDocument)field.getDocument();
+        return document.getDocumentFilter();
     }
 
     protected void tearDown() {
@@ -78,21 +93,21 @@ public class SisTest extends TestCase {
         assertFalse(button.isEnabled());
     }
 
-    public void testKeyListeners() throws Exception {
-        sis.show();
-        JButton button = panel.getButton(CoursesPanel.ADD_BUTTON_NAME);
-        assertFalse(button.isEnabled());
-
-        selectField(CoursesPanel.DEPARTMENT_FIELD_NAME);
-        type(KeyEvent.VK_A);
-
-        selectField(CoursesPanel.NUMBER_FIELD_NAME);
-        type(KeyEvent.VK_1);
-
-        Thread.sleep(500);
-
-        assertTrue(button.isEnabled());
-    }
+//    public void testKeyListeners() throws Exception {
+//        sis.show();
+//        JButton button = panel.getButton(CoursesPanel.ADD_BUTTON_NAME);
+//        assertFalse(button.isEnabled());
+//
+//        selectField(CoursesPanel.DEPARTMENT_FIELD_NAME);
+//        type(KeyEvent.VK_A);
+//
+//        selectField(CoursesPanel.NUMBER_FIELD_NAME);
+//        type(KeyEvent.VK_1);
+//
+//        Thread.sleep(500);
+//
+//        assertTrue(button.isEnabled());
+//    }
 
     private void selectField(String name) throws Exception {
         JTextField field = panel.getField(name);

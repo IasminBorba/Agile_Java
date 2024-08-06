@@ -3,6 +3,7 @@ package ui;
 import studentinfo.*;
 import util.ImageUtil;
 import javax.swing.*;
+import javax.swing.text.*;
 import java.awt.event.*;
 
 public class Sis {
@@ -23,6 +24,7 @@ public class Sis {
     private void initialize() {
         createCoursePanel();
         createKeyListeners();
+        createInputFilters();
 
         ImageIcon imageIcon = ImageUtil.create("images/courses.gif");
         frame.setIconImage(imageIcon.getImage());
@@ -51,6 +53,12 @@ public class Sis {
                 addCourse();
             }
         });
+    }
+
+    private void createInputFilters() {
+        JTextField field = panel.getField(CoursesPanel.DEPARTMENT_FIELD_NAME);
+        AbstractDocument document = (AbstractDocument) field.getDocument();
+        document.setDocumentFilter(new UpcaseFilter());
     }
 
     private void addCourse() {
