@@ -1,4 +1,4 @@
-package studentinfo;
+package ui;
 
 import java.util.*;
 

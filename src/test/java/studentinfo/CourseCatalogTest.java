@@ -1,6 +1,8 @@
 package studentinfo;
 
 import junit.framework.TestCase;
+import ui.DateUtil;
+
 import java.util.*;
 
 public class CourseCatalogTest extends TestCase {

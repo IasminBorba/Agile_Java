@@ -1,7 +1,7 @@
 package util;
 
 import junit.framework.TestCase;
-import studentinfo.DateUtil;
+import ui.DateUtil;
 import java.util.*;
 
 public class MultiHashMapTest extends TestCase {

@@ -1,7 +1,9 @@
 package studentinfo;
 
+import ui.DateUtil;
+
 import java.util.*;
-import static studentinfo.DateUtil.createDate;
+import static ui.DateUtil.createDate;
 
 public class CourseSessionTest extends SessionTest{
     public void testCourseDates() {

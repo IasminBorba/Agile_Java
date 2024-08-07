@@ -2,6 +2,8 @@ package summer;
 
 import java.util.*;
 import studentinfo.*;
+import ui.DateUtil;
+
 public class SummerCourseSessionTest extends SessionTest {
     public void testEndDate() {
         Date startDate = DateUtil.createDate(2003, 6, 9);

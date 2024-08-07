@@ -2,6 +2,7 @@ package studentinfo;
 
 import java.util.*;
 import junit.framework.*;
+import ui.DateUtil;
 
 public class DateUtilTest extends TestCase{
     public void testCreateDate() {

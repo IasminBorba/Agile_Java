@@ -3,7 +3,7 @@ package studentinfo;
 import junit.framework.TestCase;
 import java.net.MalformedURLException;
 import java.util.*;
-import static studentinfo.DateUtil.createDate;
+import static ui.DateUtil.createDate;
 
 abstract public class SessionTest extends TestCase {
     private Session session;

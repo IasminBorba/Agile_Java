@@ -2,6 +2,8 @@ package report;
 
 import junit.framework.TestCase;
 import studentinfo.*;
+import ui.DateUtil;
+
 import java.io.*;
 
 public class RosterReporterTest extends TestCase {
