@@ -24,7 +24,9 @@ public class Sis {
     private void initialize() {
         createCoursePanel();
         createKeyListeners();
-        createInputFilters();
+        createInputDepFilters();
+        createInputNumberFilters();
+
 
         ImageIcon imageIcon = ImageUtil.create("images/courses.gif");
         frame.setIconImage(imageIcon.getImage());
@@ -55,19 +57,22 @@ public class Sis {
         });
     }
 
-    private void createInputFilters() {
+    private void createInputDepFilters() {
         JTextField field = panel.getField(CoursesPanel.DEPARTMENT_FIELD_NAME);
-        AbstractDocument document = (AbstractDocument) field.getDocument();
-        document.setDocumentFilter(new UpcaseFilter());
+        UpcaseFilter upcaseFilter = new UpcaseFilter();
+        LimitFilter limitFilter = new LimitFilter(4);
+
+        upcaseFilter.setNextFilter(limitFilter);
+        ((AbstractDocument) field.getDocument()).setDocumentFilter(upcaseFilter);
     }
 
-    private void createLimitFilters() {
-        JTextField fieldDepartment = panel.getField(CoursesPanel.DEPARTMENT_FIELD_NAME);
+    private void createInputNumberFilters() {
         JTextField fieldNumber = panel.getField(CoursesPanel.NUMBER_FIELD_NAME);
-        AbstractDocument documentDepartment = (AbstractDocument) fieldDepartment.getDocument();
-        AbstractDocument documentNumber = (AbstractDocument) fieldNumber.getDocument();
-        documentDepartment.setDocumentFilter(new LimitFilter(4));
-        documentNumber.setDocumentFilter(new LimitFilter(2));
+        NumberFilter numberFilter = new NumberFilter();
+        LimitFilter limitFilter = new LimitFilter(3);
+
+        numberFilter.setNextFilter(limitFilter);
+        ((AbstractDocument) fieldNumber.getDocument()).setDocumentFilter(numberFilter);
     }
 
     private void addCourse() {
