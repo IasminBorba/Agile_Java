@@ -1,9 +1,7 @@
 package ui;
 
-import studentinfo.*;
 import util.ImageUtil;
 import javax.swing.*;
-import javax.swing.text.*;
 import java.awt.event.*;
 
 public class Sis {
@@ -24,8 +22,8 @@ public class Sis {
     private void initialize() {
         createCoursePanel();
         createKeyListeners();
-        createInputDepFilters();
-        createInputNumberFilters();
+//        createInputDepFilters();
+//        createInputNumberFilters();
 
 
         ImageIcon imageIcon = ImageUtil.create("images/courses.gif");
@@ -57,27 +55,27 @@ public class Sis {
         });
     }
 
-    private void createInputDepFilters() {
-        JTextField field = panel.getField(CoursesPanel.DEPARTMENT_FIELD_NAME);
-        UpcaseFilter upcaseFilter = new UpcaseFilter();
-        LimitFilter limitFilter = new LimitFilter(4);
-
-        upcaseFilter.setNextFilter(limitFilter);
-        ((AbstractDocument) field.getDocument()).setDocumentFilter(upcaseFilter);
-    }
-
-    private void createInputNumberFilters() {
-        JTextField fieldNumber = panel.getField(CoursesPanel.NUMBER_FIELD_NAME);
-        NumberFilter numberFilter = new NumberFilter();
-        LimitFilter limitFilter = new LimitFilter(3);
-
-        numberFilter.setNextFilter(limitFilter);
-        ((AbstractDocument) fieldNumber.getDocument()).setDocumentFilter(numberFilter);
-    }
+//    private void createInputDepFilters() {
+//        JTextField field = panel.getField(CoursesPanel.DEPARTMENT_FIELD_NAME);
+//        UpcaseFilter upcaseFilter = new UpcaseFilter();
+//        LimitFilter limitFilter = new LimitFilter(4);
+//
+//        upcaseFilter.setNextFilter(limitFilter);
+//        ((AbstractDocument) field.getDocument()).setDocumentFilter(upcaseFilter);
+//    }
+//
+//    private void createInputNumberFilters() {
+//        JTextField fieldNumber = panel.getField(CoursesPanel.NUMBER_FIELD_NAME);
+//        NumberFilter numberFilter = new NumberFilter();
+//        LimitFilter limitFilter = new LimitFilter(3);
+//
+//        numberFilter.setNextFilter(limitFilter);
+//        ((AbstractDocument) fieldNumber.getDocument()).setDocumentFilter(numberFilter);
+//    }
 
     private void addCourse() {
-        Course course = new Course(panel.getText(CoursesPanel.DEPARTMENT_FIELD_NAME), panel.getText(CoursesPanel.NUMBER_FIELD_NAME));
-        panel.addCourse(course);
+//        Course course = new Course(panel.getText(1), panel.getText(2));
+//        panel.addCourse(course);
     }
 
     void createKeyListeners() {
@@ -86,20 +84,21 @@ public class Sis {
                 setAddButtonState();
             }
         };
-        panel.addFieldListener(CoursesPanel.DEPARTMENT_FIELD_NAME,
+        panel.addFieldListener(FieldCatalog.DEPARTMENT_FIELD_NAME,
                 listener);
-        panel.addFieldListener(CoursesPanel.NUMBER_FIELD_NAME, listener);
+        panel.addFieldListener(FieldCatalog.NUMBER_FIELD_NAME, listener);
         setAddButtonState();
     }
 
     void setAddButtonState() {
         panel.setEnabled(CoursesPanel.ADD_BUTTON_NAME,
-                !isEmptyField(CoursesPanel.DEPARTMENT_FIELD_NAME) &&
-                        !isEmptyField(CoursesPanel.NUMBER_FIELD_NAME));
+                !isEmptyField(0) &&
+                        !isEmptyField(1));
     }
 
-    private boolean isEmptyField(String field) {
-        String value = panel.getText(field);
-        return value.trim().isEmpty();
+    private boolean isEmptyField(int label) {
+//        String value = panel.getText(label);
+//        return value.trim().isEmpty();
+        return true;
     }
 }

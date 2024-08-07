@@ -13,12 +13,14 @@ public class SisTest extends TestCase {
     private JFrame frame;
     private CoursesPanel panel;
     private Robot robot;
+    private FieldCatalog catalog;
 
     protected void setUp() throws AWTException {
         sis = new Sis();
         frame = sis.getFrame();
         panel = (CoursesPanel) Util.getComponent(frame, CoursesPanel.NAME);
         robot = new Robot();
+        catalog = new FieldCatalog();
     }
 
     public void testCreate() {
@@ -38,14 +40,16 @@ public class SisTest extends TestCase {
     }
 
     private void verifyFilter(CoursesPanel panel) {
-        DocumentFilter filter = getFilter(panel, CoursesPanel.DEPARTMENT_FIELD_NAME);
+        DocumentFilter filter = getFilter(panel, catalog.DEPARTMENT_FIELD_NAME);
         assertTrue(filter.getClass() == UpcaseFilter.class);
     }
 
     private DocumentFilter getFilter(CoursesPanel panel, String fieldName) {
         JTextField field = panel.getField(fieldName);
-        AbstractDocument document = (AbstractDocument)field.getDocument();
-        return document.getDocumentFilter();
+        AbstractDocument document = (AbstractDocument) field.getDocument();
+        DocumentFilter documentFilter = document.getDocumentFilter();
+        System.out.println("DocumentFilter: " + documentFilter);  // Verifique se não é null
+        return documentFilter;
     }
 
     protected void tearDown() {
@@ -59,8 +63,8 @@ public class SisTest extends TestCase {
 
     public void testAddCourse() {
         panel.setEnabled(CoursesPanel.ADD_BUTTON_NAME, true);
-        panel.setText(CoursesPanel.DEPARTMENT_FIELD_NAME, "MATH");
-        panel.setText(CoursesPanel.NUMBER_FIELD_NAME, "300");
+        panel.setText(FieldCatalog.DEPARTMENT_FIELD_NAME, "MATH");
+        panel.setText(FieldCatalog.NUMBER_FIELD_NAME, "300");
 
         JButton button = panel.getButton(CoursesPanel.ADD_BUTTON_NAME);
 
@@ -75,20 +79,20 @@ public class SisTest extends TestCase {
         JButton button = panel.getButton(CoursesPanel.ADD_BUTTON_NAME);
         assertFalse(button.isEnabled());
 
-        panel.setText(CoursesPanel.DEPARTMENT_FIELD_NAME, "a");
+        panel.setText(FieldCatalog.DEPARTMENT_FIELD_NAME, "a");
         sis.setAddButtonState();
         assertFalse(button.isEnabled());
 
-        panel.setText(CoursesPanel.NUMBER_FIELD_NAME, "1");
+        panel.setText(FieldCatalog.NUMBER_FIELD_NAME, "1");
         sis.setAddButtonState();
         assertTrue(button.isEnabled());
 
-        panel.setText(CoursesPanel.DEPARTMENT_FIELD_NAME, " ");
+        panel.setText(FieldCatalog.DEPARTMENT_FIELD_NAME, " ");
         sis.setAddButtonState();
         assertFalse(button.isEnabled());
 
-        panel.setText(CoursesPanel.DEPARTMENT_FIELD_NAME, "a");
-        panel.setText(CoursesPanel.NUMBER_FIELD_NAME, " ");
+        panel.setText(FieldCatalog.DEPARTMENT_FIELD_NAME, "a");
+        panel.setText(FieldCatalog.NUMBER_FIELD_NAME, " ");
         sis.setAddButtonState();
         assertFalse(button.isEnabled());
     }
