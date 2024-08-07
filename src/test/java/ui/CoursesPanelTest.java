@@ -5,23 +5,24 @@ import javax.swing.*;
 import java.awt.event.*;
 import studentinfo.*;
 import static ui.CoursesPanel.*;
+import static ui.FieldCatalog.*;
 
 public class CoursesPanelTest extends TestCase {
     private CoursesPanel panel;
+    private FieldCatalog catalog;
     private boolean wasClicked;
 
     protected void setUp() {
         panel = new CoursesPanel();
+        catalog = new FieldCatalog();
     }
 
     public void testCreate() {
         assertTitleText(COURSES_LABEL_TEXT);
         assertEmptyList(COURSES_LIST_NAME);
         assertButtonText(ADD_BUTTON_NAME, ADD_BUTTON_TEXT);
-        assertLabelText(DEPARTMENT_LABEL_NAME, DEPARTMENT_LABEL_TEXT);
-        assertEmptyField(DEPARTMENT_FIELD_NAME);
-        assertLabelText(NUMBER_LABEL_NAME, NUMBER_LABEL_TEXT);
-        assertEmptyField(NUMBER_FIELD_NAME);
+        assertLabelText("deptField", DEPARTMENT_LABEL_TEXT);
+        assertLabelText("numberField", NUMBER_LABEL_TEXT);
 
         JButton button = panel.getButton(ADD_BUTTON_NAME);
         assertEquals(ADD_BUTTON_MNEMONIC, button.getMnemonic());
@@ -35,11 +36,6 @@ public class CoursesPanelTest extends TestCase {
     private void assertTitleText(String text) {
         String title = panel.getTitle();
         assertEquals(text, title);
-    }
-
-    private void assertEmptyField(String name) {
-        JTextField field = panel.getField(name);
-        assertEquals("", field.getText());
     }
 
     private void assertEmptyList(String name) {
@@ -86,7 +82,7 @@ public class CoursesPanelTest extends TestCase {
 
     public void testAddListener() throws Exception {
         KeyListener listener = new KeyAdapter() {};
-        panel.addFieldListener(DEPARTMENT_FIELD_NAME, listener);
+        panel.addFieldListener("deptField", listener);
         JTextField field = panel.getField(DEPARTMENT_FIELD_NAME);
         KeyListener[] listeners = field.getKeyListeners();
         assertEquals(1, listeners.length);
