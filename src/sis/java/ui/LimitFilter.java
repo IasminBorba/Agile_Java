@@ -28,4 +28,8 @@ public class LimitFilter extends ChainableFilter {
             applyNextReplace(bypass, offset, length, newString, attrSet);
         }
     }
+
+    public int getLimit() {
+        return limit;
+    }
 }
