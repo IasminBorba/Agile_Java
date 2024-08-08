@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.InputEvent;
+import java.util.ArrayList;
 
 public class SisTest extends TestCase {
     private Sis sis;
@@ -36,20 +37,32 @@ public class SisTest extends TestCase {
         Image image = frame.getIconImage();
         assertEquals(image, ImageUtil.create("images/courses.gif").getImage());
 
-        verifyFilter(panel);
+        verifyFilters(panel);
     }
 
-    private void verifyFilter(CoursesPanel panel) {
-        DocumentFilter filter = getFilter(panel, catalog.DEPARTMENT_FIELD_NAME);
-        assertTrue(filter.getClass() == UpcaseFilter.class);
+    private void verifyFilters(CoursesPanel panel) {
+        ArrayList<DocumentFilter> filterDep = getFilters(panel, catalog.DEPARTMENT_FIELD_NAME);
+        assertTrue(filterDep.getFirst().getClass() == LimitFilter.class);
+        assertTrue(filterDep.get(1).getClass() == UpcaseFilter.class);
+
+        ArrayList<DocumentFilter> filter = getFilters(panel, catalog.NUMBER_FIELD_NAME);
+        assertTrue(filter.getFirst().getClass() == LimitFilter.class);
     }
 
-    private DocumentFilter getFilter(CoursesPanel panel, String fieldName) {
+    private ArrayList<DocumentFilter> getFilters(CoursesPanel panel, String fieldName) {
+        ArrayList<DocumentFilter> listFilter = new ArrayList<>();
         JTextField field = panel.getField(fieldName);
         AbstractDocument document = (AbstractDocument) field.getDocument();
-        DocumentFilter documentFilter = document.getDocumentFilter();
-        System.out.println("DocumentFilter: " + documentFilter);  // Verifique se não é null
-        return documentFilter;
+        DocumentFilter currentFilter = document.getDocumentFilter();
+
+        while (currentFilter != null) {
+            listFilter.add(currentFilter);
+            if (currentFilter instanceof ChainableFilter chainableFilter)
+                currentFilter = chainableFilter.getNextFilter();
+            else
+                break;
+        }
+        return listFilter;
     }
 
     protected void tearDown() {

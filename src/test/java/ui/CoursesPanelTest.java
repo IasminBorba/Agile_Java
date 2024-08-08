@@ -2,6 +2,7 @@ package ui;
 
 import junit.framework.TestCase;
 import javax.swing.*;
+import javax.swing.text.DateFormatter;
 import java.awt.event.*;
 import java.text.*;
 import java.util.*;
@@ -34,10 +35,11 @@ public class CoursesPanelTest extends TestCase {
 
     private void verifyEffectiveDate() {
         assertLabelText(EFFECTIVE_DATE_FIELD_NAME, EFFECTIVE_DATE_LABEL_TEXT);
-        Field dateField = (Field) panel.getField(EFFECTIVE_DATE_FIELD_NAME);
-        SimpleDateFormat format = (SimpleDateFormat)dateField.getFormat();
+        JFormattedTextField dateField = (JFormattedTextField) panel.getField(EFFECTIVE_DATE_FIELD_NAME);
+        DateFormatter formatter = (DateFormatter)dateField.getFormatter();
+        SimpleDateFormat format = (SimpleDateFormat)formatter.getFormat();
         assertEquals("MM/dd/yy", format.toPattern());
-        assertEquals(Date.class, dateField.getInitialValue().getClass());
+        assertEquals(Date.class, dateField.getValue().getClass());
     }
 
     private void assertLabelText(String name, String text) {

@@ -10,15 +10,14 @@ public class TextFieldFactory {
             field = createFormattedTextField(fieldSpec);
         else {
             field = new JTextField();
-            if (fieldSpec.getInitialValue() != null)
-                field.setText(fieldSpec.getInitialValue().toString());  // Use setText for initial value
+            if (fieldSpec.getInitialValue() != null) {
+                field.setText(fieldSpec.getInitialValue().toString());
+            }
         }
-        System.out.println("PRIMEIRO");
 
         if (fieldSpec.getLimit() > 0) {
             attachLimitFilter(field, fieldSpec.getLimit());
         }
-        System.out.println("SEGUNDO");
 
         if (fieldSpec.isUpcaseOnly()) {
             attachUpcaseFilter(field);
@@ -26,7 +25,6 @@ public class TextFieldFactory {
 
         field.setColumns(fieldSpec.getColumns());
         field.setName(fieldSpec.getName());
-        System.out.println(field.getName());
         return field;
     }
 
@@ -41,7 +39,6 @@ public class TextFieldFactory {
     private static void attachFilter(JTextField field, ChainableFilter filter) {
         AbstractDocument document = (AbstractDocument) field.getDocument();
         ChainableFilter existingFilter = (ChainableFilter) document.getDocumentFilter();
-        System.out.println(existingFilter);
 
         if (existingFilter == null)
             ((AbstractDocument) field.getDocument()).setDocumentFilter(filter);

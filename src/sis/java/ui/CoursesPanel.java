@@ -6,6 +6,9 @@ import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.util.HashMap;
+import java.util.Map;
+
 import static java.awt.GridBagConstraints.*;
 import static junit.framework.Assert.fail;
 
@@ -17,7 +20,7 @@ public class CoursesPanel extends JPanel {
     static final String ADD_BUTTON_TEXT = "Add";
     static final String ADD_BUTTON_NAME = "addButton";
 
-    FieldCatalog catalog = new FieldCatalog();
+    private final Map<String, JTextField> fieldsMap = new HashMap<>();
 
     private JButton addButton;
     private final DefaultListModel<CourseDisplayAdapter> coursesModel = new DefaultListModel<>();
@@ -44,6 +47,7 @@ public class CoursesPanel extends JPanel {
         Field field = new Field(COURSES_LABEL_NAME);
         field.setLabel(COURSES_LABEL_TEXT);
         JLabel coursesLabel = createLabel(field);
+
         JList<CourseDisplayAdapter> coursesList = createList(COURSES_LIST_NAME, coursesModel);
         JScrollPane coursesScroll = new JScrollPane(coursesList);
         coursesScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -66,6 +70,7 @@ public class CoursesPanel extends JPanel {
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+
         panel.add(Box.createRigidArea(new Dimension(0, 6)));
         addButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(addButton);
@@ -79,12 +84,17 @@ public class CoursesPanel extends JPanel {
 
     JPanel createFieldsPanel() {
         GridBagLayout layout = new GridBagLayout();
+        FieldCatalog catalog = new FieldCatalog();
+
         JPanel panel = new JPanel(layout);
         int i = 0;
+
         for (String fieldName : getFieldNames()) {
             Field fieldSpec = catalog.get(fieldName);
             JTextField textField = TextFieldFactory.create(fieldSpec);
-            textField.setName(fieldSpec.getName());
+
+            fieldsMap.put(fieldSpec.getName(), textField);
+
             addField(panel, layout, i++, createLabel(fieldSpec), textField);
         }
         return panel;
@@ -148,7 +158,7 @@ public class CoursesPanel extends JPanel {
     }
 
     Course getCourse(int index) {
-        CourseDisplayAdapter adapter = coursesModel.getElementAt(index);
+        Course adapter = coursesModel.getElementAt(index);
         return adapter;
     }
 
@@ -156,8 +166,8 @@ public class CoursesPanel extends JPanel {
         return (JLabel) Util.getComponent(this, name);
     }
 
-    JList<CourseDisplayAdapter> getList(String name) {
-        return (JList<CourseDisplayAdapter>) Util.getComponent(this, name);
+    JList getList(String name) {
+        return (JList) Util.getComponent(this, name);
     }
 
     JButton getButton(String name) {
@@ -165,7 +175,7 @@ public class CoursesPanel extends JPanel {
     }
 
     JTextField getField(String name) {
-        return catalog.fields.get(name);
+        return fieldsMap.get(name);
     }
 
     String getTitle() {
@@ -184,14 +194,8 @@ public class CoursesPanel extends JPanel {
         getField(textFieldName).setText(text);
     }
 
-    String getText(int label) {
-        int aux = 1;
-        for (String fieldName : getFieldNames()) {
-            if (aux == label)
-                return getField(fieldName).getText();
-            aux++;
-        }
-        return null;
+    String getText(String textFIeldName) {
+        return getField(textFIeldName).getText();
     }
 
     void setEnabled(String name, boolean state) {

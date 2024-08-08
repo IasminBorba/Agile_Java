@@ -9,6 +9,10 @@ public abstract class ChainableFilter extends DocumentFilter {
         this.nextFilter = nextFilter;
     }
 
+    protected DocumentFilter getNextFilter() {
+        return nextFilter;
+    }
+
     public ChainableFilter getNext() {
         return nextFilter;
     }

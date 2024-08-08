@@ -18,7 +18,7 @@ public class Field <T> extends JTextField {
 
     public void setLabel(String text) {
         this.text = text;
-        this.setText(text);
+        super.setText(text);
     }
 
     public void setLimit(int limit) {
