@@ -2,15 +2,14 @@ package ui;
 
 import javax.swing.*;
 import java.text.DateFormat;
-import java.util.Date;
 
-public class Field extends JTextField {
+public class Field <T> extends JTextField {
     private String fieldName;
     private String text;
     private int limit;
     private int columns;
     private boolean upCaseOnly = false;
-    private Date date;
+    private T date;
     private DateFormat format;
 
     public Field(String fieldName) {
@@ -36,13 +35,8 @@ public class Field extends JTextField {
         this.upCaseOnly = true;
     }
 
-    public void setInitialValue(Date date) {
-        this.date = date;
-    }
-
-    public void setInitialValue(String value) {
-        this.text = value;
-        this.setText(value);
+    public void setInitialValue(T value) {
+        this.date = value;
     }
 
     public void setFormat(DateFormat format) {
@@ -70,7 +64,7 @@ public class Field extends JTextField {
         return format;
     }
 
-    public Date getInitialValue() {
+    public T getInitialValue() {
         return date;
     }
 

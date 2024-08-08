@@ -21,12 +21,10 @@ public class TextFieldFactoryTest extends TestCase {
     public void testCreateSimpleField() {
         final String textValue = "value";
         fieldSpec.setInitialValue(textValue);
-        System.out.println(fieldSpec.getLabel());
-        System.out.println(fieldSpec.getText());
         JTextField field = TextFieldFactory.create(fieldSpec);
         assertEquals(COLUMNS, field.getColumns());
         assertEquals(FIELD_NAME, field.getName());
-        assertEquals(textValue, fieldSpec.getText());
+        assertEquals(textValue, field.getText());
     }
 
     public void testLimit() {
