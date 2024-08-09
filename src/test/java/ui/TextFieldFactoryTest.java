@@ -2,6 +2,7 @@ package ui;
 
 import javax.swing.*;
 import javax.swing.text.*;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.text.*;
 
@@ -73,7 +74,7 @@ public class TextFieldFactoryTest extends TestCase {
         final int day = 17;
         fieldSpec.setInitialValue(DateUtil.createDate(year, month, day));
         final String pattern = "MM/dd/yy";
-        fieldSpec.setFormat(new SimpleDateFormat(pattern));
+        fieldSpec.setFormat(DateTimeFormatter.ofPattern(pattern));
         JFormattedTextField field = (JFormattedTextField) TextFieldFactory.create(fieldSpec);
 
         assertEquals(1, field.getColumns());

@@ -52,8 +52,14 @@ public class TextFieldFactory {
     }
 
     private static JTextField createFormattedTextField(Field fieldSpec) {
-        JFormattedTextField field = new JFormattedTextField(fieldSpec.getFormat());
-        field.setValue(fieldSpec.getInitialValue());
+        JTextField field = new JTextField();
+
+        AbstractDocument document = (AbstractDocument) field.getDocument();
+        ChainableFilter existingFilter = (ChainableFilter) document.getDocumentFilter();
+
+        ChainableFilter filter = new DateFilter();
+        ((AbstractDocument) field.getDocument()).setDocumentFilter(filter);
+
         return field;
     }
 }
