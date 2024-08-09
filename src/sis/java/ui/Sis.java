@@ -6,6 +6,7 @@ import util.ImageUtil;
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 import java.awt.event.*;
+import java.time.LocalDate;
 
 public class Sis {
     static final int WIDTH = 350;
@@ -56,7 +57,13 @@ public class Sis {
     }
 
     private void addCourse() {
-        Course course = new Course(panel.getText(FieldCatalog.DEPARTMENT_FIELD_NAME), panel.getText(FieldCatalog.NUMBER_FIELD_NAME));
+        Course course;
+        try {
+            LocalDate date =  LocalDate.parse(panel.getDate(), FieldCatalog.DEFAULT_DATE_FORMAT);
+            course = new Course(panel.getText(FieldCatalog.DEPARTMENT_FIELD_NAME), panel.getText(FieldCatalog.NUMBER_FIELD_NAME), date);
+        } catch (Exception e){
+            course = new Course(panel.getText(FieldCatalog.DEPARTMENT_FIELD_NAME), panel.getText(FieldCatalog.NUMBER_FIELD_NAME));
+        }
         panel.addCourse(course);
     }
 

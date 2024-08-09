@@ -133,6 +133,7 @@ public class CoursesPanel extends JPanel {
     }
 
     void addCourse(Course course) {
+System.out.println(course.toString());
         coursesModel.addElement(new CourseDisplayAdapter(course));
     }
 
@@ -197,6 +198,10 @@ public class CoursesPanel extends JPanel {
 
     String getText(String textFIeldName) {
         return getField(textFIeldName).getText();
+    }
+
+    String getDate() {
+        return getField(FieldCatalog.EFFECTIVE_DATE_FIELD_NAME).getText();
     }
 
     void setEnabled(String name, boolean state) {
