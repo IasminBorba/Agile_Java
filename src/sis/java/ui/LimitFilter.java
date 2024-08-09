@@ -10,7 +10,7 @@ public class LimitFilter extends ChainableFilter {
     }
 
     public void insertString(FilterBypass bypass, int offset, String str, AttributeSet attrSet) throws BadLocationException {
-        int newLength =  bypass.getDocument().getLength() + str.length();
+        int newLength = bypass.getDocument().getLength() + str.length();
         if (newLength <= limit)
             applyNextInsert(bypass, offset, str, attrSet);
         else {
@@ -21,7 +21,7 @@ public class LimitFilter extends ChainableFilter {
 
     public void replace(FilterBypass bypass, int offset, int length, String str, AttributeSet attrSet) throws BadLocationException {
         int newLength = bypass.getDocument().getLength() - (length) + str.length();
-        if(newLength <= limit)
+        if (newLength <= limit)
             applyNextReplace(bypass, offset, length, str, attrSet);
         else {
             String newString = str.substring(0, limit - offset);

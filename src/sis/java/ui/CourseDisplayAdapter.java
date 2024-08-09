@@ -4,7 +4,8 @@ import studentinfo.Course;
 
 class CourseDisplayAdapter extends Course {
     CourseDisplayAdapter(Course course) {
-        super(course.getDepartment(), course.getNumber());}
+        super(course.getDepartment(), course.getNumber());
+    }
 
     @Override
     public String toString() {

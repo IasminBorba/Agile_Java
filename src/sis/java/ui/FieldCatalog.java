@@ -18,7 +18,7 @@ public class FieldCatalog {
 
     static final int DEFAULT_COLUMNS = 20;
 
-    protected Map<String,Field> fields;
+    protected Map<String, Field> fields;
 
     public FieldCatalog() {
         loadFields();

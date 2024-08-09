@@ -3,7 +3,7 @@ package ui;
 import javax.swing.*;
 import java.text.DateFormat;
 
-public class Field <T> extends JTextField {
+public class Field<T> extends JTextField {
     private String fieldName;
     private String text;
     private int limit;

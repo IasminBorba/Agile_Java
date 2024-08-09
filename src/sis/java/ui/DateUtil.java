@@ -3,7 +3,9 @@ package ui;
 import java.util.*;
 
 public class DateUtil {
-private DateUtil(){}
+    private DateUtil() {
+    }
+
     public static Date createDate(int year, int month, int date) {
         GregorianCalendar calendar = new GregorianCalendar();
         calendar.clear();
