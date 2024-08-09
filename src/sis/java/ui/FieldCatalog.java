@@ -1,10 +1,11 @@
 package ui;
 
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.text.*;
 
 public class FieldCatalog {
-    public static final DateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("MM/dd/yy");
+    public static final DateTimeFormatter DEFAULT_DATE_FORMAT = DateTimeFormatter.ofPattern("MM/dd/yy");
 
     static final String DEPARTMENT_FIELD_NAME = "deptField";
     static final String DEPARTMENT_LABEL_TEXT = "Department";
@@ -50,7 +51,7 @@ public class FieldCatalog {
         fieldSpec = new Field(EFFECTIVE_DATE_FIELD_NAME);
         fieldSpec.setLabel(EFFECTIVE_DATE_LABEL_TEXT);
         fieldSpec.setFormat(DEFAULT_DATE_FORMAT);
-        fieldSpec.setInitialValue(new Date());
+        fieldSpec.setInitialValue(LocalDate.of(2024,10,1));
         fieldSpec.setColumns(DEFAULT_COLUMNS);
 
         put(fieldSpec);
