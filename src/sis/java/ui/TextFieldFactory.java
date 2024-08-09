@@ -6,13 +6,13 @@ import javax.swing.text.AbstractDocument;
 public class TextFieldFactory {
     public static JTextField create(Field fieldSpec) {
         JTextField field;
+
         if (fieldSpec.getFormat() != null)
             field = createFormattedTextField(fieldSpec);
         else {
             field = new JTextField();
-            if (fieldSpec.getInitialValue() != null) {
+            if (fieldSpec.getInitialValue() != null)
                 field.setText(fieldSpec.getInitialValue().toString());
-            }
         }
 
         if (fieldSpec.getLimit() > 0)

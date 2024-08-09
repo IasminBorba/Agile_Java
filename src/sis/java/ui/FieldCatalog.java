@@ -5,6 +5,7 @@ import java.text.*;
 
 public class FieldCatalog {
     public static final DateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("MM/dd/yy");
+
     static final String DEPARTMENT_FIELD_NAME = "deptField";
     static final String DEPARTMENT_LABEL_TEXT = "Department";
     static final int DEPARTMENT_FIELD_LIMIT = 4;

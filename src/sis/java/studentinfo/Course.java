@@ -1,12 +1,23 @@
 package studentinfo;
 
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+
 public class Course implements java.io.Serializable{
     private final String department;
     private final String number;
+    private final LocalDate effectiveDate;
 
     public Course(String department, String number){
         this.department = department;
         this.number = number;
+        this.effectiveDate = LocalDateTime.now().toLocalDate();
+    }
+
+    public Course(String department, String number, LocalDate effectiveDate){
+        this.department = department;
+        this.number = number;
+        this.effectiveDate = effectiveDate;
     }
 
     public String getDepartment(){
@@ -15,6 +26,10 @@ public class Course implements java.io.Serializable{
 
     public String getNumber(){
         return number;
+    }
+
+    public LocalDate getEffectiveDate(){
+        return effectiveDate;
     }
 
     @Override
@@ -26,7 +41,7 @@ public class Course implements java.io.Serializable{
             return false;
 
         Course that = (Course) object;
-        return this.department.equals(that.department) && this.number.equals(that.number);
+        return this.department.equals(that.department) && this.number.equals(that.number) && this.effectiveDate.equals(that.effectiveDate);
     }
 
     @Override
@@ -35,11 +50,16 @@ public class Course implements java.io.Serializable{
         int result = 7;
         result = result * hashMultiplier + department.hashCode();
         result = result * hashMultiplier + number.hashCode();
+        result = result * hashMultiplier + effectiveDate.hashCode();
         return result;
     }
 
     @Override
     public String toString(){
-        return department + " " + number;
+        final String pattern = "MM/dd/yy";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        String date = effectiveDate.format(formatter);
+
+        return department + "-" + number + ": " + date;
     }
 }
