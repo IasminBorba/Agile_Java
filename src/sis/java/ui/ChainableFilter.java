@@ -17,6 +17,10 @@ public abstract class ChainableFilter extends DocumentFilter {
         return nextFilter;
     }
 
+    public boolean verify(String text) {
+        return nextFilter.verify(text);
+    }
+
     protected void applyNextInsert(FilterBypass fb, int offset, String str, AttributeSet attr) throws BadLocationException {
         if (nextFilter != null) {
             nextFilter.insertString(fb, offset, str, attr);

@@ -32,4 +32,8 @@ public class LimitFilter extends ChainableFilter {
     public int getLimit() {
         return limit;
     }
+
+    public boolean verify(String text) {
+        return text.length() <= limit;
+    }
 }

@@ -12,4 +12,8 @@ public class NumberFilter extends ChainableFilter {
         if (text.matches("\\d*"))
             applyNextReplace(bypass, offset, length, text, attr);
     }
+
+    public boolean verify(String text) {
+        return text.matches("\\d*");
+    }
 }

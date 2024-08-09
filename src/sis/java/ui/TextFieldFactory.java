@@ -15,13 +15,14 @@ public class TextFieldFactory {
             }
         }
 
-        if (fieldSpec.getLimit() > 0) {
+        if (fieldSpec.getLimit() > 0)
             attachLimitFilter(field, fieldSpec.getLimit());
-        }
 
-        if (fieldSpec.isUpcaseOnly()) {
+        if (fieldSpec.isUpcaseOnly())
             attachUpcaseFilter(field);
-        }
+
+        if(fieldSpec.getName().equals("numberField"))
+            attachNumberFilter(field);
 
         field.setColumns(fieldSpec.getColumns());
         field.setName(fieldSpec.getName());
@@ -34,6 +35,10 @@ public class TextFieldFactory {
 
     private static void attachUpcaseFilter(JTextField field) {
         attachFilter(field, new UpcaseFilter());
+    }
+
+    private static void attachNumberFilter(JTextField field) {
+        attachFilter(field, new NumberFilter());
     }
 
     private static void attachFilter(JTextField field, ChainableFilter filter) {

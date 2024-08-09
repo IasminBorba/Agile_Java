@@ -4,6 +4,7 @@ import studentinfo.Course;
 import util.ImageUtil;
 
 import javax.swing.*;
+import javax.swing.text.AbstractDocument;
 import java.awt.event.*;
 
 public class Sis {
@@ -65,20 +66,46 @@ public class Sis {
                 setAddButtonState();
             }
         };
-        panel.addFieldListener(FieldCatalog.DEPARTMENT_FIELD_NAME,
-                listener);
+        panel.addFieldListener(FieldCatalog.DEPARTMENT_FIELD_NAME, listener);
         panel.addFieldListener(FieldCatalog.NUMBER_FIELD_NAME, listener);
         setAddButtonState();
     }
 
     void setAddButtonState() {
         panel.setEnabled(CoursesPanel.ADD_BUTTON_NAME,
-                !isEmptyField(FieldCatalog.DEPARTMENT_FIELD_NAME) &&
-                        !isEmptyField(FieldCatalog.NUMBER_FIELD_NAME));
+                verifyFilterField(FieldCatalog.DEPARTMENT_FIELD_NAME, FieldCatalog.NUMBER_FIELD_NAME));
     }
 
-    private boolean isEmptyField(String field) {
-        String value = panel.getText(field);
-        return value.trim().isEmpty();
+    private boolean verifyFilterField(String... fields) {
+        for (String fieldName: fields) {
+            JTextField field = panel.getField(fieldName);
+
+            if (isEmptyField(field))
+                return false;
+            if (!verifyFilter(field))
+                return false;
+        }
+        return true;
+    }
+
+    private boolean isEmptyField(JTextField field) {
+        return field.getText().trim().isEmpty();
+    }
+
+    private boolean verifyFilter(JTextField field) {
+        AbstractDocument document = (AbstractDocument) field.getDocument();
+        ChainableFilter currentFilter = (ChainableFilter)document.getDocumentFilter();
+
+        while (currentFilter != null) {
+            String textField = field.getText();
+            if (!currentFilter.verify(textField))
+                return false;
+
+            if (currentFilter instanceof ChainableFilter chainableFilter)
+                currentFilter = (ChainableFilter) chainableFilter.getNextFilter();
+            else
+                break;
+        }
+        return true;
     }
 }

@@ -47,6 +47,7 @@ public class SisTest extends TestCase {
 
         ArrayList<DocumentFilter> filter = getFilters(panel, catalog.NUMBER_FIELD_NAME);
         assertTrue(filter.getFirst().getClass() == LimitFilter.class);
+        assertTrue(filter.get(1).getClass() == NumberFilter.class);
     }
 
     private ArrayList<DocumentFilter> getFilters(CoursesPanel panel, String fieldName) {
@@ -105,9 +106,9 @@ public class SisTest extends TestCase {
         assertFalse(button.isEnabled());
 
         panel.setText(FieldCatalog.DEPARTMENT_FIELD_NAME, "a");
-        panel.setText(FieldCatalog.NUMBER_FIELD_NAME, " ");
+        panel.setText(FieldCatalog.NUMBER_FIELD_NAME, "123");
         sis.setAddButtonState();
-        assertFalse(button.isEnabled());
+        assertTrue(button.isEnabled());
     }
 
 //    public void testKeyListeners() throws Exception {

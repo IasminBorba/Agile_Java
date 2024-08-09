@@ -10,4 +10,8 @@ public class UpcaseFilter extends ChainableFilter {
     public void replace(FilterBypass bypass, int offset, int length, String text, AttributeSet attr) throws BadLocationException {
         applyNextReplace(bypass, offset, length, text.toUpperCase(), attr);
     }
+
+    public boolean verify(String text) {
+        return text.equals(text.toUpperCase());
+    }
 }
