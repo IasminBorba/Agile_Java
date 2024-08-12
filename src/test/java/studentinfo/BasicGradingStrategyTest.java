@@ -3,7 +3,7 @@ package studentinfo;
 import junit.framework.TestCase;
 
 public class BasicGradingStrategyTest extends TestCase {
-    public void testGetGradePoints(){
+    public void testGetGradePoints() {
         BasicGradingStrategy strategy = new BasicGradingStrategy();
         assertEquals(4, strategy.getGradePointsFor(Student.Grade.A));
         assertEquals(3, strategy.getGradePointsFor(Student.Grade.B));

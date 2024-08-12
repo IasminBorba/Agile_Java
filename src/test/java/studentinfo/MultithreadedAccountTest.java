@@ -12,7 +12,8 @@ public class MultithreadedAccountTest extends TestCase {
         Runnable withdrawTask = new Runnable() {
             public void run() {
                 account.withdraw(new BigDecimal("80.00"));
-            }};
+            }
+        };
 
         Thread t1 = new Thread(withdrawTask);
         Thread t2 = new Thread(withdrawTask);

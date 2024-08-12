@@ -9,9 +9,11 @@ public class CourseSession extends Session {
         incrementCount();
         return new CourseSession(course, startDate);
     }
+
     protected CourseSession(Course course, Date startDate) {
         super(course, startDate);
     }
+
     static private void incrementCount() {
         ++count;
     }

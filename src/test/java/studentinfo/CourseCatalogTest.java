@@ -17,10 +17,10 @@ public class CourseCatalogTest extends TestCase {
         course1 = new Course("a", "1");
         course2 = new Course("a", "1");
 
-        session1 = CourseSession.create(course1, DateUtil.createDate(1,15,2005));
+        session1 = CourseSession.create(course1, DateUtil.createDate(1, 15, 2005));
         session1.setNumberOfCredits(3);
 
-        session2 = CourseSession.create(course2, DateUtil.createDate(1,17,2005));
+        session2 = CourseSession.create(course2, DateUtil.createDate(1, 17, 2005));
         session2.enroll(new Student("a"));
 
         catalog.add(session1);
@@ -45,7 +45,7 @@ public class CourseCatalogTest extends TestCase {
         assertEquals("a", student.getLastName());
     }
 
-    private void assertSession(Session expected, Session retrieved){
+    private void assertSession(Session expected, Session retrieved) {
         assertNotSame(expected, retrieved);
         assertEquals(expected.getNumberOfCredits(), retrieved.getNumberOfCredits());
         assertEquals(expected.getStartDate(), retrieved.getStartDate());

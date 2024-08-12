@@ -1,15 +1,15 @@
 package studentinfo;
 
 public class Scorer {
-    public int score(String input){
+    public int score(String input) {
         return Integer.parseInt(input);
     }
 
-    public boolean isValid(String input){
+    public boolean isValid(String input) {
         try {
             Integer.parseInt(input);
             return true;
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return false;
         }
     }

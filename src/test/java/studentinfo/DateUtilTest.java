@@ -1,10 +1,11 @@
 package studentinfo;
 
 import java.util.*;
+
 import junit.framework.*;
 import ui.DateUtil;
 
-public class DateUtilTest extends TestCase{
+public class DateUtilTest extends TestCase {
     public void testCreateDate() {
         Date date = DateUtil.createDate(2000, 1, 1);
         Calendar calendar = new GregorianCalendar();

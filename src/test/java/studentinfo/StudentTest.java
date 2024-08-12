@@ -1,6 +1,7 @@
 package studentinfo;
 
 import junit.framework.TestCase;
+
 import java.util.logging.*;
 
 public class StudentTest extends TestCase {
@@ -46,7 +47,7 @@ public class StudentTest extends TestCase {
         assertTrue(student.isFullTime());
     }
 
-    public void testInState(){
+    public void testInState() {
         Student student = new Student("a");
         assertFalse(student.isInState());
 
@@ -75,7 +76,7 @@ public class StudentTest extends TestCase {
         student.addGrade(Student.Grade.D);
         assertGpa(2.5, student);
         student.addGrade(Student.Grade.F);
-        assertGpa(2.0, student) ;
+        assertGpa(2.0, student);
     }
 
     private void assertGpa(double expectedGpa, Student student) {
@@ -103,7 +104,7 @@ public class StudentTest extends TestCase {
         return student;
     }
 
-    public void testCharges(){
+    public void testCharges() {
         Student student = new Student("a");
         student.addCharge(500);
         student.addCharge(200);
@@ -112,17 +113,17 @@ public class StudentTest extends TestCase {
         assertEquals(1099, student.totalCharges());
     }
 
-    public void testBadlyFormattedName(){
+    public void testBadlyFormattedName() {
         Handler handler = new TestHandler();
         Student.logger.addHandler(handler);
         final String studentName = "a b c d";
         try {
             new Student("a b c d");
             fail("expected exception from 4-part name");
-        } catch (StudentNameFormatException expectedException){
+        } catch (StudentNameFormatException expectedException) {
             String message = String.format(Student.TOO_MANY_NAME_PARTS_MSG, studentName, Student.MAX_NAME_PARTS);
             assertEquals(message, expectedException.getMessage());
-            assertEquals(message, ((TestHandler)handler).getMessage());
+            assertEquals(message, ((TestHandler) handler).getMessage());
         }
     }
 
@@ -134,7 +135,7 @@ public class StudentTest extends TestCase {
         assertEquals(Logger.getLogger("sis"), parent.getParent());
     }
 
-    public void testFlags(){
+    public void testFlags() {
         Student student = new Student("a");
         student.set(
                 Student.Flag.ON_CAMPUS,

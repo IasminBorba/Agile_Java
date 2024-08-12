@@ -5,19 +5,19 @@ import junit.framework.TestCase;
 public class PerformanceTest extends TestCase {
     private static final double tolerance = 0.005;
 
-    public void testInitialization(){
+    public void testInitialization() {
         Performance performance = new Performance();
-        performance.setScores(new int[] {75, 72, 90, 60});
+        performance.setScores(new int[]{75, 72, 90, 60});
         assertEquals(74.25, performance.average(), tolerance);
     }
 
-    public void testArrayParm(){
+    public void testArrayParm() {
         Performance performance = new Performance();
-        performance.setScores(new int[] {75, 72, 90, 60});
+        performance.setScores(new int[]{75, 72, 90, 60});
         assertEquals(74.25, performance.average(), tolerance);
     }
 
-    public void testAverage(){
+    public void testAverage() {
         Performance performance = new Performance();
         performance.setNumberOfTests(4);
         performance.set(0, 98);
@@ -29,15 +29,15 @@ public class PerformanceTest extends TestCase {
         assertEquals(85.75, performance.average(), tolerance);
     }
 
-    public void testVariableMethodParms(){
+    public void testVariableMethodParms() {
         Performance performance = new Performance();
-        performance.setScores(new int[] {75, 72, 90, 60});
+        performance.setScores(new int[]{75, 72, 90, 60});
         assertEquals(74.25, performance.average(), tolerance);
         performance.setScores(new int[]{100, 90});
         assertEquals(95.0, performance.average(), tolerance);
     }
 
-    public void testAverageForNoScores(){
+    public void testAverageForNoScores() {
         Performance performance = new Performance();
         assertEquals(0.0, performance.average());
     }

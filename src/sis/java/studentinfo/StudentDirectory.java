@@ -1,13 +1,14 @@
 package studentinfo;
 
 import java.io.*;
+
 import db.*;
 
 public class StudentDirectory {
     private static final String DIR_BASENAME = "studentDir";
     private final DataFile db;
 
-    public StudentDirectory() throws IOException{
+    public StudentDirectory() throws IOException {
         db = DataFile.open(DIR_BASENAME);
     }
 
@@ -16,14 +17,14 @@ public class StudentDirectory {
     }
 
     public Student findById(String id) throws IOException {
-        return (Student)db.findBy(id);
+        return (Student) db.findBy(id);
     }
 
-    public void close() throws IOException{
+    public void close() throws IOException {
         db.close();
     }
 
-    public void remove(){
+    public void remove() {
         db.deleteFiles();
     }
 }

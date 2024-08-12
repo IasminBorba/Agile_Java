@@ -1,15 +1,17 @@
 package studentinfo;
 
 import junit.framework.TestCase;
+
 import java.io.*;
-public class StudentDirectoryTest  extends TestCase {
+
+public class StudentDirectoryTest extends TestCase {
     private StudentDirectory dir;
 
-    protected void setUp() throws IOException{
+    protected void setUp() throws IOException {
         dir = new StudentDirectory();
     }
 
-    protected void tearDown() throws IOException{
+    protected void tearDown() throws IOException {
         dir.close();
         dir.remove();
     }

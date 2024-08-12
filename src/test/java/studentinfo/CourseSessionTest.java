@@ -3,11 +3,12 @@ package studentinfo;
 import ui.DateUtil;
 
 import java.util.*;
+
 import static ui.DateUtil.createDate;
 
-public class CourseSessionTest extends SessionTest{
+public class CourseSessionTest extends SessionTest {
     public void testCourseDates() {
-        Date startDate = DateUtil.createDate(2003,1,6);
+        Date startDate = DateUtil.createDate(2003, 1, 6);
         Session session = createSession(createCourse(), startDate);
         Date sixteenWeeksOut = createDate(2003, 4, 25);
         assertEquals(sixteenWeeksOut, session.getEndDate());

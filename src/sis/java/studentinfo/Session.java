@@ -56,14 +56,13 @@ abstract public class Session implements Comparable<Session>, Iterable<Student>,
         double total = 0.0;
         int count = 0;
 
-        for (Student student: students) {
+        for (Student student : students) {
             if (student.isFullTime())
                 continue;
             count++;
             total += student.getGpa();
         }
-        if (count == 0) return 0.0;
-        return total / count;
+        return (count == 0) ? 0.0 : total / count;
     }
 
     Student get(int index) {
@@ -90,42 +89,42 @@ abstract public class Session implements Comparable<Session>, Iterable<Student>,
         return calendar.getTime();
     }
 
-    public void setUrl(String urlString) throws SessionException{
+    public void setUrl(String urlString) throws SessionException {
         try {
             this.url = new URL(urlString);
-        } catch (MalformedURLException e){
+        } catch (MalformedURLException e) {
             log(e);
             throw new SessionException(e);
         }
     }
 
-    private void log(Exception e){
+    private void log(Exception e) {
         e.printStackTrace();
     }
 
-    public URL getUrl(){
+    public URL getUrl() {
         return url;
     }
 
-    public int getNumberOfCredits(){
+    public int getNumberOfCredits() {
         return numberOfCredits;
     }
 
     @Serial
-    private void writeObject(ObjectOutputStream output) throws IOException{
+    private void writeObject(ObjectOutputStream output) throws IOException {
         output.defaultWriteObject();
         output.writeInt(students.size());
-        for(Student student: students)
+        for (Student student : students)
             output.writeObject(student.getLastName());
     }
 
     @Serial
-    private void readObject(ObjectInputStream input) throws Exception{
+    private void readObject(ObjectInputStream input) throws Exception {
         input.defaultReadObject();
         students = new ArrayList<>();
         int size = input.readInt();
         for (int i = 0; i < size; i++) {
-            String lastName = (String)input.readObject();
+            String lastName = (String) input.readObject();
             students.add(Student.findByLastName(lastName));
         }
     }
