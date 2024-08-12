@@ -24,8 +24,7 @@ public class CoursesPanelTest extends TestCase {
     }
 
     public void testCreate() {
-        assertTitleText(COURSES_LABEL_TEXT);
-        assertEmptyList(COURSES_LIST_NAME);
+        assertEmptyTable(COURSES_TABLE_NAME);
         assertButtonText(ADD_BUTTON_NAME, ADD_BUTTON_TEXT);
         assertLabelText(DEPARTMENT_FIELD_NAME, DEPARTMENT_LABEL_TEXT);
         assertLabelText(NUMBER_FIELD_NAME, NUMBER_LABEL_TEXT);
@@ -46,6 +45,11 @@ public class CoursesPanelTest extends TestCase {
         }
     }
 
+    private void assertEmptyTable(String name) {
+        JTable table = panel.getTable(name);
+        assertEquals(0, table.getModel().getRowCount());
+    }
+
     private void assertLabelText(String name, String text) {
         JLabel label = panel.getLabel(name);
         assertEquals(text, label.getText());
@@ -54,11 +58,6 @@ public class CoursesPanelTest extends TestCase {
     private void assertTitleText(String text) {
         String title = panel.getTitle();
         assertEquals(text, title);
-    }
-
-    private void assertEmptyList(String name) {
-        JList list = panel.getList(name);
-        assertEquals(0, list.getModel().getSize());
     }
 
     private void assertButtonText(String name, String text) {
@@ -83,10 +82,10 @@ public class CoursesPanelTest extends TestCase {
     public void testAddCourse() {
         Course course = new Course("ENGL", "101");
         panel.addCourse(course);
-        JList list = panel.getList(COURSES_LIST_NAME);
 
-        ListModel model = list.getModel();
-        assertEquals("ENGL-101", model.getElementAt(0).toString());
+        JTable table = panel.getTable(COURSES_TABLE_NAME);
+        CoursesTableModel model = (CoursesTableModel) table.getModel();
+        assertSame(course, model.get(0));
     }
 
     public void testEnableDisable() {

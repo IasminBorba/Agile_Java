@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 public class Field<T> extends JTextField {
     private String fieldName;
     private String text;
+    private String shortName;
     private int limit;
     private int columns;
     private boolean upCaseOnly = false;
@@ -44,6 +45,10 @@ public class Field<T> extends JTextField {
             this.value = values;
     }
 
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+
     public void setFormat(DateTimeFormatter format) {
         this.format = format;
     }
@@ -73,6 +78,10 @@ public class Field<T> extends JTextField {
         if (value != null && value.getClass().equals(DateTimeFormatter.class))
             return (T) date.format(format);
         return value;
+    }
+
+    public String getShortName() {
+        return this.shortName;
     }
 
     @Override
