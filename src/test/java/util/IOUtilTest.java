@@ -8,14 +8,14 @@ public class IOUtilTest extends TestCase {
     static final String FILENAME1 = "IOUtilTest1.txt";
     static final String FILENAME2 = "IOUtilTest2.txt";
 
-    public void testDeleteSingleFile() throws IOException{
+    public void testDeleteSingleFile() throws IOException {
         create(FILENAME1);
 
         assertTrue(IOUtil.delete(FILENAME1));
         TestUtil.assertGone(FILENAME1);
     }
 
-    public void testDeleteNoFile() throws IOException{
+    public void testDeleteNoFile() throws IOException {
         TestUtil.delete(FILENAME1);
         assertFalse(IOUtil.delete(FILENAME1));
     }
@@ -28,7 +28,7 @@ public class IOUtilTest extends TestCase {
     }
 
     private void create(String... filenames) throws IOException {
-        for (String filename: filenames) {
+        for (String filename : filenames) {
             TestUtil.delete(filename);
             new File(filename).createNewFile();
         }

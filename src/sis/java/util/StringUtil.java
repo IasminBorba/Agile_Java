@@ -16,16 +16,16 @@ public class StringUtil {
 
     public static String concatenate(List<?> list) {
         StringBuilder builder = new StringBuilder();
-        for(Object element: list)
+        for (Object element : list)
             builder.append(String.format("%s%n", element));
         return builder.toString();
     }
 
-    public static String concatenateNumbers(List<? extends Number> list, int decimalPlaces){
+    public static String concatenateNumbers(List<? extends Number> list, int decimalPlaces) {
         String decimalFormat = "%." + decimalPlaces + "f";
         StringBuilder builder = new StringBuilder();
         Locale locale = Locale.US;
-        for (Number element: list) {
+        for (Number element : list) {
             double value = element.doubleValue();
             builder.append(String.format(locale, decimalFormat + "%n", value));
         }

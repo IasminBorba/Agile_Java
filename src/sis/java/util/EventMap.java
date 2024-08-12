@@ -3,10 +3,10 @@ package util;
 import java.util.ArrayList;
 import java.util.*;
 
-public class EventMap<K extends java.util.Date,V> extends MultiHashMap<K,V> {
-    public List<V> getPastEvents(){
+public class EventMap<K extends java.util.Date, V> extends MultiHashMap<K, V> {
+    public List<V> getPastEvents() {
         List<V> events = new ArrayList<>();
-        for (Map.Entry<K, List<V>> entry: entrySet()){
+        for (Map.Entry<K, List<V>> entry : entrySet()) {
             K date = entry.getKey();
             if (hasPassed(date))
                 events.addAll(entry.getValue());

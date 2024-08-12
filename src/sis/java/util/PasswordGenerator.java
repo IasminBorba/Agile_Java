@@ -22,7 +22,7 @@ public class PasswordGenerator {
 
     private char getRandomChar() {
         final char max = HIGH_END_PASSWORD_CHAR - LOW_END_PASSWORD_CHAR;
-        return (char)(random.nextInt(max) + LOW_END_PASSWORD_CHAR);
+        return (char) (random.nextInt(max) + LOW_END_PASSWORD_CHAR);
     }
 
     public String getPassword() {

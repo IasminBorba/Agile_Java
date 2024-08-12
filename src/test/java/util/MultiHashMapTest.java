@@ -2,6 +2,7 @@ package util;
 
 import junit.framework.TestCase;
 import ui.DateUtil;
+
 import java.util.*;
 
 public class MultiHashMapTest extends TestCase {
@@ -11,21 +12,21 @@ public class MultiHashMapTest extends TestCase {
     private static final String eventB = "ear";
     private MultiHashMap<Date, String> events;
 
-    protected void setUp(){
+    protected void setUp() {
         events = new MultiHashMap<>();
     }
 
-    public void testCreate(){
+    public void testCreate() {
         assertEquals(0, events.size());
     }
 
-    public void testSingleEntry(){
+    public void testSingleEntry() {
         events.put(today, eventA);
         assertEquals(1, events.size());
         assertEquals(eventA, getSoleEvent(today));
     }
 
-    public void testMultipleEntriesDifferentKey(){
+    public void testMultipleEntriesDifferentKey() {
         events.put(today, eventA);
         events.put(tomorrow, eventB);
         assertEquals(2, events.size());
@@ -33,7 +34,7 @@ public class MultiHashMapTest extends TestCase {
         assertEquals(eventB, getSoleEvent(tomorrow));
     }
 
-    public void testMultipleEntriesSameKey(){
+    public void testMultipleEntriesSameKey() {
         events.put(today, eventA);
         events.put(today, eventB);
         assertEquals(1, events.size());
@@ -44,7 +45,7 @@ public class MultiHashMapTest extends TestCase {
         assertTrue(retrievedEvents.contains(eventB));
     }
 
-    private String getSoleEvent(Date date){
+    private String getSoleEvent(Date date) {
         Collection<String> retrieveEvents = events.get(date);
         assertEquals(1, retrieveEvents.size());
         return retrieveEvents.iterator().next();
@@ -73,7 +74,7 @@ public class MultiHashMapTest extends TestCase {
         return calendar.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY;
     }
 
-    private java.sql.Date createSqlDate(int year, int month, int day){
+    private java.sql.Date createSqlDate(int year, int month, int day) {
         java.util.Date date = DateUtil.createDate(year, month, day);
         return new java.sql.Date(date.getTime());
     }

@@ -13,7 +13,7 @@ public class LineWriter {
                 writer.write(record);
                 writer.newLine();
             }
-        }finally {
+        } finally {
             if (writer != null)
                 writer.close();
         }

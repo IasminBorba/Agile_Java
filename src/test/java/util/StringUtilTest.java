@@ -7,23 +7,25 @@ import java.util.*;
 
 public class StringUtilTest extends TestCase {
     private static final String TEXT = "this is it, isn't it";
-    public void testOccurrencesOne(){
+
+    public void testOccurrencesOne() {
         assertEquals(1, StringUtil.occurrences(TEXT, "his"));
     }
 
-    public void testOccurrencesNone(){
+    public void testOccurrencesNone() {
         assertEquals(0, StringUtil.occurrences(TEXT, "smelt"));
     }
 
-    public void testOccurrencesMany(){
+    public void testOccurrencesMany() {
         assertEquals(3, StringUtil.occurrences(TEXT, "is"));
         assertEquals(2, StringUtil.occurrences(TEXT, "it"));
     }
-    public void testOccurrencesSearchStringTooLarge(){
+
+    public void testOccurrencesSearchStringTooLarge() {
         assertEquals(0, StringUtil.occurrences(TEXT, TEXT + "sdfas"));
     }
 
-    public void testConcatenateList(){
+    public void testConcatenateList() {
         List<String> list = new ArrayList<>();
         list.add("a");
         list.add("b");
@@ -32,7 +34,7 @@ public class StringUtilTest extends TestCase {
         assertEquals(String.format("a%nb%n"), output);
     }
 
-    public void testConcatenateFormattedDecimals(){
+    public void testConcatenateFormattedDecimals() {
         List<BigDecimal> list = new ArrayList<>();
         list.add(new BigDecimal("3.1416"));
         list.add(new BigDecimal("-1.4142"));
