@@ -2,6 +2,7 @@ package search;
 
 import junit.framework.TestCase;
 import util.*;
+
 import java.io.*;
 
 public class SearchTest extends TestCase {
@@ -26,7 +27,7 @@ public class SearchTest extends TestCase {
         TestUtil.delete(FILE);
     }
 
-    public void testCreate() throws IOException{
+    public void testCreate() throws IOException {
         Search search = new Search(URL, "x");
         assertEquals(URL, search.getUrl());
         assertEquals("x", search.getText());

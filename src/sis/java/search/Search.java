@@ -2,6 +2,7 @@ package search;
 
 import java.net.*;
 import java.io.*;
+
 import util.*;
 
 public class Search {
@@ -15,19 +16,19 @@ public class Search {
         this.searchString = searchString;
     }
 
-    public String getText(){
+    public String getText() {
         return searchString;
     }
 
-    public String getUrl(){
+    public String getUrl() {
         return url.toString();
     }
 
-    public int matches(){
+    public int matches() {
         return matches;
     }
 
-    public boolean errored(){
+    public boolean errored() {
         return exception != null;
     }
 
@@ -38,7 +39,7 @@ public class Search {
     public void execute() {
         try {
             searchUrl();
-        } catch (IOException e){
+        } catch (IOException e) {
             exception = e;
         }
     }
@@ -49,16 +50,16 @@ public class Search {
         try {
             reader = new BufferedReader(new InputStreamReader(input));
             String line;
-            while((line = reader.readLine()) != null)
+            while ((line = reader.readLine()) != null)
                 matches += StringUtil.occurrences(line, searchString);
 
         } finally {
-            if(reader != null)
+            if (reader != null)
                 reader.close();
         }
     }
 
-    private InputStream getInputStream(URL url) throws IOException{
+    private InputStream getInputStream(URL url) throws IOException {
         if (url.getProtocol().startsWith("http")) {
             URLConnection connection = url.openConnection();
             return connection.getInputStream();

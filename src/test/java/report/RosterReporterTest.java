@@ -9,8 +9,8 @@ import java.io.*;
 public class RosterReporterTest extends TestCase {
     private Session session;
 
-    protected void setUp(){
-        session = CourseSession.create(new Course("ENGL", "101"), DateUtil.createDate(2003,1,6));
+    protected void setUp() {
+        session = CourseSession.create(new Course("ENGL", "101"), DateUtil.createDate(2003, 1, 6));
         session.enroll(new Student("A"));
         session.enroll(new Student("B"));
     }
@@ -21,17 +21,17 @@ public class RosterReporterTest extends TestCase {
         assertReportContents(writer.toString());
     }
 
-    private void assertReportContents(String rosterReport){
+    private void assertReportContents(String rosterReport) {
         assertEquals(
                 String.format(RosterReporter.ROSTER_REPORT_HEADER +
-                "A%n" +
-                "B%n" +
-                RosterReporter.ROSTER_REPORT_FOOTER, 2),
+                        "A%n" +
+                        "B%n" +
+                        RosterReporter.ROSTER_REPORT_FOOTER, 2),
                 rosterReport
         );
     }
 
-    public void testFiledReport() throws IOException{
+    public void testFiledReport() throws IOException {
         final String filename = "testFileReport.txt";
         try {
             delete(filename);
@@ -51,9 +51,9 @@ public class RosterReporterTest extends TestCase {
         }
     }
 
-    private void delete(String filename){
+    private void delete(String filename) {
         File file = new File(filename);
-        if(file.exists())
+        if (file.exists())
             assertTrue("unable to delete" + filename, file.delete());
     }
 }

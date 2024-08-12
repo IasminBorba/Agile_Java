@@ -13,17 +13,17 @@ public class ReportCard {
 
     private Map<Student.Grade, String> messages = null;
 
-    public String getMessage(Student.Grade grade){
+    public String getMessage(Student.Grade grade) {
         return getMessages().get(grade);
     }
 
-    public Map<Student.Grade, String> getMessages(){
-        if(messages == null)
+    public Map<Student.Grade, String> getMessages() {
+        if (messages == null)
             loadMessages();
         return messages;
     }
 
-    private void loadMessages(){
+    private void loadMessages() {
         messages = new EnumMap<>(Student.Grade.class);
         messages.put(Student.Grade.A, A_MESSAGE);
         messages.put(Student.Grade.B, B_MESSAGE);

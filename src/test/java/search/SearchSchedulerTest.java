@@ -6,16 +6,16 @@ import util.*;
 public class SearchSchedulerTest extends TestCase {
     private int actualResultsCount = 0;
 
-    protected void setUp() throws Exception{
+    protected void setUp() throws Exception {
         TestUtil.delete(SearchTest.FILE);
         LineWriter.write(SearchTest.FILE, SearchTest.TEST_HTML);
     }
 
-    protected void tearDown() throws Exception{
+    protected void tearDown() throws Exception {
         TestUtil.delete(SearchTest.FILE);
     }
 
-    public void testRepeatSearch() throws Exception{
+    public void testRepeatSearch() throws Exception {
         final int searchInterval = 3000;
         Search search = new Search(SearchTest.URL, "xxx");
 

@@ -1,7 +1,9 @@
 package report;
 
 import studentinfo.*;
+
 import java.io.*;
+
 import static java.lang.String.format;
 
 public class RosterReporter {
@@ -14,13 +16,14 @@ public class RosterReporter {
         this.session = session;
     }
 
-    void writeReport(Writer writer) throws IOException{
+    void writeReport(Writer writer) throws IOException {
         this.writer = writer;
         writeHeader();
         writeBody();
         writeFooter();
     }
-    void writeReport(String filename) throws IOException{
+
+    void writeReport(String filename) throws IOException {
         Writer bufferedWriter = new BufferedWriter(new FileWriter(filename));
         try {
             writeReport(bufferedWriter);
@@ -29,16 +32,16 @@ public class RosterReporter {
         }
     }
 
-    private void writeHeader() throws IOException{
+    private void writeHeader() throws IOException {
         writer.write(format(ROSTER_REPORT_HEADER));
     }
 
-    void writeBody() throws IOException{
-        for(Student student: session.getAllStudents())
+    void writeBody() throws IOException {
+        for (Student student : session.getAllStudents())
             writer.write(format(student.getName() + "%n"));
     }
 
-    private void writeFooter() throws IOException{
+    private void writeFooter() throws IOException {
         writer.write(format(ROSTER_REPORT_FOOTER, session.getAllStudents().size()));
     }
 }

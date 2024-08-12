@@ -18,7 +18,7 @@ public class ServerTest extends TestCase {
         LineWriter.write(SearchTest.FILE, SearchTest.TEST_HTML);
 
         ResultsListener listener = new ResultsListener() {
-            public void executed(Search search){
+            public void executed(Search search) {
                 numberOfResults++;
             }
         };
@@ -42,20 +42,20 @@ public class ServerTest extends TestCase {
         waitForResults();
     }
 
-    public void testLogs() throws Exception{
+    public void testLogs() throws Exception {
         executeSearches();
         waitForResults();
         verifyLogs();
     }
 
     private void executeSearches() throws Exception {
-        for(String url: URLS)
+        for (String url : URLS)
             server.add(new Search(url, "xxx"));
     }
 
-    public void testException() throws Exception{
+    public void testException() throws Exception {
         final String errorMessage = "problem";
-        Search faultySearch = new Search(URLS[0], ""){
+        Search faultySearch = new Search(URLS[0], "") {
             public void execute() {
                 throw new RuntimeException(errorMessage);
             }
@@ -72,10 +72,12 @@ public class ServerTest extends TestCase {
 
     private void waitForResults(int count) {
         long start = System.currentTimeMillis();
-        while (numberOfResults < count){
-            try { Thread.sleep(1);}
-            catch (InterruptedException e) {}
-            if(System.currentTimeMillis() - start > TIMEOUT)
+        while (numberOfResults < count) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+            }
+            if (System.currentTimeMillis() - start > TIMEOUT)
                 fail("timeout");
         }
     }
@@ -84,16 +86,16 @@ public class ServerTest extends TestCase {
         List<String> list = server.getLog();
         assertEquals(URLS.length * 2, list.size());
         for (int i = 0; i < URLS.length; i += 2)
-            verifySameSearch(list.get(i), list.get(i+1));
+            verifySameSearch(list.get(i), list.get(i + 1));
     }
 
-    private void verifySameSearch(String startSearchMsg, String endSearchMsg){
+    private void verifySameSearch(String startSearchMsg, String endSearchMsg) {
         String startSearch = substring(startSearchMsg, Server.START_MSG);
         String endSearch = substring(endSearchMsg, Server.END_MSG);
         assertEquals(startSearch, endSearch);
     }
 
-    private String substring(String string, String upTo){
+    private String substring(String string, String upTo) {
         int endIndex = string.indexOf(upTo);
         assertTrue("didn't find " + upTo + " in " + string, endIndex != -1);
         return string.substring(0, endIndex);

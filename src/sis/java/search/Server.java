@@ -3,24 +3,24 @@ package search;
 import java.util.concurrent.*;
 import java.util.*;
 
-public class Server extends Thread{
+public class Server extends Thread {
     private final BlockingQueue<Search> queue = new LinkedBlockingQueue<>();
     private final ResultsListener listener;
     static final String START_MSG = "started";
     static final String END_MSG = "finished";
-    private static final ThreadLocal<List<String>> threadLog = new ThreadLocal<>(){
+    private static final ThreadLocal<List<String>> threadLog = new ThreadLocal<>() {
         protected List<String> initialValue() {
             return new ArrayList<>();
         }
     };
     private final List<String> completeLog = Collections.synchronizedList(new ArrayList<>());
 
-    public Server(ResultsListener listener){
+    public Server(ResultsListener listener) {
         this.listener = listener;
         start();
     }
 
-    public void run(){
+    public void run() {
         while (true) {
             try {
                 execute(queue.take());
@@ -30,11 +30,11 @@ public class Server extends Thread{
         }
     }
 
-    public void add(Search search) throws Exception{
+    public void add(Search search) throws Exception {
         queue.put(search);
     }
 
-    public List<String> getLog(){
+    public List<String> getLog() {
         return completeLog;
     }
 
@@ -50,17 +50,17 @@ public class Server extends Thread{
         });
 
         thread.setUncaughtExceptionHandler(
-            new Thread.UncaughtExceptionHandler(){
-                public void uncaughtException(Thread th, Throwable thrown) {
-                    completeLog.add(search + " " + thrown.getMessage());
-                    listener.executed(search);
+                new Thread.UncaughtExceptionHandler() {
+                    public void uncaughtException(Thread th, Throwable thrown) {
+                        completeLog.add(search + " " + thrown.getMessage());
+                        listener.executed(search);
+                    }
                 }
-            }
         );
         thread.start();
     }
 
-    private void log(String message, Search search){
+    private void log(String message, Search search) {
         threadLog.get().add(search + " " + message + " at " + new Date());
     }
 
