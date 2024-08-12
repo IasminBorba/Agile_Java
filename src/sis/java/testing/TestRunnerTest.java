@@ -21,7 +21,7 @@ public class TestRunnerTest {
     private void assertIgnoreReasons() {
         Map<Method, Ignore> ignoredMethods = runner.getIgnoredMethods();
         Map.Entry<Method, Ignore> entry = getSoleEntry(ignoredMethods);
-        assert "testC".equals(entry.getKey().getName()): "unexpected ignore method: " + entry.getKey();
+        assert "testC".equals(entry.getKey().getName()) : "unexpected ignore method: " + entry.getKey();
         Ignore ignore = entry.getValue();
         String[] ignoreReasons = ignore.reasons();
         assert 2 == ignoreReasons.length;
@@ -30,7 +30,7 @@ public class TestRunnerTest {
     }
 
     private <K, V> Map.Entry<K, V> getSoleEntry(Map<K, V> map) {
-        assert 1 == map.size(): "expected one entry";
+        assert 1 == map.size() : "expected one entry";
         Iterator<Map.Entry<K, V>> it = map.entrySet().iterator();
         return it.next();
     }
@@ -111,33 +111,58 @@ public class TestRunnerTest {
 }
 
 class SingleMethodTest {
-    @TestMethod public void testA() {}
+    @TestMethod
+    public void testA() {
+    }
 }
 
 class MultipleMethodTest {
-    @TestMethod public void testA() {}
-    @TestMethod public void testB() {}
+    @TestMethod
+    public void testA() {
+    }
+
+    @TestMethod
+    public void testB() {
+    }
 }
 
 class IgnoreMethodTest {
-    @TestMethod public void testA() {}
-    @TestMethod public void testB() {}
+    @TestMethod
+    public void testA() {
+    }
+
+    @TestMethod
+    public void testB() {
+    }
+
     @Ignore(reasons = {TestRunnerTest.IGNORE_REASON1, TestRunnerTest.IGNORE_REASON2},
             initials = TestRunnerTest.IGNORE_INITIALS,
-            date=@Date(month=7, day=25, year=2024))
-        @TestMethod public void testC() {}
+            date = @Date(month = 7, day = 25, year = 2024))
+    @TestMethod
+    public void testC() {
+    }
 }
 
 class DefaultIgnoreMethodTest {
-    @TestMethod public void testA() {}
-    @TestMethod public void testB() {}
-    @Ignore(initials=TestRunnerTest.IGNORE_INITIALS,
-            date=@Date(month=7, day=25, year=2024))
-        @TestMethod public void testC() {}
+    @TestMethod
+    public void testA() {
+    }
+
+    @TestMethod
+    public void testB() {
+    }
+
+    @Ignore(initials = TestRunnerTest.IGNORE_INITIALS,
+            date = @Date(month = 7, day = 25, year = 2024))
+    @TestMethod
+    public void testC() {
+    }
 }
 
 class IgnoreDateTest {
     @Ignore(initials = TestRunnerTest.IGNORE_INITIALS,
-            date = @Date(month=7, day=25, year=2024))
-        @TestMethod public void testC() {}
+            date = @Date(month = 7, day = 25, year = 2024))
+    @TestMethod
+    public void testC() {
+    }
 }

@@ -6,6 +6,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Ignore {
     String[] reasons() default TestRunner.DEFAULT_IGNORE_REASON;
+
     String initials();
+
     Date date();
 }

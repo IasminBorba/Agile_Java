@@ -4,7 +4,7 @@ import java.lang.reflect.*;
 import java.util.*;
 
 public class TestRunnerUI {
-    private TestRunner runner;
+    private final TestRunner runner;
 
     public static void main(String[] args) throws Exception {
         TestRunnerUI ui = new TestRunnerUI(args[0]);
@@ -35,7 +35,7 @@ public class TestRunnerUI {
             return;
 
         System.out.println("\nIgnored Methods");
-        for (Map.Entry<Method, Ignore> entry: runner.getIgnoredMethods().entrySet()) {
+        for (Map.Entry<Method, Ignore> entry : runner.getIgnoredMethods().entrySet()) {
             Ignore ignore = entry.getValue();
             System.out.printf("%s: %s (by %s)", entry.getKey(), Arrays.toString(ignore.reasons()), ignore.initials());
         }

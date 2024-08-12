@@ -1,10 +1,11 @@
 package testing;
 
 import junit.framework.*;
+
 import java.util.*;
 
 public class SuiteBuilderTest extends TestCase {
-    public void testGatherTestClassNames(){
+    public void testGatherTestClassNames() {
         SuiteBuilder builder = new SuiteBuilder();
         List<String> classes = builder.gatherTestClassNames();
         assertTrue(classes.contains("testing.SuiteBuilderTest"));
@@ -12,7 +13,7 @@ public class SuiteBuilderTest extends TestCase {
         assertFalse(classes.contains("testing.testclasses.AbstractTestClass"));
     }
 
-    public void testAllTests(){
+    public void testAllTests() {
         SuiteBuilder builder = new SuiteBuilder();
         List<String> classes = builder.gatherTestClassNames();
         TestSuite suite = builder.suite();
@@ -25,12 +26,11 @@ public class SuiteBuilderTest extends TestCase {
         assertTrue(classes.contains("ui.StudentUITest"));
         assertTrue(classes.contains("util.MathTest"));
 
-        assertEquals(27, suite.testCount());
+        assertEquals(48, suite.testCount());
     }
 
     public void testCreateSuite() {
-        SuiteBuilder builder = new SuiteBuilder()
-        {
+        SuiteBuilder builder = new SuiteBuilder() {
             public List<String> gatherTestClassNames() {
                 List<String> classNames = new ArrayList<>();
                 classNames.add("testing.SuiteBuilderTest");
@@ -44,9 +44,9 @@ public class SuiteBuilderTest extends TestCase {
 
     public boolean contains(TestSuite suite, Class testClass) {
         List testClasses = Collections.list(suite.tests());
-        for (Object object: testClasses) {
+        for (Object object : testClasses) {
             if (object.getClass() == TestSuite.class)
-                if (contains((TestSuite)object, testClass))
+                if (contains((TestSuite) object, testClass))
                     return true;
             if (object.getClass() == testClass)
                 return true;
