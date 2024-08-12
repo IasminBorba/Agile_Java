@@ -15,7 +15,7 @@ public class CourseTest extends TestCase {
         Course course = new Course("CMSC", "120", date);
         assertEquals("CMSC", course.getDepartment());
         assertEquals("120", course.getNumber());
-        assertEquals(date, course.getEffectiveDate());
+        assertEquals("04/19/2024", course.getEffectiveDate());
     }
 
     public void testEquality() {

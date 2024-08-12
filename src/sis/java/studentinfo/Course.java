@@ -28,8 +28,8 @@ public class Course implements java.io.Serializable {
         return number;
     }
 
-    public LocalDate getEffectiveDate() {
-        return effectiveDate;
+    public String getEffectiveDate() {
+        return effectiveDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
     }
 
     @Override

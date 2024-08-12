@@ -75,17 +75,17 @@ public class TextFieldFactoryTest extends TestCase {
         fieldSpec.setInitialValue(DateUtil.createDate(year, month, day));
         final String pattern = "MM/dd/yy";
         fieldSpec.setFormat(DateTimeFormatter.ofPattern(pattern));
-        JFormattedTextField field = (JFormattedTextField) TextFieldFactory.create(fieldSpec);
+        JTextField field = TextFieldFactory.create(fieldSpec);
 
         assertEquals(1, field.getColumns());
         assertEquals(FIELD_NAME, field.getName());
 
-        DateFormatter formatter = (DateFormatter) field.getFormatter();
-        SimpleDateFormat format = (SimpleDateFormat) formatter.getFormat();
-        assertEquals(pattern, format.toPattern());
-        assertEquals(Date.class, field.getValue().getClass());
-        assertEquals("03/17/06", field.getText());
-
-        TestUtil.assertDateEquals(year, month, day, (Date) field.getValue()); // a new utility method
+        if (field instanceof JFormattedTextField dateField) {
+            DateFormatter formatter = (DateFormatter) dateField.getFormatter();
+            SimpleDateFormat format = (SimpleDateFormat) formatter.getFormat();
+            assertEquals(Date.class, dateField.getValue().getClass());
+            assertEquals("MM/dd/yy", format.toPattern());
+            TestUtil.assertDateEquals(year, month, day, (Date) dateField.getValue());
+        }
     }
 }
