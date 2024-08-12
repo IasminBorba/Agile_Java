@@ -7,22 +7,22 @@ public class SecureProxy implements InvocationHandler {
     private final List<String> secureMethods;
     private final Object target;
 
-    public SecureProxy(Object target, String... secureMethods){
+    public SecureProxy(Object target, String... secureMethods) {
         this.target = target;
         this.secureMethods = Arrays.asList(secureMethods);
     }
 
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable{
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         try {
-            if(isSecure(method))
+            if (isSecure(method))
                 throw new PermissionException();
             return method.invoke(target, args);
-        } catch (InvocationTargetException e){
+        } catch (InvocationTargetException e) {
             throw e.getTargetException();
         }
     }
 
-    private boolean isSecure(Method method){
+    private boolean isSecure(Method method) {
         return secureMethods.contains(method.getName());
     }
 }

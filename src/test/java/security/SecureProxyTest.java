@@ -1,6 +1,7 @@
 package security;
 
 import junit.framework.*;
+
 import java.lang.reflect.Method;
 
 public class SecureProxyTest extends TestCase {
@@ -11,11 +12,12 @@ public class SecureProxyTest extends TestCase {
     private boolean secureMethodCalled;
     private boolean insecureMethodCalled;
 
-    protected void setUp(){
+    protected void setUp() {
         object = new Object() {
             public void secure() {
                 secureMethodCalled = true;
             }
+
             public void insecure() {
                 insecureMethodCalled = true;
             }
@@ -28,8 +30,7 @@ public class SecureProxyTest extends TestCase {
         try {
             proxy.invoke(proxy, secureMethod, new Object[]{});
             fail("expected PermissionException");
-        }
-        catch (PermissionException expected) {
+        } catch (PermissionException expected) {
             assertFalse(secureMethodCalled);
         }
     }
