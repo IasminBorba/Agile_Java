@@ -7,65 +7,65 @@ public class KeyFile {
     private Map<String, EntryData> keys = new HashMap<>();
     private final File file;
 
-    KeyFile(String filename) throws IOException{
+    KeyFile(String filename) throws IOException {
         file = new File(filename);
-        if(file.exists())
+        if (file.exists())
             load();
     }
 
-    void add(String key, long position, int length){
+    void add(String key, long position, int length) {
         keys.put(key, new EntryData(position, length));
     }
 
-    int size(){
+    int size() {
         return keys.size();
     }
 
-    boolean containsKey(String key){
+    boolean containsKey(String key) {
         return keys.containsKey(key);
     }
 
-    long getPosition(String key){
+    long getPosition(String key) {
         return keys.get(key).getPosition();
     }
 
-    int getLength(String key){
+    int getLength(String key) {
         return keys.get(key).getLength();
     }
 
-    void close() throws IOException{
+    void close() throws IOException {
         ObjectOutputStream stream = new ObjectOutputStream(new FileOutputStream(file));
         stream.writeObject(keys);
         stream.close();
     }
 
-    void load() throws IOException{
+    void load() throws IOException {
         ObjectInputStream input = null;
-        try{
+        try {
             input = new ObjectInputStream(new FileInputStream(file));
             try {
-                keys = (Map<String, EntryData>)input.readObject();
-            } catch (ClassNotFoundException e){
+                keys = (Map<String, EntryData>) input.readObject();
+            } catch (ClassNotFoundException e) {
             }
         } finally {
             input.close();
         }
     }
 
-    static  class EntryData implements Serializable{
+    static class EntryData implements Serializable {
         private final long position;
         private final int length;
 
-        EntryData(long position, int length){
+        EntryData(long position, int length) {
             this.position = position;
             this.length = length;
         }
 
-        private long getPosition(){
+        private long getPosition() {
             return position;
         }
 
-        private int getLength(){
+        private int getLength() {
             return length;
         }
     }

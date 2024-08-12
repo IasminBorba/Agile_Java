@@ -1,9 +1,10 @@
 package db;
 
 import java.io.*;
+
 import util.*;
 
-public class DataFile{
+public class DataFile {
     public static final String DATA_EXT = ".db";
     public static final String KEY_EXT = ".idx";
 
@@ -13,19 +14,19 @@ public class DataFile{
     private RandomAccessFile db;
     private KeyFile keys;
 
-    public static DataFile create(String filebase) throws IOException{
+    public static DataFile create(String filebase) throws IOException {
         return new DataFile(filebase, true);
     }
 
-    public static DataFile open(String filebase) throws IOException{
+    public static DataFile open(String filebase) throws IOException {
         return new DataFile(filebase, false);
     }
 
-    public DataFile(String filebase, boolean deleteFiles) throws  IOException{
+    public DataFile(String filebase, boolean deleteFiles) throws IOException {
         dataFilename = filebase + DATA_EXT;
         keyFilename = filebase + KEY_EXT;
 
-        if(deleteFiles)
+        if (deleteFiles)
             deleteFiles();
 
         openFiles();
@@ -35,7 +36,8 @@ public class DataFile{
         long position = db.length();
         byte[] bytes = getBytes(object);
         db.seek(position);
-        db.write(bytes, 0, bytes.length);keys.add(key, position, bytes.length);
+        db.write(bytes, 0, bytes.length);
+        keys.add(key, position, bytes.length);
     }
 
     public Object findBy(String id) throws IOException {
@@ -47,16 +49,16 @@ public class DataFile{
         return read(length);
     }
 
-    public int size(){
+    public int size() {
         return keys.size();
     }
 
-    public void close() throws IOException{
+    public void close() throws IOException {
         keys.close();
         db.close();
     }
 
-    public void deleteFiles(){
+    public void deleteFiles() {
         IOUtil.delete(dataFilename, keyFilename);
     }
 
@@ -71,11 +73,10 @@ public class DataFile{
         try {
             try {
                 return input.readObject();
-            }
-            catch (ClassNotFoundException unlikely) {
+            } catch (ClassNotFoundException unlikely) {
                 return null;
             }
-        }finally {
+        } finally {
             input.close();
         }
     }
@@ -85,7 +86,7 @@ public class DataFile{
         db = new RandomAccessFile(new File(dataFilename), "rw");
     }
 
-    private byte[] getBytes(Object object) throws IOException{
+    private byte[] getBytes(Object object) throws IOException {
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
         ObjectOutputStream outputStream = new ObjectOutputStream(byteStream);
         outputStream.writeObject(object);

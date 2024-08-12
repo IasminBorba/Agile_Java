@@ -1,7 +1,9 @@
 package db;
 
 import junit.framework.TestCase;
+
 import java.io.*;
+
 import util.*;
 
 public class KeyFileTest extends TestCase {
@@ -12,21 +14,21 @@ public class KeyFileTest extends TestCase {
 
     private KeyFile keyFile;
 
-    protected  void setUp() throws IOException{
+    protected void setUp() throws IOException {
         TestUtil.delete(FILENAME);
         keyFile = new KeyFile(FILENAME);
     }
 
-    protected void tearDown() throws IOException{
+    protected void tearDown() throws IOException {
         TestUtil.delete(FILENAME);
         keyFile.close();
     }
 
-    public void testCreate(){
+    public void testCreate() {
         assertEquals(0, keyFile.size());
     }
 
-    public void testAddEntry(){
+    public void testAddEntry() {
         keyFile.add(KEY, POSITION, LENGTH);
 
         assertEquals(1, keyFile.size());
@@ -35,7 +37,7 @@ public class KeyFileTest extends TestCase {
         assertEquals(LENGTH, keyFile.getLength(KEY));
     }
 
-    public void testReopen() throws IOException{
+    public void testReopen() throws IOException {
         keyFile.add(KEY, POSITION, LENGTH);
         keyFile.close();
         keyFile = new KeyFile(FILENAME);

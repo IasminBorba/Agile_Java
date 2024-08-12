@@ -51,9 +51,8 @@ public class ClockTest extends TestCase {
 
     private void verify(List<LocalDateTime> tics, int seconds) {
         assertEquals(seconds, tics.size());
-        for (int i = 1; i < seconds; i++) {
+        for (int i = 1; i < seconds; i++)
             assertEquals(1, getSecondsFromLast(tics, i));
-        }
     }
 
     private long getSecondsFromLast(List<LocalDateTime> tics, int i) {
@@ -68,6 +67,5 @@ public class ClockTest extends TestCase {
             seconds += 1;
 
         return seconds;
-
     }
 }
