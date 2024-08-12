@@ -6,7 +6,6 @@ import util.ImageUtil;
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 import java.awt.event.*;
-import java.time.LocalDate;
 
 public class Sis {
     static final int WIDTH = 350;
@@ -59,10 +58,9 @@ public class Sis {
     private void addCourse() {
         Course course;
         try {
-            LocalDate date =  LocalDate.parse(panel.getDate(), FieldCatalog.DEFAULT_DATE_FORMAT);
-            course = new Course(panel.getText(FieldCatalog.DEPARTMENT_FIELD_NAME), panel.getText(FieldCatalog.NUMBER_FIELD_NAME), date);
-        } catch (Exception e){
-            course = new Course(panel.getText(FieldCatalog.DEPARTMENT_FIELD_NAME), panel.getText(FieldCatalog.NUMBER_FIELD_NAME));
+            course = new Course(panel.getDepartment(), panel.getNumber(), panel.getDate());
+        } catch (Exception e) {
+            course = new Course(panel.getDepartment(), panel.getNumber());
         }
         panel.addCourse(course);
     }
@@ -84,7 +82,7 @@ public class Sis {
     }
 
     private boolean verifyFilterField(String... fields) {
-        for (String fieldName: fields) {
+        for (String fieldName : fields) {
             JTextField field = panel.getField(fieldName);
 
             if (isEmptyField(field))
@@ -101,7 +99,7 @@ public class Sis {
 
     private boolean verifyFilter(JTextField field) {
         AbstractDocument document = (AbstractDocument) field.getDocument();
-        ChainableFilter currentFilter = (ChainableFilter)document.getDocumentFilter();
+        ChainableFilter currentFilter = (ChainableFilter) document.getDocumentFilter();
 
         while (currentFilter != null) {
             String textField = field.getText();

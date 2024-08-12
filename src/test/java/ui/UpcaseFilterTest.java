@@ -1,6 +1,7 @@
 package ui;
 
 import junit.framework.TestCase;
+
 import javax.swing.text.*;
 
 public class UpcaseFilterTest extends TestCase {
@@ -10,7 +11,7 @@ public class UpcaseFilterTest extends TestCase {
 
     protected void setUp() {
         bypass = createBypass();
-        document = (AbstractDocument)bypass.getDocument();
+        document = (AbstractDocument) bypass.getDocument();
         filter = new UpcaseFilter();
     }
 
@@ -24,7 +25,7 @@ public class UpcaseFilterTest extends TestCase {
 
     public void testReplace() throws BadLocationException {
         filter.insertString(bypass, 0, "XYZ", null);
-        filter.replace(bypass,1,2,"tc", null);
+        filter.replace(bypass, 1, 2, "tc", null);
         assertEquals("XTC", documentText());
 
         filter.replace(bypass, 0, 3, "p8A", null);
@@ -46,15 +47,18 @@ public class UpcaseFilterTest extends TestCase {
             public void insertString(int offset, String string, AttributeSet attr) {
                 try {
                     document.insertString(offset, string, attr);
-                } catch (BadLocationException e) {}
+                } catch (BadLocationException e) {
+                }
             }
 
-            public void remove(int offset, int length) throws BadLocationException {}
+            public void remove(int offset, int length) throws BadLocationException {
+            }
 
             public void replace(int offset, int length, String string, AttributeSet attrs) throws BadLocationException {
                 try {
                     document.replace(offset, length, string, attrs);
-                } catch (BadLocationException e) {}
+                } catch (BadLocationException e) {
+                }
             }
         };
     }

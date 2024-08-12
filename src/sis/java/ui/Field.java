@@ -38,7 +38,7 @@ public class Field<T> extends JTextField {
     }
 
     public void setInitialValue(T values) {
-        if(values != null && values.getClass().equals(LocalDate.class))
+        if (values != null && values.getClass().equals(LocalDate.class))
             this.date = (LocalDate) values;
         else
             this.value = values;

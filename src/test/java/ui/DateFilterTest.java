@@ -12,7 +12,7 @@ public class DateFilterTest extends TestCase {
 
     protected void setUp() {
         bypass = createBypass();
-        document = (AbstractDocument)bypass.getDocument();
+        document = (AbstractDocument) bypass.getDocument();
         filter = new DateFilter();
     }
 
@@ -40,7 +40,7 @@ public class DateFilterTest extends TestCase {
 
     public void testReplace() throws BadLocationException {
         filter.insertString(bypass, 0, "09/08/24", null);
-        filter.replace(bypass,0,2,"tc", null);
+        filter.replace(bypass, 0, 2, "tc", null);
         assertEquals("09/08/2024", documentText());
 
         filter.replace(bypass, 0, 2, "30", null);
@@ -80,15 +80,18 @@ public class DateFilterTest extends TestCase {
             public void insertString(int offset, String string, AttributeSet attr) {
                 try {
                     document.insertString(offset, string, attr);
-                } catch (BadLocationException e) {}
+                } catch (BadLocationException e) {
+                }
             }
 
-            public void remove(int offset, int length) throws BadLocationException {}
+            public void remove(int offset, int length) throws BadLocationException {
+            }
 
             public void replace(int offset, int length, String string, AttributeSet attrs) throws BadLocationException {
                 try {
                     document.replace(offset, length, string, attrs);
-                } catch (BadLocationException e) {}
+                } catch (BadLocationException e) {
+                }
             }
         };
     }

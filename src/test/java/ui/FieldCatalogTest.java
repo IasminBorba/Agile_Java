@@ -1,6 +1,7 @@
 package ui;
 
 import junit.framework.TestCase;
+
 import static ui.FieldCatalog.*;
 
 public class FieldCatalogTest extends TestCase {

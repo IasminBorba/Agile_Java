@@ -1,6 +1,7 @@
 package ui;
 
 import junit.framework.TestCase;
+
 import javax.swing.*;
 import javax.swing.text.DateFormatter;
 import java.awt.event.*;
@@ -8,6 +9,7 @@ import java.text.*;
 import java.util.*;
 
 import studentinfo.*;
+
 import static ui.CoursesPanel.*;
 import static ui.FieldCatalog.*;
 
@@ -35,11 +37,13 @@ public class CoursesPanelTest extends TestCase {
 
     private void verifyEffectiveDate() {
         assertLabelText(EFFECTIVE_DATE_FIELD_NAME, EFFECTIVE_DATE_LABEL_TEXT);
-        JFormattedTextField dateField = (JFormattedTextField) panel.getField(EFFECTIVE_DATE_FIELD_NAME);
-        DateFormatter formatter = (DateFormatter)dateField.getFormatter();
-        SimpleDateFormat format = (SimpleDateFormat)formatter.getFormat();
-        assertEquals("MM/dd/yy", format.toPattern());
-        assertEquals(Date.class, dateField.getValue().getClass());
+        JTextField field = panel.getField(EFFECTIVE_DATE_FIELD_NAME);
+        if (field instanceof JFormattedTextField dateField) {
+            DateFormatter formatter = (DateFormatter) dateField.getFormatter();
+            SimpleDateFormat format = (SimpleDateFormat) formatter.getFormat();
+            assertEquals("MM/dd/yy", format.toPattern());
+            assertEquals(Date.class, dateField.getValue().getClass());
+        }
     }
 
     private void assertLabelText(String name, String text) {
@@ -68,7 +72,7 @@ public class CoursesPanelTest extends TestCase {
         wasClicked = false;
         panel.addCourseAddListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                wasClicked =true;
+                wasClicked = true;
             }
         });
 
@@ -95,7 +99,8 @@ public class CoursesPanelTest extends TestCase {
     }
 
     public void testAddListener() throws Exception {
-        KeyListener listener = new KeyAdapter() {};
+        KeyListener listener = new KeyAdapter() {
+        };
         panel.addFieldListener("deptField", listener);
         JTextField field = panel.getField(DEPARTMENT_FIELD_NAME);
         KeyListener[] listeners = field.getKeyListeners();

@@ -2,13 +2,14 @@ package ui;
 
 import junit.framework.TestCase;
 import studentinfo.*;
+
 import java.io.*;
 import java.util.List;
 
 public class StudentUITest extends TestCase {
     static private final String name = "Leo Xerces Schmoo";
 
-    private void setup(StringBuffer expectedOutput, StringBuffer input){
+    private void setup(StringBuffer expectedOutput, StringBuffer input) {
         expectedOutput.append(StudentUI.MENU);
         input.append(line(StudentUI.ADD_OPTION));
         expectedOutput.append(StudentUI.NAME_PROMPT);
@@ -18,7 +19,7 @@ public class StudentUITest extends TestCase {
         input.append(line(StudentUI.QUIT_OPTION));
     }
 
-    public void testCreateStudent() throws IOException{
+    public void testCreateStudent() throws IOException {
         StringBuffer expectedOutput = new StringBuffer();
         StringBuffer input = new StringBuffer();
         setup(expectedOutput, input);
@@ -44,11 +45,11 @@ public class StudentUITest extends TestCase {
         }
     }
 
-    private String line(String input){
+    private String line(String input) {
         return String.format("%s%n", input);
     }
 
-    private void assertStudents(List<Student> students){
+    private void assertStudents(List<Student> students) {
         assertEquals(1, students.size());
         Student student = students.getFirst();
         assertEquals(name, student.getName());

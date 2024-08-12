@@ -11,7 +11,7 @@ public class NumberFilterTest extends TestCase {
 
     protected void setUp() {
         bypass = createBypass();
-        document = (AbstractDocument)bypass.getDocument();
+        document = (AbstractDocument) bypass.getDocument();
     }
 
     public void testInsert() throws BadLocationException {
@@ -58,15 +58,18 @@ public class NumberFilterTest extends TestCase {
             public void insertString(int offset, String string, AttributeSet attr) {
                 try {
                     document.insertString(offset, string, attr);
-                } catch (BadLocationException e) {}
+                } catch (BadLocationException e) {
+                }
             }
 
-            public void remove(int offset, int length) throws BadLocationException {}
+            public void remove(int offset, int length) throws BadLocationException {
+            }
 
             public void replace(int offset, int length, String string, AttributeSet attrs) throws BadLocationException {
                 try {
                     document.replace(offset, length, string, attrs);
-                } catch (BadLocationException e) {}
+                } catch (BadLocationException e) {
+                }
             }
         };
     }

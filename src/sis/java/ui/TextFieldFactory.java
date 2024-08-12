@@ -21,7 +21,7 @@ public class TextFieldFactory {
         if (fieldSpec.isUpcaseOnly())
             attachUpcaseFilter(field);
 
-        if(fieldSpec.getName().equals("numberField"))
+        if (fieldSpec.getName().equals("numberField"))
             attachNumberFilter(field);
 
         field.setColumns(fieldSpec.getColumns());

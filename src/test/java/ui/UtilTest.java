@@ -1,6 +1,7 @@
 package ui;
 
 import junit.framework.TestCase;
+
 import javax.swing.*;
 import java.awt.*;
 

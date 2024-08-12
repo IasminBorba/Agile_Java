@@ -51,7 +51,7 @@ public class FieldCatalog {
         fieldSpec = new Field(EFFECTIVE_DATE_FIELD_NAME);
         fieldSpec.setLabel(EFFECTIVE_DATE_LABEL_TEXT);
         fieldSpec.setFormat(DEFAULT_DATE_FORMAT);
-        fieldSpec.setInitialValue(LocalDate.of(2024,10,1));
+        fieldSpec.setInitialValue(LocalDate.of(2024, 10, 1));
         fieldSpec.setColumns(DEFAULT_COLUMNS);
 
         put(fieldSpec);
