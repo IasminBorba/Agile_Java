@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import javax.swing.text.*;
 
 public class DateFilterTest extends TestCase {
-    private DocumentFilter filter;
+    private DateFilter filter;
     protected DocumentFilter.FilterBypass bypass;
     protected AbstractDocument document;
     String date = "01/01/24";

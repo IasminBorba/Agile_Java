@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class FieldCatalog {
-    public static final DateTimeFormatter DEFAULT_DATE_FORMAT = DateTimeFormatter.ofPattern("MM/dd/yy");
+    public static final DateTimeFormatter DEFAULT_DATE_FORMAT = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
     static final String DEPARTMENT_FIELD_NAME = "deptField";
     static final String DEPARTMENT_LABEL_TEXT = "Department";

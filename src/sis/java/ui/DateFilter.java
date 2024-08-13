@@ -31,30 +31,36 @@ public class DateFilter extends ChainableFilter {
             String formattedDate = date.format(DISPLAY_FORMATTER);
             applyNextReplace(bypass, 0, doc.length(), formattedDate, attr);
         } catch (DateTimeParseException e) {
-            if (text.matches("\\d*")) {
+            if (text.matches("\\d*") && newText.length() < 11) {
                 applyNextReplace(bypass, offset, length, text, attr);
 
                 if (newText.length() == 2) {
                     applyNextReplace(bypass, offset + 1, length, "/", attr);
+                    verifyDate(newText, bypass, attr);
                 }
-
-                if (Integer.parseInt(newText.substring(0, 2)) > 12)
-                    applyNextReplace(bypass, 0, 3, "12/", attr);
 
                 if (newText.length() == 5) {
                     applyNextReplace(bypass, offset + 1, length, "/", attr);
+                    verifyDate(newText, bypass, attr);
                 }
 
-                if (Integer.parseInt(newText.substring(3, 5)) > 31) {
-                    applyNextReplace(bypass, 3, 3, "30/", attr);
-                }
-            } else {
+                verifyDate(newText, bypass, attr);
+            } else
                 applyNextInsert(bypass, offset, "", attr);
-            }
         }
     }
 
     private String getTextFromDocument(FilterBypass bypass) throws BadLocationException {
         return bypass.getDocument().getText(0, bypass.getDocument().getLength());
+    }
+
+    private void verifyDate(String text, FilterBypass bypass, AttributeSet attr) throws BadLocationException {
+        try {
+            if (Integer.parseInt(text.substring(0, 2)) > 12)
+                applyNextReplace(bypass, 0, 3, "12/", attr);
+
+            if (Integer.parseInt(text.substring(3, 5)) > 31)
+                applyNextReplace(bypass, 3, 3, "30/", attr);
+        } catch (Exception e) {}
     }
 }
