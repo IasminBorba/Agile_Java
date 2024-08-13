@@ -8,6 +8,7 @@ public class Field<T> extends JTextField {
     private String fieldName;
     private String text;
     private String shortName;
+    private String info;
     private int limit;
     private int columns;
     private boolean upCaseOnly = false;
@@ -53,6 +54,10 @@ public class Field<T> extends JTextField {
         this.format = format;
     }
 
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
     public String getLabel() {
         return text;
     }
@@ -82,6 +87,10 @@ public class Field<T> extends JTextField {
 
     public String getShortName() {
         return this.shortName;
+    }
+
+    public String getInfo() {
+        return info;
     }
 
     @Override

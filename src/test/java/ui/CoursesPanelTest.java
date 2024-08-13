@@ -79,6 +79,18 @@ public class CoursesPanelTest extends TestCase {
         assertTrue(wasClicked);
     }
 
+    private void assertFields (String[] fieldNames) {
+        StatusBar statusBar = (StatusBar) Util.getComponent(panel, StatusBar.NAME);
+
+        FieldCatalog catalog = new FieldCatalog();
+        for (String fieldName: fieldNames) {
+            JTextField field = panel.getField(fieldName);
+            Field fieldSpec = catalog.get(fieldName);
+            assertEquals(fieldSpec.getInfo(), statusBar.getInfo(field));
+            assertLabelText(fieldSpec.getName() , fieldSpec.getLabel());
+        }
+    }
+
     public void testAddCourse() {
         Course course = new Course("ENGL", "101");
         panel.addCourse(course);

@@ -22,6 +22,7 @@ public class CoursesPanel extends JPanel {
     static final String ADD_BUTTON_NAME = "addButton";
 
     private final Map<String, JTextField> fieldsMap = new HashMap<>();
+    public StatusBar statusBar;
 
     private JButton addButton;
     private final CoursesTableModel coursesTableModel = new CoursesTableModel();
@@ -80,10 +81,22 @@ public class CoursesPanel extends JPanel {
         addButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(addButton);
         panel.add(Box.createRigidArea(new Dimension(0, 6)));
-        panel.add(createFieldsPanel());
+        panel.add(createInputPanel());
 
         panel.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
 
+        return panel;
+    }
+
+
+    JPanel createInputPanel() {
+        statusBar = new StatusBar();
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+
+        panel.add(statusBar, BorderLayout.SOUTH);
+        panel.add(createFieldsPanel(), BorderLayout.CENTER);
         return panel;
     }
 
@@ -97,9 +110,8 @@ public class CoursesPanel extends JPanel {
         for (String fieldName : getFieldNames()) {
             Field fieldSpec = catalog.get(fieldName);
             JTextField textField = TextFieldFactory.create(fieldSpec);
-
+            statusBar.addText(textField, fieldSpec.getInfo());
             fieldsMap.put(fieldSpec.getName(), textField);
-
             addField(panel, layout, i++, createLabel(fieldSpec), textField);
         }
         return panel;
@@ -135,7 +147,6 @@ public class CoursesPanel extends JPanel {
         panel.add(label);
         panel.add(field);
     }
-
 
     void addCourse(Course course) {
         coursesTableModel.add(course);
@@ -214,6 +225,8 @@ public class CoursesPanel extends JPanel {
     }
 
     void addFieldListener(String name, KeyListener listener) {
+        System.out.println(name);
+        System.out.println(getField(name));
         getField(name).addKeyListener(listener);
     }
 
