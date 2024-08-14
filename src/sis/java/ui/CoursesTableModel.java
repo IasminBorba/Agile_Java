@@ -21,6 +21,15 @@ class CoursesTableModel extends AbstractTableModel {
         fireTableRowsInserted(courses.size()-1, courses.size());
     }
 
+    void remove(Course course) {
+        int index = courses.indexOf(course);
+        if (index != -1) {
+            courses.remove(index);
+            fireTableRowsDeleted(index, index);
+        }
+    }
+
+
     Course get(int index) {
         return courses.get(index);
     }
@@ -30,7 +39,6 @@ class CoursesTableModel extends AbstractTableModel {
         return field.getShortName();
     }
 
-    // abstract (req'd) methods: getValueAt, getColumnCount, getRowCount
     public Object getValueAt(int row, int column) {
         Course course = courses.get(row);
         String fieldName = fields[column];

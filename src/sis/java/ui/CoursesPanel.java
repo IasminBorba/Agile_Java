@@ -18,15 +18,21 @@ public class CoursesPanel extends JPanel {
     static final String NAME = "coursesPanel";
     static final String COURSES_LABEL_TEXT = "Courses";
     static final String COURSES_TABLE_NAME = "coursesTable";
-    static final String ADD_BUTTON_TEXT = "Add";
-    static final String ADD_BUTTON_NAME = "addButton";
 
     private final Map<String, JTextField> fieldsMap = new HashMap<>();
     public StatusBar statusBar;
 
     private JButton addButton;
-    private final CoursesTableModel coursesTableModel = new CoursesTableModel();
+    static final String ADD_BUTTON_TEXT = "Add";
+    static final String ADD_BUTTON_NAME = "addButton";
     static final char ADD_BUTTON_MNEMONIC = 'A';
+
+    private JButton removeButton;
+    static final String REMOVE_BUTTON_TEXT = "Remove";
+    static final String REMOVE_BUTTON_NAME = "removeButton";
+
+    private final CoursesTableModel coursesTableModel = new CoursesTableModel();
+    JTable coursesTable = createCoursesTable();
 
     public static void main(String[] args) {
         show(new CoursesPanel());
@@ -46,7 +52,6 @@ public class CoursesPanel extends JPanel {
     }
 
     private void createLayout() {
-        JTable coursesTable = createCoursesTable();
         JScrollPane coursesScroll = new JScrollPane(coursesTable);
         coursesScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 
@@ -59,7 +64,7 @@ public class CoursesPanel extends JPanel {
         setBorder(BorderFactory.createCompoundBorder(emptyBorder, titleBorder));
 
         add(coursesScroll, BorderLayout.CENTER);
-        add(createBottomPanel(), BorderLayout.SOUTH);
+        add(createSouthPanel(), BorderLayout.SOUTH);
     }
 
     private JTable createCoursesTable() {
@@ -70,24 +75,35 @@ public class CoursesPanel extends JPanel {
         return table;
     }
 
-    JPanel createBottomPanel() {
-        addButton = createButton(ADD_BUTTON_NAME, ADD_BUTTON_TEXT);
-        addButton.setMnemonic(ADD_BUTTON_MNEMONIC);
-
+    JPanel createSouthPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
-
         panel.add(Box.createRigidArea(new Dimension(0, 6)));
-        addButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(addButton);
+
+        panel.add(createBottomPanel());
+
         panel.add(Box.createRigidArea(new Dimension(0, 6)));
         panel.add(createInputPanel());
 
         panel.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
-
         return panel;
     }
 
+    JPanel createBottomPanel() {
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
+
+        addButton = createButton(ADD_BUTTON_NAME, ADD_BUTTON_TEXT);
+        addButton.setMnemonic(ADD_BUTTON_MNEMONIC);
+        buttonPanel.add(addButton);
+
+        buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+
+        removeButton = createButton(REMOVE_BUTTON_NAME, REMOVE_BUTTON_TEXT);
+        buttonPanel.add(removeButton);
+
+        return buttonPanel;
+    }
 
     JPanel createInputPanel() {
         statusBar = new StatusBar();
@@ -148,6 +164,22 @@ public class CoursesPanel extends JPanel {
         panel.add(field);
     }
 
+    public Course getSelectedCourse() {
+        int selectedRow = coursesTable.getSelectedRow();
+        if (selectedRow != -1) {
+            int modelRow = coursesTable.convertRowIndexToModel(selectedRow);
+            return coursesTableModel.get(modelRow);
+        }
+        return null;
+    }
+
+
+    void removeCourse(Course... courses) {
+        for (Course course: courses)
+            if (verifyCourse(course))
+                coursesTableModel.remove(course);
+    }
+
     void addCourse(Course course) {
         if (verifyCourse(course)) {
             coursesTableModel.add(course);
@@ -184,6 +216,10 @@ public class CoursesPanel extends JPanel {
 
     void addCourseAddListener(ActionListener listener) {
         addButton.addActionListener(listener);
+    }
+
+    void addRemoveButtonListener(ActionListener listener) {
+        removeButton.addActionListener(listener);
     }
 
     Course getCourse(int index) {

@@ -54,6 +54,16 @@ public class Sis {
                 addCourse();
             }
         });
+        panel.addRemoveButtonListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Course selectedCourse = panel.getSelectedCourse();
+                if (selectedCourse != null) {
+                    panel.removeCourse(selectedCourse);
+                } else {
+                    JOptionPane.showMessageDialog(frame, "No course selected", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
     }
 
     private void addCourse() {
@@ -76,6 +86,7 @@ public class Sis {
                 }
 
                 panel.addCourse(course);
+                setAddButtonState();
                 return null;
             }
 
@@ -88,20 +99,53 @@ public class Sis {
         worker.execute();
     }
 
+    private void removeCourse() {
+        frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+        SwingWorker<Void, Void> worker = new SwingWorker<>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                Course selectedCourse = panel.getSelectedCourse();
+                if (selectedCourse != null) {
+                    panel.removeCourse(selectedCourse);
+                }
+                return null;
+            }
+
+            @Override
+            protected void done() {
+                setRemoveButtonState();
+                frame.setCursor(Cursor.getDefaultCursor());
+            }
+        };
+
+        worker.execute();
+    }
+
+
     void createKeyListeners() {
         KeyListener listener = new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
-                setAddButtonState();
+                setButtonState();
             }
         };
         panel.addFieldListener(FieldCatalog.DEPARTMENT_FIELD_NAME, listener);
         panel.addFieldListener(FieldCatalog.NUMBER_FIELD_NAME, listener);
+        setButtonState();
+    }
+
+    void setButtonState() {
         setAddButtonState();
+        setRemoveButtonState();
     }
 
     void setAddButtonState() {
         panel.setEnabled(CoursesPanel.ADD_BUTTON_NAME,
                 verifyFilterField(FieldCatalog.DEPARTMENT_FIELD_NAME, FieldCatalog.NUMBER_FIELD_NAME));
+    }
+
+    void setRemoveButtonState() {
+        panel.setEnabled(CoursesPanel.REMOVE_BUTTON_NAME, panel.getSelectedCourse() != null);
     }
 
     private boolean verifyFilterField(String... fields) {
