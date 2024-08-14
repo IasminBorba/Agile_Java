@@ -91,6 +91,20 @@ public class CoursesPanelTest extends TestCase {
         }
     }
 
+    public void testAddCourseDuplicate() {
+        JTable table = panel.getTable(COURSES_TABLE_NAME);
+        CoursesTableModel model = (CoursesTableModel) table.getModel();
+
+        Course course = new Course("ENGL", "101");
+        panel.addCourse(course);
+        assertSame(course, model.get(0));
+
+        Course course2 = new Course("ENGL", "101");
+        panel.addCourse(course2);
+
+        assertFalse((model.getCourses().size()) == 2);
+    }
+
     public void testAddCourse() {
         Course course = new Course("ENGL", "101");
         panel.addCourse(course);

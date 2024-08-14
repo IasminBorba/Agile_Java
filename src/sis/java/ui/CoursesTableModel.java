@@ -49,4 +49,8 @@ class CoursesTableModel extends AbstractTableModel {
     public int getRowCount() {
         return courses.size();
     }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
 }

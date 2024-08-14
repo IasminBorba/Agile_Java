@@ -149,14 +149,25 @@ public class CoursesPanel extends JPanel {
     }
 
     void addCourse(Course course) {
-        coursesTableModel.add(course);
-        clearFields();
+        if (verifyCourse(course)) {
+            coursesTableModel.add(course);
+            clearFields();
+        }
     }
 
     void clearFields() {
         for (String fieldName : fieldsMap.keySet()) {
             fieldsMap.get(fieldName).setText("");
         }
+    }
+
+    boolean verifyCourse(Course course) {
+        for (Course c : coursesTableModel.getCourses()) {
+            if (c.equals(course)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private JLabel createLabel(Field field) {
