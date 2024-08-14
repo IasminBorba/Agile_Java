@@ -110,7 +110,7 @@ public class CoursesPanel extends JPanel {
         for (String fieldName : getFieldNames()) {
             Field fieldSpec = catalog.get(fieldName);
             JTextField textField = TextFieldFactory.create(fieldSpec);
-            statusBar.addText(textField, fieldSpec.getInfo());
+            statusBar.setInfo(textField, fieldSpec.getInfo());
             fieldsMap.put(fieldSpec.getName(), textField);
             addField(panel, layout, i++, createLabel(fieldSpec), textField);
         }
@@ -225,8 +225,6 @@ public class CoursesPanel extends JPanel {
     }
 
     void addFieldListener(String name, KeyListener listener) {
-        System.out.println(name);
-        System.out.println(getField(name));
         getField(name).addKeyListener(listener);
     }
 

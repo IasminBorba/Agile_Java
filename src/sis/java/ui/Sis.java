@@ -5,6 +5,7 @@ import util.ImageUtil;
 
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
+import java.awt.*;
 import java.awt.event.*;
 
 public class Sis {
@@ -56,13 +57,35 @@ public class Sis {
     }
 
     private void addCourse() {
-        Course course;
-        try {
-            course = new Course(panel.getDepartment(), panel.getNumber(), panel.getDate());
-        } catch (Exception e) {
-            course = new Course(panel.getDepartment(), panel.getNumber());
-        }
-        panel.addCourse(course);
+        frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+        SwingWorker<Void, Void> worker = new SwingWorker<>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                Course course;
+                try {
+                    course = new Course(panel.getDepartment(), panel.getNumber(), panel.getDate());
+                } catch (Exception e) {
+                    course = new Course(panel.getDepartment(), panel.getNumber());
+                }
+
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+
+                panel.addCourse(course);
+                return null;
+            }
+
+            @Override
+            protected void done() {
+                frame.setCursor(Cursor.getDefaultCursor());
+            }
+        };
+
+        worker.execute();
     }
 
     void createKeyListeners() {

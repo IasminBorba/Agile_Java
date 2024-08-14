@@ -30,16 +30,4 @@ public class StatusBar extends JLabel {
             }
         });
     }
-
-    public void addText(final JTextField textField, final String text) {
-        infos.put(textField, text);
-        textField.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent event) {
-                setText(text);
-            }
-            public void mouseExited(MouseEvent event) {
-                setText(EMPTY);
-            }
-        });
-    }
 }
