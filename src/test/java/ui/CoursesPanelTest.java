@@ -100,6 +100,28 @@ public class CoursesPanelTest extends TestCase {
         assertSame(course, model.get(0));
     }
 
+    public void testClearFields() {
+        assertCleanFields();
+
+        String fieldDept = DEPARTMENT_FIELD_NAME;
+        panel.setText(fieldDept, "ENGL");
+        String textDept = panel.getText(fieldDept);
+        assertTrue(panel.getText(fieldDept).equals("ENGL"));
+
+        String fieldNum = NUMBER_FIELD_NAME;
+        panel.setText(fieldNum, "101");
+        String textNum = panel.getText(fieldNum);
+        assertTrue(panel.getText(fieldNum).equals("101"));
+
+        panel.addCourse(new Course(textDept, textNum));
+        assertCleanFields();
+    }
+
+    void assertCleanFields() {
+        for (JTextField fieldText: panel.getFields().values())
+            assertEquals("", fieldText.getText());
+    }
+
     public void testEnableDisable() {
         panel.setEnabled(ADD_BUTTON_NAME, true);
         JButton button = panel.getButton(ADD_BUTTON_NAME);

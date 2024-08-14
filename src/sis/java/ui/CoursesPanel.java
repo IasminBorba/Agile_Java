@@ -150,6 +150,13 @@ public class CoursesPanel extends JPanel {
 
     void addCourse(Course course) {
         coursesTableModel.add(course);
+        clearFields();
+    }
+
+    void clearFields() {
+        for (String fieldName : fieldsMap.keySet()) {
+            fieldsMap.get(fieldName).setText("");
+        }
     }
 
     private JLabel createLabel(Field field) {
@@ -230,5 +237,9 @@ public class CoursesPanel extends JPanel {
 
     int getCourseCount() {
         return coursesTableModel.getRowCount();
+    }
+
+    Map<String, JTextField> getFields() {
+        return fieldsMap;
     }
 }
