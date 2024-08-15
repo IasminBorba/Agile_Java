@@ -34,6 +34,16 @@ class CoursesTableModel extends AbstractTableModel {
         return courses.get(index);
     }
 
+    int getIndexCourse(Course course) {
+        int index = 0;
+        for (Course c : courses) {
+            if (c.equals(course))
+                return index;
+            index++;
+        }
+        return -1;
+    }
+
     public String getColumnName(int column) {
         Field field = catalog.get(fields[column]);
         return field.getShortName();

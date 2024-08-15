@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
 
 public class Sis {
     static final int WIDTH = 350;
@@ -54,14 +55,15 @@ public class Sis {
                 addCourse();
             }
         });
-        panel.addRemoveButtonListener(new ActionListener() {
+        panel.removeRemoveAddListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Course selectedCourse = panel.getSelectedCourse();
-                if (selectedCourse != null) {
-                    panel.removeCourse(selectedCourse);
-                } else {
-                    JOptionPane.showMessageDialog(frame, "No course selected", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                List<Course> selectedCourses = panel.getSelectedCourses();
+                if (!selectedCourses.isEmpty())
+                    for (Course course : selectedCourses)
+                        if (course != null)
+                            panel.removeCourse(course);
+                        else
+                            JOptionPane.showMessageDialog(frame, "No course selected", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
     }
@@ -99,30 +101,6 @@ public class Sis {
         worker.execute();
     }
 
-    private void removeCourse() {
-        frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-
-        SwingWorker<Void, Void> worker = new SwingWorker<>() {
-            @Override
-            protected Void doInBackground() throws Exception {
-                Course selectedCourse = panel.getSelectedCourse();
-                if (selectedCourse != null) {
-                    panel.removeCourse(selectedCourse);
-                }
-                return null;
-            }
-
-            @Override
-            protected void done() {
-                setRemoveButtonState();
-                frame.setCursor(Cursor.getDefaultCursor());
-            }
-        };
-
-        worker.execute();
-    }
-
-
     void createKeyListeners() {
         KeyListener listener = new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
@@ -145,7 +123,7 @@ public class Sis {
     }
 
     void setRemoveButtonState() {
-        panel.setEnabled(CoursesPanel.REMOVE_BUTTON_NAME, panel.getSelectedCourse() != null);
+        panel.setEnabled(CoursesPanel.REMOVE_BUTTON_NAME, !panel.getSelectedCourses().isEmpty());
     }
 
     private boolean verifyFilterField(String... fields) {

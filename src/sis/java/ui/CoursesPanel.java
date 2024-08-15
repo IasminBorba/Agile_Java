@@ -8,8 +8,8 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.List;
 
 import static java.awt.GridBagConstraints.*;
 import static junit.framework.Assert.fail;
@@ -71,7 +71,7 @@ public class CoursesPanel extends JPanel {
         JTable table = new JTable(coursesTableModel);
         table.setName(COURSES_TABLE_NAME);
         table.setShowGrid(false);
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         return table;
     }
 
@@ -164,42 +164,47 @@ public class CoursesPanel extends JPanel {
         panel.add(field);
     }
 
-    public Course getSelectedCourse() {
-        int selectedRow = coursesTable.getSelectedRow();
-        if (selectedRow != -1) {
-            int modelRow = coursesTable.convertRowIndexToModel(selectedRow);
-            return coursesTableModel.get(modelRow);
-        }
-        return null;
+    public List<Course> getSelectedCourses() {
+        List<Course> courses = new ArrayList<>();
+        int[] selectedRows = coursesTable.getSelectedRows();
+
+        for (int index : selectedRows)
+            courses.add(coursesTableModel.get(index));
+
+        return courses;
     }
 
 
     void removeCourse(Course... courses) {
         for (Course course: courses)
-            if (verifyCourse(course))
+            if (verifyRemoveCourse(course))
                 coursesTableModel.remove(course);
     }
 
     void addCourse(Course course) {
-        if (verifyCourse(course)) {
+        if (verifyAddCourse(course)) {
             coursesTableModel.add(course);
             clearFields();
         }
     }
 
     void clearFields() {
-        for (String fieldName : fieldsMap.keySet()) {
+        for (String fieldName : fieldsMap.keySet())
             fieldsMap.get(fieldName).setText("");
-        }
     }
 
-    boolean verifyCourse(Course course) {
-        for (Course c : coursesTableModel.getCourses()) {
-            if (c.equals(course)) {
+    boolean verifyAddCourse(Course course) {
+        for (Course c : coursesTableModel.getCourses())
+            if (c.equals(course))
                 return false;
-            }
-        }
         return true;
+    }
+
+    boolean verifyRemoveCourse(Course course) {
+        for (Course c : coursesTableModel.getCourses())
+            if (c.equals(course))
+                return true;
+        return false;
     }
 
     private JLabel createLabel(Field field) {
@@ -218,7 +223,7 @@ public class CoursesPanel extends JPanel {
         addButton.addActionListener(listener);
     }
 
-    void addRemoveButtonListener(ActionListener listener) {
+    void removeRemoveAddListener(ActionListener listener) {
         removeButton.addActionListener(listener);
     }
 
@@ -256,6 +261,19 @@ public class CoursesPanel extends JPanel {
 
     void setText(String textFieldName, String text) {
         getField(textFieldName).setText(text);
+    }
+
+    void setSelected(Course... courses) {
+        List <Integer> indexs = new ArrayList<>();
+
+        for (Course courseTable : coursesTableModel.getCourses())
+            for (Course courseList : courses)
+                if (courseTable.equals(courseList))
+                    indexs.add(coursesTableModel.getIndexCourse(courseList));
+
+        if (!indexs.isEmpty())
+            for (int index : indexs)
+                coursesTable.addRowSelectionInterval(index, index);
     }
 
     String getText(String textFIeldName) {

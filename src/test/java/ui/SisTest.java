@@ -10,6 +10,8 @@ import java.awt.*;
 import java.awt.event.InputEvent;
 import java.util.ArrayList;
 
+import static ui.CoursesPanel.COURSES_TABLE_NAME;
+
 public class SisTest extends TestCase {
     private Sis sis;
     private JFrame frame;
@@ -76,7 +78,7 @@ public class SisTest extends TestCase {
         assertTrue(frame.isVisible());
     }
 
-    public void testAddCourse() {
+    public void testAddCourse() throws InterruptedException {
         panel.setEnabled(CoursesPanel.ADD_BUTTON_NAME, true);
         panel.setText(FieldCatalog.DEPARTMENT_FIELD_NAME, "MATH");
         panel.setText(FieldCatalog.NUMBER_FIELD_NAME, "300");
@@ -84,10 +86,42 @@ public class SisTest extends TestCase {
         JButton button = panel.getButton(CoursesPanel.ADD_BUTTON_NAME);
 
         button.doClick();
+        Thread.sleep(1000);
 
         Course course = panel.getCourse(0);
         assertEquals("MATH", course.getDepartment());
         assertEquals("300", course.getNumber());
+    }
+
+    public void testRemoveCourse() {
+        JButton button = panel.getButton(CoursesPanel.REMOVE_BUTTON_NAME);
+        assertFalse(button.isEnabled());
+
+        JTable table = panel.getTable(COURSES_TABLE_NAME);
+        CoursesTableModel model = (CoursesTableModel) table.getModel();
+
+        Course course1 = new Course("CourseA", "101");
+        panel.addCourse(course1);
+
+        Course course2 = new Course("CourseB", "202");
+        panel.addCourse(course2);
+
+        Course course3 = new Course("CourseC", "303");
+        panel.addCourse(course3);
+
+        Course course4 = new Course("CourseD", "404");
+        panel.addCourse(course4);
+
+        assertTrue(model.getRowCount() == 4);
+
+        panel.setSelected(course1, course3, course4);
+        sis.setRemoveButtonState();
+        assertTrue(button.isEnabled());
+
+        button.doClick();
+
+        assertTrue(model.getRowCount() == 1);
+        assertSame(course2, model.get(0));
     }
 
     public void testSetAddButtonState() throws Exception {
@@ -110,6 +144,34 @@ public class SisTest extends TestCase {
         panel.setText(FieldCatalog.NUMBER_FIELD_NAME, "123");
         sis.setAddButtonState();
         assertTrue(button.isEnabled());
+    }
+
+    public void testSetRemoveButtonState() throws Exception {
+        JButton button = panel.getButton(CoursesPanel.REMOVE_BUTTON_NAME);
+        assertFalse(button.isEnabled());
+
+        JTable table = panel.getTable(COURSES_TABLE_NAME);
+        CoursesTableModel model = (CoursesTableModel) table.getModel();
+
+        Course course1 = new Course("ENGL", "101");
+        panel.addCourse(course1);
+        assertSame(course1, model.get(0));
+
+        Course course2 = new Course("a", "123");
+        panel.addCourse(course2);
+        assertSame(course2, model.get(1));
+
+        assertTrue(model.getRowCount() == 2);
+
+        panel.setSelected(course1);
+        sis.setRemoveButtonState();
+        assertTrue(button.isEnabled());
+
+        button.doClick();
+
+        assertTrue(model.getRowCount() == 1);
+        assertSame(course2, model.get(0));
+
     }
 
 //    public void testKeyListeners() throws Exception {

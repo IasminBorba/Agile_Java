@@ -138,11 +138,18 @@ public class CoursesPanelTest extends TestCase {
 
     public void testEnableDisable() {
         panel.setEnabled(ADD_BUTTON_NAME, true);
-        JButton button = panel.getButton(ADD_BUTTON_NAME);
-        assertTrue(button.isEnabled());
+        JButton buttonAdd = panel.getButton(ADD_BUTTON_NAME);
+        assertTrue(buttonAdd.isEnabled());
 
         panel.setEnabled(ADD_BUTTON_NAME, false);
-        assertFalse(button.isEnabled());
+        assertFalse(buttonAdd.isEnabled());
+
+        panel.setEnabled(REMOVE_BUTTON_NAME, true);
+        JButton buttonRemove = panel.getButton(REMOVE_BUTTON_NAME);
+        assertTrue(buttonRemove.isEnabled());
+
+        panel.setEnabled(REMOVE_BUTTON_NAME, false);
+        assertFalse(buttonRemove.isEnabled());
     }
 
     public void testAddListener() throws Exception {
