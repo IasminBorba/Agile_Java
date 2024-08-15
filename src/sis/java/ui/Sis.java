@@ -9,6 +9,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 
+import static ui.CoursesPanel.COURSES_TABLE_NAME;
+
 public class Sis {
     static final int WIDTH = 350;
     static final int HEIGHT = 400;
@@ -55,19 +57,24 @@ public class Sis {
                 addCourse();
             }
         });
-        panel.removeRemoveAddListener(new ActionListener() {
+
+        panel.removeCourseAddListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                List<Course> selectedCourses = panel.getSelectedCourses();
-                if (!selectedCourses.isEmpty())
-                    for (Course course : selectedCourses)
-                        if (course != null)
-                            panel.removeCourse(course);
-                        else
-                            JOptionPane.showMessageDialog(frame, "No course selected", "Error", JOptionPane.ERROR_MESSAGE);
+                removeCourse();
             }
         });
     }
 
+    private void removeCourse() {
+        List<Course> selectedCourses = panel.getSelectedCourses();
+        if (!selectedCourses.isEmpty())
+            for (Course course : selectedCourses)
+                if (course != null) {
+                    panel.removeCourse(course);
+                    setRemoveButtonState();
+                } else
+                    JOptionPane.showMessageDialog(frame, "No course selected", "Error", JOptionPane.ERROR_MESSAGE);
+    }
     private void addCourse() {
         frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
@@ -109,6 +116,14 @@ public class Sis {
         };
         panel.addFieldListener(FieldCatalog.DEPARTMENT_FIELD_NAME, listener);
         panel.addFieldListener(FieldCatalog.NUMBER_FIELD_NAME, listener);
+
+        panel.getTable(COURSES_TABLE_NAME).addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                setButtonState();
+            }
+        });
+
         setButtonState();
     }
 

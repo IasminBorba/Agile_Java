@@ -223,7 +223,7 @@ public class CoursesPanel extends JPanel {
         addButton.addActionListener(listener);
     }
 
-    void removeRemoveAddListener(ActionListener listener) {
+    void removeCourseAddListener(ActionListener listener) {
         removeButton.addActionListener(listener);
     }
 
