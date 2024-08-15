@@ -30,6 +30,11 @@ public class CoursesPanel extends JPanel {
     private JButton removeButton;
     static final String REMOVE_BUTTON_TEXT = "Remove";
     static final String REMOVE_BUTTON_NAME = "removeButton";
+    static final String REMOVE_BUTTON_MNEMONIC = "D";
+
+    private JButton updateButton;
+    static final String UPDATE_BUTTON_TEXT = "Update";
+    static final String UPDATE_BUTTON_NAME = "updateButton";
 
     private final CoursesTableModel coursesTableModel = new CoursesTableModel();
     JTable coursesTable = createCoursesTable();
@@ -71,7 +76,7 @@ public class CoursesPanel extends JPanel {
         JTable table = new JTable(coursesTableModel);
         table.setName(COURSES_TABLE_NAME);
         table.setShowGrid(false);
-        table.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         return table;
     }
 
@@ -100,7 +105,11 @@ public class CoursesPanel extends JPanel {
         buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 
         removeButton = createButton(REMOVE_BUTTON_NAME, REMOVE_BUTTON_TEXT);
+        addButton.setMnemonic(ADD_BUTTON_MNEMONIC);
         buttonPanel.add(removeButton);
+
+        updateButton = createButton(UPDATE_BUTTON_NAME, UPDATE_BUTTON_TEXT);
+        buttonPanel.add(updateButton);
 
         return buttonPanel;
     }
@@ -133,7 +142,7 @@ public class CoursesPanel extends JPanel {
         return panel;
     }
 
-    private String[] getFieldNames() {
+    protected String[] getFieldNames() {
         return new String[]{
                 FieldCatalog.DEPARTMENT_FIELD_NAME,
                 FieldCatalog.NUMBER_FIELD_NAME,
@@ -174,11 +183,22 @@ public class CoursesPanel extends JPanel {
         return courses;
     }
 
+    void updateCourse(Course course, Course newCourse) {
+        if (verifyUpdateCourse(newCourse)) {
+            int index = coursesTableModel.getIndexCourse(course);
+            coursesTableModel.update(course, newCourse);
+            coursesTable.removeRowSelectionInterval(index, index);
+            clearFields();
+        }
+    }
 
     void removeCourse(Course... courses) {
         for (Course course: courses)
-            if (verifyRemoveCourse(course))
+            if (verifyRemoveCourse(course)) {
+                int index = coursesTableModel.getIndexCourse(course);
                 coursesTableModel.remove(course);
+                coursesTable.removeRowSelectionInterval(index, index);
+            }
     }
 
     void addCourse(Course course) {
@@ -194,6 +214,13 @@ public class CoursesPanel extends JPanel {
     }
 
     boolean verifyAddCourse(Course course) {
+        for (Course c : coursesTableModel.getCourses())
+            if (c.equals(course))
+                return false;
+        return true;
+    }
+
+    boolean verifyUpdateCourse(Course course) {
         for (Course c : coursesTableModel.getCourses())
             if (c.equals(course))
                 return false;
@@ -225,6 +252,10 @@ public class CoursesPanel extends JPanel {
 
     void removeCourseAddListener(ActionListener listener) {
         removeButton.addActionListener(listener);
+    }
+
+    void updateCourseAddListener(ActionListener listener) {
+        updateButton.addActionListener(listener);
     }
 
     Course getCourse(int index) {
@@ -293,7 +324,15 @@ public class CoursesPanel extends JPanel {
     }
 
     void setEnabled(String name, boolean state) {
+        Color color = null;
+        if (state) {
+            if (Objects.equals(name, ADD_BUTTON_NAME))
+                color = Color.decode("#82A966");
+            if(Objects.equals(name, REMOVE_BUTTON_NAME))
+                color = Color.decode("#E03A36");
+        }
         getButton(name).setEnabled(state);
+        getButton(name).setBackground(color);
     }
 
     void addFieldListener(String name, KeyListener listener) {

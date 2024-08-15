@@ -63,6 +63,29 @@ public class Sis {
                 removeCourse();
             }
         });
+
+        panel.updateCourseAddListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                updateCourse();
+            }
+        });
+    }
+
+    private void updateCourse() {
+        List<Course> selectedCourses = panel.getSelectedCourses();
+        if (selectedCourses.size() == 1)
+            for (Course course : selectedCourses)
+                if (course != null) {
+                    Course newCourse;
+                    try {
+                        newCourse = new Course(panel.getDepartment(), panel.getNumber(), panel.getDate());
+                    } catch (Exception e) {
+                        newCourse = new Course(panel.getDepartment(), panel.getNumber());
+                    }
+                    panel.updateCourse(course, newCourse);
+                    setButtonState();
+                } else
+                    JOptionPane.showMessageDialog(frame, "No course selected", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
     private void removeCourse() {
@@ -75,6 +98,7 @@ public class Sis {
                 } else
                     JOptionPane.showMessageDialog(frame, "No course selected", "Error", JOptionPane.ERROR_MESSAGE);
     }
+
     private void addCourse() {
         frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
@@ -130,6 +154,7 @@ public class Sis {
     void setButtonState() {
         setAddButtonState();
         setRemoveButtonState();
+        setUpdateButtonState();
     }
 
     void setAddButtonState() {
@@ -138,12 +163,18 @@ public class Sis {
     }
 
     void setRemoveButtonState() {
-        panel.setEnabled(CoursesPanel.REMOVE_BUTTON_NAME, !panel.getSelectedCourses().isEmpty());
+        panel.setEnabled(CoursesPanel.REMOVE_BUTTON_NAME, verifyFields());
+    }
+
+    void setUpdateButtonState() {
+        panel.setEnabled(CoursesPanel.UPDATE_BUTTON_NAME, panel.getSelectedCourses().size() == 1);
     }
 
     private boolean verifyFilterField(String... fields) {
         for (String fieldName : fields) {
             JTextField field = panel.getField(fieldName);
+            if(!panel.getSelectedCourses().isEmpty())
+                return false;
 
             if (isEmptyField(field))
                 return false;
@@ -155,6 +186,16 @@ public class Sis {
 
     private boolean isEmptyField(JTextField field) {
         return field.getText().trim().isEmpty();
+    }
+
+    private boolean verifyFields() {
+        if (!panel.getSelectedCourses().isEmpty()) {
+            for (String fieldName : panel.getFieldNames())
+                if (!isEmptyField(panel.getField(fieldName)))
+                    return false;
+            return true;
+        }
+        return false;
     }
 
     private boolean verifyFilter(JTextField field) {

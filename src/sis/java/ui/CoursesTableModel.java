@@ -29,6 +29,12 @@ class CoursesTableModel extends AbstractTableModel {
         }
     }
 
+    void update(Course course, Course newCourse) {
+        int index = getIndexCourse(course);
+        courses.set(index, newCourse);
+        fireTableRowsUpdated(index, index);
+    }
+
 
     Course get(int index) {
         return courses.get(index);
