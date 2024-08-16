@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static ui.CoursesPanel.COURSES_TABLE_NAME;
@@ -158,8 +159,7 @@ public class Sis {
     }
 
     void setAddButtonState() {
-        panel.setEnabled(CoursesPanel.ADD_BUTTON_NAME,
-                verifyFilterField(FieldCatalog.DEPARTMENT_FIELD_NAME, FieldCatalog.NUMBER_FIELD_NAME));
+        panel.setEnabled(CoursesPanel.ADD_BUTTON_NAME, verifyFieldsAdd());
     }
 
     void setRemoveButtonState() {
@@ -167,14 +167,34 @@ public class Sis {
     }
 
     void setUpdateButtonState() {
-        panel.setEnabled(CoursesPanel.UPDATE_BUTTON_NAME, panel.getSelectedCourses().size() == 1);
+        panel.setEnabled(CoursesPanel.UPDATE_BUTTON_NAME, panel.getSelectedCourses().size() == 1 && verifyFieldsUpdate());
     }
 
-    private boolean verifyFilterField(String... fields) {
+    private boolean verifyFieldsAdd() {
+        List<String> fields = new ArrayList<>();
+        fields.add(FieldCatalog.DEPARTMENT_FIELD_NAME);
+        fields.add(FieldCatalog.NUMBER_FIELD_NAME);
+
         for (String fieldName : fields) {
             JTextField field = panel.getField(fieldName);
             if(!panel.getSelectedCourses().isEmpty())
                 return false;
+
+            if (isEmptyField(field))
+                return false;
+            if (!verifyFilter(field))
+                return false;
+        }
+        return true;
+    }
+
+    private boolean verifyFieldsUpdate() {
+        List<String> fields = new ArrayList<>();
+        fields.add(FieldCatalog.DEPARTMENT_FIELD_NAME);
+        fields.add(FieldCatalog.NUMBER_FIELD_NAME);
+
+        for (String fieldName : fields) {
+            JTextField field = panel.getField(fieldName);
 
             if (isEmptyField(field))
                 return false;
