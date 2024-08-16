@@ -9,6 +9,8 @@ import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static ui.CoursesPanel.COURSES_TABLE_NAME;
 
@@ -202,5 +204,62 @@ public class SisTest extends TestCase {
         robot.keyPress(key);
         robot.keyRelease(key);
         Thread.sleep(500);
+    }
+
+    public void testOrderByColumn() throws Exception {
+        JTable table = panel.getTable(COURSES_TABLE_NAME);
+        CoursesTableModel model = (CoursesTableModel) table.getModel();
+
+        Course course1 = new Course("CourseA", "777");
+        panel.addCourse(course1);
+
+        Course course2 = new Course("CourseC", "555");
+        panel.addCourse(course2);
+
+        Course course3 = new Course("CourseB", "111");
+        panel.addCourse(course3);
+
+        assertTrue(model.getRowCount() == 3);
+        String dept =FieldCatalog.DEPARTMENT_FIELD_NAME;
+        String num =FieldCatalog.NUMBER_FIELD_NAME;
+
+        panel.orderByColumn(model.getColumnIndex(dept));
+        Course[] courses1 = {course1, course3, course2};
+        assertOrder(model.getCourses(), courses1);
+
+
+        panel.orderByColumn(model.getColumnIndex(num));
+        Course[] courses2 = {course3, course2, course1};
+        assertOrder(model.getCourses(), courses2);
+
+
+        Course course4 = new Course("CourseA", "333");
+        panel.addCourse(course4);
+
+        panel.orderByColumn(model.getColumnIndex(num));
+        Course[] courses3 = {course3, course4, course2, course1};
+        assertOrder(model.getCourses(), courses3);
+
+        panel.orderByColumn(model.getColumnIndex(dept));
+        Course[] courses4 = {course4, course1, course3, course2};
+        assertOrder(model.getCourses(), courses4);
+
+        Course course5 = new Course("CourseA", "111");
+        panel.updateCourse(course1, course5);
+        panel.orderByColumn(model.getColumnIndex(num));
+        panel.orderByColumn(model.getColumnIndex(dept));
+        Course[] courses5 = {course5, course4, course3, course2};
+        assertOrder(model.getCourses(), courses5);
+    }
+
+    private void assertOrder(List<Course> tableListCourses, Course[] courseList) {
+        assertEquals(courseList.length, tableListCourses.size());
+        int indexMAX = courseList.length-1;
+        List<Course> courses = Arrays.stream(courseList).toList();
+
+        while (indexMAX >= 0) {
+            assertSame(courses.get(indexMAX), tableListCourses.get(indexMAX));
+            indexMAX--;
+        }
     }
 }

@@ -4,6 +4,7 @@ import studentinfo.Course;
 
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
@@ -74,9 +75,12 @@ public class CoursesPanel extends JPanel {
 
     private JTable createCoursesTable() {
         JTable table = new JTable(coursesTableModel);
+        TableRowSorter<CoursesTableModel> sorter = new TableRowSorter<>(coursesTableModel);
+
         table.setName(COURSES_TABLE_NAME);
         table.setShowGrid(false);
         table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        table.setRowSorter(sorter);
         return table;
     }
 
@@ -183,6 +187,11 @@ public class CoursesPanel extends JPanel {
         return courses;
     }
 
+    public void orderByColumn(int columnIndex) {
+        coursesTable.getRowSorter().toggleSortOrder(columnIndex);
+        coursesTableModel.sort(columnIndex);
+    }
+
     void updateCourse(Course course, Course newCourse) {
         if (verifyUpdateCourse(newCourse)) {
             int index = coursesTableModel.getIndexCourse(course);
@@ -197,8 +206,8 @@ public class CoursesPanel extends JPanel {
             if (verifyRemoveCourse(course)) {
                 int index = coursesTableModel.getIndexCourse(course);
                 coursesTableModel.remove(course);
-                coursesTable.removeRowSelectionInterval(index, index);
             }
+        coursesTable.clearSelection();
     }
 
     void addCourse(Course course) {
@@ -302,9 +311,13 @@ public class CoursesPanel extends JPanel {
                 if (courseTable.equals(courseList))
                     indexs.add(coursesTableModel.getIndexCourse(courseList));
 
-        if (!indexs.isEmpty())
-            for (int index : indexs)
+        if (!indexs.isEmpty()) {
+            for (int index : indexs) {
                 coursesTable.addRowSelectionInterval(index, index);
+            }
+            System.out.println(indexs);
+            System.out.println(Arrays.toString(coursesTable.getSelectedRows()));
+        }
     }
 
     String getText(String textFIeldName) {

@@ -4,6 +4,7 @@ import studentinfo.Course;
 import util.ImageUtil;
 
 import javax.swing.*;
+import javax.swing.table.JTableHeader;
 import javax.swing.text.AbstractDocument;
 import java.awt.*;
 import java.awt.event.*;
@@ -134,6 +135,7 @@ public class Sis {
     }
 
     void createKeyListeners() {
+        JTable table = panel.getTable(COURSES_TABLE_NAME);
         KeyListener listener = new KeyAdapter() {
             public void keyReleased(KeyEvent e) {
                 setButtonState();
@@ -142,10 +144,19 @@ public class Sis {
         panel.addFieldListener(FieldCatalog.DEPARTMENT_FIELD_NAME, listener);
         panel.addFieldListener(FieldCatalog.NUMBER_FIELD_NAME, listener);
 
-        panel.getTable(COURSES_TABLE_NAME).addMouseListener(new MouseAdapter() {
+        table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 setButtonState();
+            }
+        });
+
+        JTableHeader header = table.getTableHeader();
+        header.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int columnIndex = header.columnAtPoint(e.getPoint());
+                panel.orderByColumn(columnIndex);
             }
         });
 
