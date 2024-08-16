@@ -4,6 +4,9 @@ import studentinfo.Course;
 
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -81,8 +84,30 @@ public class CoursesPanel extends JPanel {
         table.setShowGrid(false);
         table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         table.setRowSorter(sorter);
+        table.getAutoResizeMode();
         return table;
     }
+
+    public static void adjustColumnWidthsAverage(JTable table) {
+        TableColumnModel columnModel = table.getColumnModel();
+        TableCellRenderer renderer = table.getTableHeader().getDefaultRenderer();
+
+        for (int column = 0; column < table.getColumnCount(); column++) {
+            TableColumn tableColumn = columnModel.getColumn(column);
+            int totalWidth = 0;
+            int rowCount = table.getRowCount();
+
+            for (int row = 0; row < rowCount; row++) {
+                Object value = table.getValueAt(row, column);
+                Component cellComponent = table.prepareRenderer(table.getCellRenderer(row, column), row, column);
+                totalWidth += cellComponent.getPreferredSize().width;
+            }
+
+            int averageWidth = (rowCount > 0) ? totalWidth / rowCount : 0;
+            tableColumn.setPreferredWidth(averageWidth + 10);
+        }
+    }
+
 
     JPanel createSouthPanel() {
         JPanel panel = new JPanel();
@@ -111,6 +136,8 @@ public class CoursesPanel extends JPanel {
         removeButton = createButton(REMOVE_BUTTON_NAME, REMOVE_BUTTON_TEXT);
         addButton.setMnemonic(ADD_BUTTON_MNEMONIC);
         buttonPanel.add(removeButton);
+
+        buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 
         updateButton = createButton(UPDATE_BUTTON_NAME, UPDATE_BUTTON_TEXT);
         buttonPanel.add(updateButton);
@@ -202,7 +229,7 @@ public class CoursesPanel extends JPanel {
     }
 
     void removeCourse(Course... courses) {
-        for (Course course: courses)
+        for (Course course : courses)
             if (verifyRemoveCourse(course)) {
                 int index = coursesTableModel.getIndexCourse(course);
                 coursesTableModel.remove(course);
@@ -215,6 +242,7 @@ public class CoursesPanel extends JPanel {
             coursesTableModel.add(course);
             clearFields();
         }
+        adjustColumnWidthsAverage(coursesTable);
     }
 
     void clearFields() {
@@ -304,7 +332,7 @@ public class CoursesPanel extends JPanel {
     }
 
     void setSelected(Course... courses) {
-        List <Integer> indexs = new ArrayList<>();
+        List<Integer> indexs = new ArrayList<>();
 
         for (Course courseTable : coursesTableModel.getCourses())
             for (Course courseList : courses)
@@ -315,8 +343,6 @@ public class CoursesPanel extends JPanel {
             for (int index : indexs) {
                 coursesTable.addRowSelectionInterval(index, index);
             }
-            System.out.println(indexs);
-            System.out.println(Arrays.toString(coursesTable.getSelectedRows()));
         }
     }
 
@@ -341,7 +367,7 @@ public class CoursesPanel extends JPanel {
         if (state) {
             if (Objects.equals(name, ADD_BUTTON_NAME))
                 color = Color.decode("#82A966");
-            if(Objects.equals(name, REMOVE_BUTTON_NAME))
+            if (Objects.equals(name, REMOVE_BUTTON_NAME))
                 color = Color.decode("#E03A36");
         }
         getButton(name).setEnabled(state);

@@ -220,8 +220,8 @@ public class SisTest extends TestCase {
         panel.addCourse(course3);
 
         assertTrue(model.getRowCount() == 3);
-        String dept =FieldCatalog.DEPARTMENT_FIELD_NAME;
-        String num =FieldCatalog.NUMBER_FIELD_NAME;
+        String dept = FieldCatalog.DEPARTMENT_FIELD_NAME;
+        String num = FieldCatalog.NUMBER_FIELD_NAME;
 
         panel.orderByColumn(model.getColumnIndex(dept));
         Course[] courses1 = {course1, course3, course2};
@@ -254,7 +254,7 @@ public class SisTest extends TestCase {
 
     private void assertOrder(List<Course> tableListCourses, Course[] courseList) {
         assertEquals(courseList.length, tableListCourses.size());
-        int indexMAX = courseList.length-1;
+        int indexMAX = courseList.length - 1;
         List<Course> courses = Arrays.stream(courseList).toList();
 
         while (indexMAX >= 0) {

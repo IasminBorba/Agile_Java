@@ -79,15 +79,15 @@ public class CoursesPanelTest extends TestCase {
         assertTrue(wasClicked);
     }
 
-    private void assertFields (String[] fieldNames) {
+    private void assertFields(String[] fieldNames) {
         StatusBar statusBar = (StatusBar) Util.getComponent(panel, StatusBar.NAME);
 
         FieldCatalog catalog = new FieldCatalog();
-        for (String fieldName: fieldNames) {
+        for (String fieldName : fieldNames) {
             JTextField field = panel.getField(fieldName);
             Field fieldSpec = catalog.get(fieldName);
             assertEquals(fieldSpec.getInfo(), statusBar.getInfo(field));
-            assertLabelText(fieldSpec.getName() , fieldSpec.getLabel());
+            assertLabelText(fieldSpec.getName(), fieldSpec.getLabel());
         }
     }
 
@@ -132,7 +132,7 @@ public class CoursesPanelTest extends TestCase {
     }
 
     void assertCleanFields() {
-        for (JTextField fieldText: panel.getFields().values())
+        for (JTextField fieldText : panel.getFields().values())
             assertEquals("", fieldText.getText());
     }
 

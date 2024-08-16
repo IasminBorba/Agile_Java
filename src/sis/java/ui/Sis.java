@@ -188,7 +188,7 @@ public class Sis {
 
         for (String fieldName : fields) {
             JTextField field = panel.getField(fieldName);
-            if(!panel.getSelectedCourses().isEmpty())
+            if (!panel.getSelectedCourses().isEmpty())
                 return false;
 
             if (isEmptyField(field))
