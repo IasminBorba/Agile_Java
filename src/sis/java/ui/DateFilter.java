@@ -43,10 +43,13 @@ public class DateFilter extends ChainableFilter {
                     applyNextReplace(bypass, offset + 1, length, "/", attr);
                     verifyDate(newText, bypass, attr);
                 }
-
                 verifyDate(newText, bypass, attr);
-            } else
+            } else {
+                if (newText.length() == 10) {
+                    applyNextReplace(bypass, 0, length, newText, attr);
+                }
                 applyNextInsert(bypass, offset, "", attr);
+            }
         }
     }
 

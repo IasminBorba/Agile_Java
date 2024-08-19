@@ -1,12 +1,14 @@
 package studentinfo;
 
+import ui.FieldCatalog;
+
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 public class Course implements java.io.Serializable {
-    private final String department;
-    private final String number;
-    private final LocalDate effectiveDate;
+    private String department;
+    private String number;
+    private LocalDate effectiveDate;
 
     public Course(String department, String number) {
         this.department = department;
@@ -61,5 +63,18 @@ public class Course implements java.io.Serializable {
         String date = effectiveDate.format(formatter);
 
         return department + "-" + number + ": " + date;
+    }
+
+    public void setDepartment(String newDept) {
+        this.department = newDept;
+    }
+
+    public void setNumber(String newNumber) {
+        this.number = newNumber;
+    }
+
+    public void setEffectiveDate(String date) {
+        LocalDate newEffectiveDate = LocalDate.parse(date, FieldCatalog.DEFAULT_DATE_FORMAT);
+        this.effectiveDate = newEffectiveDate;
     }
 }

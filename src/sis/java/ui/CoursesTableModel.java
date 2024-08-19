@@ -2,6 +2,7 @@ package ui;
 
 import studentinfo.Course;
 
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -27,6 +28,22 @@ class CoursesTableModel extends AbstractTableModel {
             courses.remove(index);
             fireTableRowsDeleted(index, index);
         }
+    }
+
+    @Override
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        Course course = courses.get(rowIndex);
+        String fieldName = fields[columnIndex];
+        String value = (String) aValue;
+
+        JTextField field = TextFieldFactory.create(catalog.get(fieldName));
+
+        switch (fieldName) {
+            case FieldCatalog.DEPARTMENT_FIELD_NAME -> course.setDepartment(value);
+            case FieldCatalog.NUMBER_FIELD_NAME -> course.setNumber(value);
+            case FieldCatalog.EFFECTIVE_DATE_FIELD_NAME -> course.setEffectiveDate(value);
+        }
+        fireTableCellUpdated(rowIndex, columnIndex);
     }
 
     void update(Course course, Course newCourse) {
@@ -101,4 +118,7 @@ class CoursesTableModel extends AbstractTableModel {
         fireTableDataChanged();
     }
 
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return true;
+    }
 }

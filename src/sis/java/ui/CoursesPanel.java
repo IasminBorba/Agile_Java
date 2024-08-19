@@ -4,10 +4,7 @@ import studentinfo.Course;
 
 import javax.swing.*;
 import javax.swing.border.*;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableRowSorter;
+import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
@@ -34,14 +31,11 @@ public class CoursesPanel extends JPanel {
     private JButton removeButton;
     static final String REMOVE_BUTTON_TEXT = "Remove";
     static final String REMOVE_BUTTON_NAME = "removeButton";
-    static final String REMOVE_BUTTON_MNEMONIC = "D";
-
-    private JButton updateButton;
-    static final String UPDATE_BUTTON_TEXT = "Update";
-    static final String UPDATE_BUTTON_NAME = "updateButton";
+    static final char REMOVE_BUTTON_MNEMONIC = 'D';
 
     private final CoursesTableModel coursesTableModel = new CoursesTableModel();
     JTable coursesTable = createCoursesTable();
+    FieldCatalog catalog = new FieldCatalog();
 
     public static void main(String[] args) {
         show(new CoursesPanel());
@@ -85,7 +79,17 @@ public class CoursesPanel extends JPanel {
         table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         table.setRowSorter(sorter);
         table.getAutoResizeMode();
+        table.setCellSelectionEnabled(true);
         return table;
+    }
+
+    protected void update() {
+        int column = 0;
+        for (String fieldName : getFieldNames()) {
+            FilteredCellEditor filteredCellEditor = new FilteredCellEditor(fieldName, catalog.get(fieldName));
+            coursesTable.getColumnModel().getColumn(column).setCellEditor(filteredCellEditor);
+            column++;
+        }
     }
 
     public static void adjustColumnWidthsAverage(JTable table) {
@@ -134,13 +138,10 @@ public class CoursesPanel extends JPanel {
         buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 
         removeButton = createButton(REMOVE_BUTTON_NAME, REMOVE_BUTTON_TEXT);
-        addButton.setMnemonic(ADD_BUTTON_MNEMONIC);
+        removeButton.setMnemonic(REMOVE_BUTTON_MNEMONIC);
         buttonPanel.add(removeButton);
 
         buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-
-        updateButton = createButton(UPDATE_BUTTON_NAME, UPDATE_BUTTON_TEXT);
-        buttonPanel.add(updateButton);
 
         return buttonPanel;
     }
@@ -158,7 +159,6 @@ public class CoursesPanel extends JPanel {
 
     JPanel createFieldsPanel() {
         GridBagLayout layout = new GridBagLayout();
-        FieldCatalog catalog = new FieldCatalog();
 
         JPanel panel = new JPanel(layout);
         int i = 0;
@@ -219,15 +219,6 @@ public class CoursesPanel extends JPanel {
         coursesTableModel.sort(columnIndex);
     }
 
-    void updateCourse(Course course, Course newCourse) {
-        if (verifyUpdateCourse(newCourse)) {
-            int index = coursesTableModel.getIndexCourse(course);
-            coursesTableModel.update(course, newCourse);
-            coursesTable.removeRowSelectionInterval(index, index);
-            clearFields();
-        }
-    }
-
     void removeCourse(Course... courses) {
         for (Course course : courses)
             if (verifyRemoveCourse(course)) {
@@ -251,13 +242,6 @@ public class CoursesPanel extends JPanel {
     }
 
     boolean verifyAddCourse(Course course) {
-        for (Course c : coursesTableModel.getCourses())
-            if (c.equals(course))
-                return false;
-        return true;
-    }
-
-    boolean verifyUpdateCourse(Course course) {
         for (Course c : coursesTableModel.getCourses())
             if (c.equals(course))
                 return false;
@@ -289,10 +273,6 @@ public class CoursesPanel extends JPanel {
 
     void removeCourseAddListener(ActionListener listener) {
         removeButton.addActionListener(listener);
-    }
-
-    void updateCourseAddListener(ActionListener listener) {
-        updateButton.addActionListener(listener);
     }
 
     Course getCourse(int index) {
@@ -376,10 +356,6 @@ public class CoursesPanel extends JPanel {
 
     void addFieldListener(String name, KeyListener listener) {
         getField(name).addKeyListener(listener);
-    }
-
-    int getCourseCount() {
-        return coursesTableModel.getRowCount();
     }
 
     Map<String, JTextField> getFields() {
