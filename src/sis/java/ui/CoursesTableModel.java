@@ -115,7 +115,6 @@ class CoursesTableModel extends AbstractTableModel {
             default -> 0;
         };
         courses.sort(comparator);
-        fireTableDataChanged();
     }
 
     public boolean isCellEditable(int rowIndex, int columnIndex) {

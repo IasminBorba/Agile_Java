@@ -8,7 +8,7 @@ public class DateFilterTest extends TestCase {
     private DateFilter filter;
     protected DocumentFilter.FilterBypass bypass;
     protected AbstractDocument document;
-    String date = "01/01/24";
+    String date = "01/01/2024";
 
     protected void setUp() {
         bypass = createBypass();
@@ -39,7 +39,7 @@ public class DateFilterTest extends TestCase {
     }
 
     public void testReplace() throws BadLocationException {
-        filter.insertString(bypass, 0, "09/08/24", null);
+        filter.insertString(bypass, 0, "09/08/2024", null);
         filter.replace(bypass, 0, 2, "tc", null);
         assertEquals("09/08/2024", documentText());
 

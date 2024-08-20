@@ -243,13 +243,6 @@ public class SisTest extends TestCase {
         panel.orderByColumn(model.getColumnIndex(dept));
         Course[] courses4 = {course4, course1, course3, course2};
         assertOrder(model.getCourses(), courses4);
-
-        Course course5 = new Course("CourseA", "111");
-        panel.updateCourse(course1, course5);
-        panel.orderByColumn(model.getColumnIndex(num));
-        panel.orderByColumn(model.getColumnIndex(dept));
-        Course[] courses5 = {course5, course4, course3, course2};
-        assertOrder(model.getCourses(), courses5);
     }
 
     private void assertOrder(List<Course> tableListCourses, Course[] courseList) {

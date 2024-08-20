@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 public class DateFilter extends ChainableFilter {
-    private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("MM/dd/yy");
+    private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("MM/dd/yyyy");
     private static final DateTimeFormatter DISPLAY_FORMATTER = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
     @Override
@@ -45,9 +45,6 @@ public class DateFilter extends ChainableFilter {
                 }
                 verifyDate(newText, bypass, attr);
             } else {
-                if (newText.length() == 10) {
-                    applyNextReplace(bypass, 0, length, newText, attr);
-                }
                 applyNextInsert(bypass, offset, "", attr);
             }
         }
