@@ -32,6 +32,7 @@ public class Sis {
     private void initialize() {
         createCoursePanel();
         createKeyListeners();
+        createHelpPanel();
         panel.update();
 
         ImageIcon imageIcon = ImageUtil.create("images/courses.gif");
@@ -65,6 +66,19 @@ public class Sis {
         panel.removeCourseAddListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 removeCourse();
+            }
+        });
+    }
+
+    void createHelpPanel() {
+        InputMap inputMap = frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = frame.getRootPane().getActionMap();
+
+        inputMap.put(KeyStroke.getKeyStroke("F1"), "openNewWindow");
+        actionMap.put("openNewWindow", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new HelpWindow();
             }
         });
     }

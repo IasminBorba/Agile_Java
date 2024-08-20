@@ -17,7 +17,7 @@ import static junit.framework.Assert.fail;
 
 public class CoursesPanel extends JPanel {
     static final String NAME = "coursesPanel";
-    static final String COURSES_LABEL_TEXT = "Courses";
+    static final String COURSES_LABEL_TEXT = "Courses - Help(F1)";
     static final String COURSES_TABLE_NAME = "coursesTable";
 
     private final Map<String, JTextField> fieldsMap = new HashMap<>();
