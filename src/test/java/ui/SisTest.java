@@ -126,6 +126,25 @@ public class SisTest extends TestCase {
         assertSame(course2, model.get(0));
     }
 
+    public void testUpdateCourse() {
+        JTable table = panel.getTable(COURSES_TABLE_NAME);
+        CoursesTableModel model = (CoursesTableModel) table.getModel();
+
+        Course course1 = new Course("CourseA", "101");
+        panel.addCourse(course1);
+
+        Course course2 = new Course("CourseB", "202");
+        panel.addCourse(course2);
+
+        panel.setCellSelected(0, 0);
+        panel.updateCell("NEWC");
+        assertEquals("NEWC", course1.getDepartment());
+
+        panel.setCellSelected(1, 1);
+        panel.updateCell("999");
+        assertEquals("999", course2.getNumber());
+    }
+
     public void testSetAddButtonState() throws Exception {
         JButton button = panel.getButton(CoursesPanel.ADD_BUTTON_NAME);
         assertFalse(button.isEnabled());

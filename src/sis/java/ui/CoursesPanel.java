@@ -326,6 +326,21 @@ public class CoursesPanel extends JPanel {
         }
     }
 
+    void setCellSelected(int row, int column) {
+        coursesTable.editCellAt(row, column);
+    }
+
+    void updateCell(String newText) {
+        if (coursesTable.getCellEditor() != null) {
+            JTextField editorComponent = (JTextField) coursesTable.getEditorComponent();
+            editorComponent.setText(newText);
+
+            if (coursesTable.isEditing()) {
+                coursesTable.getCellEditor().stopCellEditing();
+            }
+        }
+    }
+
     String getText(String textFIeldName) {
         return getField(textFIeldName).getText();
     }
