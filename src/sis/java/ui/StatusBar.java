@@ -7,7 +7,7 @@ import javax.swing.*;
 public class StatusBar extends JLabel {
     public static String NAME = "StatusBar";
     private final static String EMPTY = " ";
-    private final Map<JTextField,String> infos = new IdentityHashMap<>();
+    private final Map<JComponent,String> infos = new IdentityHashMap<>();
 
     public StatusBar() {
         super(EMPTY);
@@ -19,7 +19,7 @@ public class StatusBar extends JLabel {
         return infos.get(textField);
     }
 
-    public void setInfo(final JTextField textField, final String text) {
+    public void setInfo(final JComponent textField, final String text) {
         infos.put(textField, text);
         textField.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent event) {

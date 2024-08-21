@@ -274,4 +274,25 @@ public class SisTest extends TestCase {
             indexMAX--;
         }
     }
+
+    public void testComboBox() throws Exception {
+        JButton button = panel.getButton(CoursesPanel.ADD_BUTTON_NAME);
+        assertFalse(button.isEnabled());
+
+        String[] deptStrings = {"ENGL", "MATH", "CMSC", "NURS", "ARTH"};
+        String[] numStrings = {"101", "202", "300", "111", "333"};
+        sis.setListStringsBox(deptStrings, numStrings);
+
+        sis.selectedIndexs(2, 1);
+
+        sis.setAddButtonState();
+//        assertTrue(button.isEnabled());
+
+        button.doClick();
+        Thread.sleep(1000);
+
+        Course course = panel.getCourse(0);
+        assertEquals("CMSC", course.getDepartment());
+        assertEquals("202", course.getNumber());
+    }
 }

@@ -57,8 +57,10 @@ public class Sis {
 
     void createCoursePanel() {
         panel = new CoursesPanel();
+        System.out.println("ADD_COURSE");
         panel.addCourseAddListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                System.out.println("ADD_COURSE2");
                 addCourse();
             }
         });
@@ -128,15 +130,23 @@ public class Sis {
     }
 
     void createKeyListeners() {
-        JTable table = panel.getTable(COURSES_TABLE_NAME);
-        KeyListener listener = new KeyAdapter() {
-            public void keyReleased(KeyEvent e) {
+        JComboBox comboBoxDept = panel.getComboBoxDept();
+        comboBoxDept.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 setButtonState();
             }
-        };
-        panel.addFieldListener(FieldCatalog.DEPARTMENT_FIELD_NAME, listener);
-        panel.addFieldListener(FieldCatalog.NUMBER_FIELD_NAME, listener);
+        });
 
+        JComboBox comboBoxNum = panel.getComboBoxNum();
+        comboBoxDept.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setButtonState();
+            }
+        });
+
+        JTable table = panel.getTable(COURSES_TABLE_NAME);
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -183,10 +193,10 @@ public class Sis {
         fields.add(FieldCatalog.NUMBER_FIELD_NAME);
 
         for (String fieldName : fields) {
-            JTextField field = panel.getField(fieldName);
+            JComponent field = panel.getField(fieldName);
+
             if (!panel.getSelectedCourses().isEmpty())
                 return false;
-
             if (isEmptyField(field))
                 return false;
             if (!verifyFilter(field))
@@ -195,33 +205,45 @@ public class Sis {
         return true;
     }
 
-    private boolean isEmptyField(JTextField field) {
-        return field.getText().trim().isEmpty();
+    private boolean isEmptyField(JComponent component) {
+        if (component instanceof JTextField)
+            return ((JTextField) component).getText().isEmpty();
+        else if (component instanceof JComboBox<?>) {
+            String field = ((String) ((JComboBox<Object>) component).getSelectedItem());
+            return field == null;
+        }
+        return true;
     }
 
     private boolean verifyFields() {
-        if (!panel.getSelectedCourses().isEmpty()) {
-            for (String fieldName : panel.getFieldNames())
-                if (!isEmptyField(panel.getField(fieldName)))
-                    return false;
-            return true;
+        List<String> fields = new ArrayList<>();
+        fields.add(FieldCatalog.DEPARTMENT_FIELD_NAME);
+        fields.add(FieldCatalog.NUMBER_FIELD_NAME);
+
+        for (String fieldName : fields) {
+            JComponent field = panel.getField(fieldName);
+
+            if (!isEmptyField(field))
+                return false;
         }
-        return false;
+        return !panel.getSelectedCourses().isEmpty();
     }
 
-    private boolean verifyFilter(JTextField field) {
-        AbstractDocument document = (AbstractDocument) field.getDocument();
-        ChainableFilter currentFilter = (ChainableFilter) document.getDocumentFilter();
+    private boolean verifyFilter(JComponent component) {
+        if (component instanceof JTextField field) {
+            AbstractDocument document = (AbstractDocument) field.getDocument();
+            ChainableFilter currentFilter = (ChainableFilter) document.getDocumentFilter();
 
-        while (currentFilter != null) {
-            String textField = field.getText();
-            if (!currentFilter.verify(textField))
-                return false;
+            while (currentFilter != null) {
+                String textField = field.getText();
+                if (!currentFilter.verify(textField))
+                    return false;
 
-            if (currentFilter instanceof ChainableFilter chainableFilter)
-                currentFilter = (ChainableFilter) chainableFilter.getNextFilter();
-            else
-                break;
+                if (currentFilter instanceof ChainableFilter chainableFilter)
+                    currentFilter = (ChainableFilter) chainableFilter.getNextFilter();
+                else
+                    break;
+            }
         }
         return true;
     }

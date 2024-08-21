@@ -20,8 +20,10 @@ public class CoursesPanel extends JPanel {
     static final String COURSES_LABEL_TEXT = "Courses - Help(F1)";
     static final String COURSES_TABLE_NAME = "coursesTable";
 
-    private final Map<String, JTextField> fieldsMap = new HashMap<>();
+    private final Map<String, JComponent> fieldsMap = new HashMap<>();
     public StatusBar statusBar;
+    private JComboBox boxDept;
+    private JComboBox boxNum;
 
     private JButton addButton;
     static final String ADD_BUTTON_TEXT = "Add";
@@ -52,6 +54,12 @@ public class CoursesPanel extends JPanel {
     public CoursesPanel() {
         setName(NAME);
         createLayout();
+
+        Object[] stringDpt = catalog.get(FieldCatalog.DEPARTMENT_FIELD_NAME).getComboBoxOptions().toArray();
+        boxDept = new JComboBox<>(stringDpt);
+
+        Object[] stringNum = catalog.get(FieldCatalog.NUMBER_FIELD_NAME).getComboBoxOptions().toArray();
+        boxNum = new JComboBox<>(stringNum);
     }
 
     private void createLayout() {
@@ -165,10 +173,23 @@ public class CoursesPanel extends JPanel {
 
         for (String fieldName : getFieldNames()) {
             Field fieldSpec = catalog.get(fieldName);
-            JTextField textField = TextFieldFactory.create(fieldSpec);
-            statusBar.setInfo(textField, fieldSpec.getInfo());
-            fieldsMap.put(fieldSpec.getName(), textField);
-            addField(panel, layout, i++, createLabel(fieldSpec), textField);
+
+            if (fieldSpec.isComboBox()) {
+                JComboBox comboBox;
+                if (Objects.equals(fieldName, FieldCatalog.DEPARTMENT_FIELD_NAME))
+                    comboBox = boxDept;
+                else
+                    comboBox = boxNum;
+                comboBox.setName(fieldSpec.getName());
+                statusBar.setInfo(comboBox, fieldSpec.getInfo());
+                fieldsMap.put(fieldSpec.getName(), comboBox);
+                addField(panel, layout, i++, createLabel(fieldSpec), comboBox);
+            } else {
+                JTextField textField = TextFieldFactory.create(fieldSpec);
+                statusBar.setInfo(textField, fieldSpec.getInfo());
+                fieldsMap.put(fieldSpec.getName(), textField);
+                addField(panel, layout, i++, createLabel(fieldSpec), textField);
+            }
         }
         return panel;
     }
@@ -181,20 +202,20 @@ public class CoursesPanel extends JPanel {
         };
     }
 
-    private void addField(JPanel panel, GridBagLayout layout, int row, JLabel label, JTextField field) {
+    private void addField(JPanel panel, GridBagLayout layout, int row, JLabel label, JComponent field) {
         Insets insets = new Insets(3, 3, 3, 3);
         layout.setConstraints(label, new GridBagConstraints(
                 0, row,
                 1, 1,
                 40, 1,
-                LINE_END,
-                NONE,
+                LINE_END, NONE,
                 insets,
                 0, 0
         ));
         layout.setConstraints(field, new GridBagConstraints(
                 1, row,
-                2, 1, 60, 1,
+                2, 1,
+                60, 1,
                 CENTER, HORIZONTAL,
                 insets,
                 0, 0
@@ -237,8 +258,14 @@ public class CoursesPanel extends JPanel {
     }
 
     void clearFields() {
-        for (String fieldName : fieldsMap.keySet())
-            fieldsMap.get(fieldName).setText("");
+        for (String fieldName : fieldsMap.keySet()) {
+            JComponent component = fieldsMap.get(fieldName);
+            if (component instanceof JTextField) {
+                ((JTextField) component).setText("");
+            } else if (component instanceof JComboBox) {
+                ((JComboBox<?>) component).setSelectedIndex(-1);
+            }
+        }
     }
 
     boolean verifyAddCourse(Course course) {
@@ -267,6 +294,14 @@ public class CoursesPanel extends JPanel {
         return button;
     }
 
+    JComboBox getComboBoxDept() {
+        return boxDept;
+    }
+
+    JComboBox getComboBoxNum() {
+        return boxNum;
+    }
+
     void addCourseAddListener(ActionListener listener) {
         addButton.addActionListener(listener);
     }
@@ -291,7 +326,7 @@ public class CoursesPanel extends JPanel {
         return (JButton) Util.getComponent(this, name);
     }
 
-    JTextField getField(String name) {
+    JComponent getField(String name) {
         return fieldsMap.get(name);
     }
 
@@ -308,7 +343,14 @@ public class CoursesPanel extends JPanel {
     }
 
     void setText(String textFieldName, String text) {
-        getField(textFieldName).setText(text);
+        JComponent component = fieldsMap.get(textFieldName);
+        if (component instanceof JTextField) {
+            ((JTextField) component).setText(text);
+        } else if (component instanceof JComboBox) {
+            ((Field) component).addComboBoxOptions(text);
+        }
+
+        getField(textFieldName).setToolTipText(text);
     }
 
     void setSelected(Course... courses) {
@@ -341,20 +383,26 @@ public class CoursesPanel extends JPanel {
         }
     }
 
-    String getText(String textFIeldName) {
-        return getField(textFIeldName).getText();
+    String getText(String textFieldName) {
+        JComponent component = fieldsMap.get(textFieldName);
+        if (component instanceof JTextField) {
+            return ((JTextField) component).getText();
+        } else if (component instanceof JComboBox) {
+            return (String) ((JComboBox<?>) component).getSelectedItem();
+        }
+        return "";
     }
 
     LocalDate getDate() {
-        return LocalDate.parse(getField(FieldCatalog.EFFECTIVE_DATE_FIELD_NAME).getText(), FieldCatalog.DEFAULT_DATE_FORMAT);
+        return LocalDate.parse(getText(FieldCatalog.EFFECTIVE_DATE_FIELD_NAME), FieldCatalog.DEFAULT_DATE_FORMAT);
     }
 
     String getDepartment() {
-        return getField(FieldCatalog.DEPARTMENT_FIELD_NAME).getText();
+        return getText(FieldCatalog.DEPARTMENT_FIELD_NAME);
     }
 
     String getNumber() {
-        return getField(FieldCatalog.NUMBER_FIELD_NAME).getText();
+        return getText(FieldCatalog.NUMBER_FIELD_NAME);
     }
 
     void setEnabled(String name, boolean state) {
@@ -373,7 +421,7 @@ public class CoursesPanel extends JPanel {
         getField(name).addKeyListener(listener);
     }
 
-    Map<String, JTextField> getFields() {
+    Map<String, JComponent> getFields() {
         return fieldsMap;
     }
 }

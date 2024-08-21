@@ -3,6 +3,7 @@ package ui;
 import javax.swing.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class Field<T> extends JTextField {
     private String fieldName;
@@ -15,6 +16,7 @@ public class Field<T> extends JTextField {
     private LocalDate date;
     private T value;
     private DateTimeFormatter format;
+    private List<String> comboBoxOptions;
 
     public Field(String fieldName) {
         this.fieldName = fieldName;
@@ -91,6 +93,47 @@ public class Field<T> extends JTextField {
 
     public String getInfo() {
         return info;
+    }
+
+    public void addComboBoxOptions(String options) {
+        comboBoxOptions.add(options);
+    }
+
+    public void setComboBoxOptions(List<String> options) {
+        this.comboBoxOptions = options;
+        if (options != null) {
+            JComboBox<Object> comboBox = new JComboBox<>(options.toArray());
+            comboBox.setName(fieldName);
+            super.setVisible(false);
+            add(comboBox);
+        }
+    }
+
+    public boolean isComboBox() {
+        return comboBoxOptions != null;
+    }
+
+    public List<String> getComboBoxOptions() {
+        return comboBoxOptions;
+    }
+
+    @Override
+    public void setText(String text) {
+        if (isComboBox()) {
+            JComboBox<String> comboBox = (JComboBox<String>) getComponent(0);
+            comboBox.setSelectedItem(text);
+        } else {
+            super.setText(text);
+        }
+    }
+
+    @Override
+    public String getText() {
+        if (isComboBox()) {
+            JComboBox<String> comboBox = (JComboBox<String>) getComponent(0);
+            return (String) comboBox.getSelectedItem();
+        }
+        return super.getText();
     }
 
     @Override
