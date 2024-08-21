@@ -15,8 +15,8 @@ import java.util.List;
 import static ui.CoursesPanel.COURSES_TABLE_NAME;
 
 public class Sis {
-    static final int WIDTH = 350;
-    static final int HEIGHT = 400;
+    static final int WIDTH = 550;
+    static final int HEIGHT = 600;
     private CoursesPanel panel;
     static final String COURSES_TITLE = "Course Listing";
     private final JFrame frame = new JFrame(COURSES_TITLE);
