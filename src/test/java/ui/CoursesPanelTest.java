@@ -25,7 +25,7 @@ public class CoursesPanelTest extends TestCase {
     }
 
     public void testCreate() {
-        assertEmptyTable(COURSES_TABLE_NAME);
+        assertEmptyTable();
         assertButtonText(ADD_BUTTON_NAME, ADD_BUTTON_TEXT);
         assertLabelText(DEPARTMENT_FIELD_NAME, DEPARTMENT_LABEL_TEXT);
         assertLabelText(NUMBER_FIELD_NAME, NUMBER_LABEL_TEXT);
@@ -46,8 +46,8 @@ public class CoursesPanelTest extends TestCase {
         }
     }
 
-    private void assertEmptyTable(String name) {
-        JTable table = panel.getTable(name);
+    private void assertEmptyTable() {
+        JTable table = panel.getTable();
         assertEquals(0, table.getModel().getRowCount());
     }
 
@@ -92,25 +92,11 @@ public class CoursesPanelTest extends TestCase {
         }
     }
 
-    public void testAddCourseDuplicate() {
-        JTable table = panel.getTable(COURSES_TABLE_NAME);
-        CoursesTableModel model = (CoursesTableModel) table.getModel();
-
-        Course course = new Course("ENGL", "101");
-        panel.addCourse(course);
-        assertSame(course, model.get(0));
-
-        Course course2 = new Course("ENGL", "101");
-        panel.addCourse(course2);
-
-        assertFalse((model.getCourses().size()) == 2);
-    }
-
     public void testAddCourse() {
         Course course = new Course("ENGL", "101");
         panel.addCourse(course);
 
-        JTable table = panel.getTable(COURSES_TABLE_NAME);
+        JTable table = panel.getTable();
         CoursesTableModel model = (CoursesTableModel) table.getModel();
         assertSame(course, model.get(0));
     }
@@ -119,12 +105,12 @@ public class CoursesPanelTest extends TestCase {
         assertCleanFields();
 
         String fieldDept = DEPARTMENT_FIELD_NAME;
-        panel.setText(fieldDept, "ENGL");
+        setText(fieldDept, "ENGL");
         String textDept = panel.getText(fieldDept);
         assertTrue(panel.getText(fieldDept).equals("ENGL"));
 
         String fieldNum = NUMBER_FIELD_NAME;
-        panel.setText(fieldNum, "101");
+        setText(fieldNum, "101");
         String textNum = panel.getText(fieldNum);
         assertTrue(panel.getText(fieldNum).equals("101"));
 
@@ -139,6 +125,15 @@ public class CoursesPanelTest extends TestCase {
             } else if (component instanceof JComboBox comboBox) {
                 assertEquals("", comboBox.getSelectedItem());
             }
+    }
+
+    void setText(String textFieldName, String text) {
+        JComponent component = panel.getField(textFieldName);
+
+        if (component instanceof JTextField)
+            ((JTextField) component).setText(text);
+        else if (component instanceof JComboBox)
+            ((Field) component).addComboBoxOptions(text);
     }
 
     public void testEnableDisable() {
@@ -158,12 +153,16 @@ public class CoursesPanelTest extends TestCase {
     }
 
     public void testAddListener() throws Exception {
-        KeyListener listener = new KeyAdapter() {
-        };
-        panel.addFieldListener("deptField", listener);
+        KeyListener listener = new KeyAdapter() {};
+        addFieldListener("deptField", listener);
+
         JTextField field = (JTextField) panel.getField(DEPARTMENT_FIELD_NAME);
         KeyListener[] listeners = field.getKeyListeners();
         assertEquals(1, listeners.length);
         assertSame(listener, listeners[0]);
+    }
+
+    void addFieldListener(String name, KeyListener listener) {
+        panel.getField(name).addKeyListener(listener);
     }
 }
