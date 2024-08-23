@@ -93,7 +93,7 @@ public class CoursesPanelTest extends TestCase {
     }
 
     public void testAddCourse() {
-        Course course = new Course("ENGL", "101");
+        Course course = new Course("ENGL", "101", "");
         panel.addCourse(course);
 
         JTable table = panel.getTable();
@@ -114,7 +114,7 @@ public class CoursesPanelTest extends TestCase {
         String textNum = panel.getText(fieldNum);
         assertTrue(panel.getText(fieldNum).equals("101"));
 
-        panel.addCourse(new Course(textDept, textNum));
+        panel.addCourse(new Course(textDept, textNum, ""));
         assertCleanFields();
     }
 

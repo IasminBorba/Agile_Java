@@ -6,9 +6,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.table.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.List;
 
@@ -52,7 +50,6 @@ public class CoursesPanel extends JPanel {
     public CoursesPanel() {
         setName(NAME);
         createLayout();
-        createHelpPanel();
         clearFields();
     }
 
@@ -185,19 +182,6 @@ public class CoursesPanel extends JPanel {
         panel.add(field);
     }
 
-    void createHelpPanel() {
-        InputMap inputMap = frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ActionMap actionMap = frame.getRootPane().getActionMap();
-
-        inputMap.put(KeyStroke.getKeyStroke("F1"), "openNewWindow");
-        actionMap.put("openNewWindow", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new HelpWindow();
-            }
-        });
-    }
-
     void clearFields() {
         for (String fieldName : fieldsMap.keySet()) {
             JComponent component = fieldsMap.get(fieldName);
@@ -326,8 +310,8 @@ public class CoursesPanel extends JPanel {
         return getText(FieldCatalog.NUMBER_FIELD_NAME);
     }
 
-    LocalDate getDate() {
-        return LocalDate.parse(getText(FieldCatalog.EFFECTIVE_DATE_FIELD_NAME), FieldCatalog.DEFAULT_DATE_FORMAT);
+    String getDate() {
+        return getText(FieldCatalog.EFFECTIVE_DATE_FIELD_NAME);
     }
 
     Map<String, JComponent> getFields() {

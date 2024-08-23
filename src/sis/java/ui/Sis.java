@@ -12,12 +12,10 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ui.CoursesPanel.COURSES_TABLE_NAME;
-
 public class Sis {
     static final int WIDTH = 550;
     static final int HEIGHT = 600;
-    private CoursesPanel panel;
+    private final CoursesPanel panel= new CoursesPanel();
     static final String COURSES_TITLE = "Course Listing";
     private final JFrame frame = new JFrame(COURSES_TITLE);
 
@@ -27,48 +25,26 @@ public class Sis {
 
     Sis() {
         initialize();
-    }
-
-    private void initialize() {
-        createCoursePanel();
-        createBoxsListeners();
-        createTableListeners();
         createHelpPanel();
-        panel.update();
-
-        ImageIcon imageIcon = ImageUtil.create("images/courses.gif");
-        frame.setIconImage(imageIcon.getImage());
-
-        frame.setSize(WIDTH, HEIGHT);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(panel);
     }
 
     public void show() {
         frame.setVisible(true);
     }
 
-    JFrame getFrame() {
-        return frame;
-    }
-
     void close() {
         frame.dispose();
     }
 
-    void createCoursePanel() {
-        panel = new CoursesPanel();
-        panel.addCourseAddListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                addCourse();
-            }
-        });
+    private void initialize() {
+        ImageIcon imageIcon = ImageUtil.create("images/courses.gif");
+        frame.setIconImage(imageIcon.getImage());
 
-        panel.removeCourseAddListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                removeCourse();
-            }
-        });
+        frame.setSize(WIDTH, HEIGHT);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().add(panel);
+
+        createListeners();
     }
 
     void createHelpPanel() {
@@ -84,48 +60,23 @@ public class Sis {
         });
     }
 
-    private void removeCourse() {
-        List<Course> selectedCourses = panel.getSelectedCourses();
-        if (!selectedCourses.isEmpty())
-            for (Course course : selectedCourses)
-                if (course != null) {
-                    panel.removeCourse(course);
-                    setRemoveButtonState();
-                } else
-                    JOptionPane.showMessageDialog(frame, "No course selected", "Error", JOptionPane.ERROR_MESSAGE);
+    void createListeners() {
+        createBoxsListeners();
+        createButtonListeners();
+        createTableListeners();
+        addFilterUpdate();
     }
 
-    private void addCourse() {
-        frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+    protected void addFilterUpdate() {
+        JTable table = panel.getTable();
+        FieldCatalog catalog = panel.getCatalog();
 
-        SwingWorker<Void, Void> worker = new SwingWorker<>() {
-            @Override
-            protected Void doInBackground() throws Exception {
-                Course course;
-                try {
-                    course = new Course(panel.getDepartment(), panel.getNumber(), panel.getDate());
-                } catch (Exception e) {
-                    course = new Course(panel.getDepartment(), panel.getNumber());
-                }
-
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-
-                panel.addCourse(course);
-                setAddButtonState();
-                return null;
-            }
-
-            @Override
-            protected void done() {
-                frame.setCursor(Cursor.getDefaultCursor());
-            }
-        };
-
-        worker.execute();
+        int column = 0;
+        for (String fieldName : catalog.getFieldNames()) {
+            FilteredCellEditor filteredCellEditor = new FilteredCellEditor(fieldName, catalog.get(fieldName));
+            table.getColumnModel().getColumn(column).setCellEditor(filteredCellEditor);
+            column++;
+        }
     }
 
     void createBoxsListeners() {
@@ -146,8 +97,22 @@ public class Sis {
         });
     }
 
+    void createButtonListeners () {
+        panel.addCourseAddListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                addCourse();
+            }
+        });
+
+        panel.removeCourseAddListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                removeCourse();
+            }
+        });
+    }
+
     void createTableListeners() {
-        JTable table = panel.getTable(COURSES_TABLE_NAME);
+        JTable table = panel.getTable();
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -173,6 +138,72 @@ public class Sis {
         });
 
         setButtonState();
+    }
+
+    private void addCourse() {
+        setWaitCursor(true);
+
+        SwingWorker<Void, Void> worker = new SwingWorker<>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                return performAddCourseTask();
+            }
+
+            @Override
+            protected void done() {
+                setWaitCursor(false);
+            }
+        };
+
+        worker.execute();
+    }
+
+    private Void performAddCourseTask() throws Exception {
+        Course course = new Course(panel.getDepartment(), panel.getNumber(), panel.getDate());
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        if (verifyAddCourse(course))
+            panel.addCourse(course);
+
+        setAddButtonState();
+        return null;
+    }
+
+    private void setWaitCursor(boolean wait) {
+        frame.setCursor(wait ? Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR) : Cursor.getDefaultCursor());
+    }
+
+    boolean verifyAddCourse(Course course) {
+        JTable table = panel.getTable();
+        CoursesTableModel coursesTableModel = (CoursesTableModel) table.getModel();
+        for (Course c : coursesTableModel.getCourses())
+            if (c.equals(course))
+                return false;
+        return true;
+    }
+
+    private void removeCourse() {
+        List<Course> selectedCourses = panel.getSelectedCourses();
+        if (!selectedCourses.isEmpty())
+            for (Course course : selectedCourses) {
+                if (verifyRemoveCourse(course))
+                    panel.removeCourse(course);
+                setRemoveButtonState();
+            }
+    }
+
+    boolean verifyRemoveCourse(Course course) {
+        JTable table = panel.getTable();
+        CoursesTableModel coursesTableModel = (CoursesTableModel) table.getModel();
+        for (Course c : coursesTableModel.getCourses())
+            if (c.equals(course))
+                return true;
+        return false;
     }
 
     void setButtonState() {
@@ -206,16 +237,6 @@ public class Sis {
         return true;
     }
 
-    private boolean isEmptyField(JComponent component) {
-        if (component instanceof JTextField)
-            return ((JTextField) component).getText().isEmpty();
-        else if (component instanceof JComboBox<?>) {
-            String field = ((String) ((JComboBox<Object>) component).getSelectedItem());
-            return field == null;
-        }
-        return true;
-    }
-
     private boolean verifyFields() {
         List<String> fields = new ArrayList<>();
         fields.add(FieldCatalog.DEPARTMENT_FIELD_NAME);
@@ -228,6 +249,16 @@ public class Sis {
                 return false;
         }
         return !panel.getSelectedCourses().isEmpty();
+    }
+
+    private boolean isEmptyField(JComponent component) {
+        if (component instanceof JTextField)
+            return ((JTextField) component).getText().isEmpty();
+        else if (component instanceof JComboBox<?>) {
+            String field = ((String) ((JComboBox<Object>) component).getSelectedItem());
+            return field == null;
+        }
+        return true;
     }
 
     private boolean verifyFilter(JComponent component) {
@@ -249,23 +280,7 @@ public class Sis {
         return true;
     }
 
-    void setListStringsBox(String[] deptStrings, String[] numStrings) {
-        JComboBox comboBoxDept = panel.getComboBoxDept();
-        comboBoxDept.removeAllItems();
-        for (String str : deptStrings)
-            comboBoxDept.addItem(str);
-
-        JComboBox comboBoxNum = panel.getComboBoxNum();
-        comboBoxNum.removeAllItems();
-        for (String str : numStrings)
-            comboBoxNum.addItem(str);
-    }
-
-    void selectedIndexs(int indexDept, int indexNum) {
-        JComboBox comboBoxDept = panel.getComboBoxDept();
-        comboBoxDept.setSelectedIndex(indexDept);
-
-        JComboBox comboBoxNum = panel.getComboBoxNum();
-        comboBoxNum.setSelectedIndex(indexNum);
+    JFrame getFrame() {
+        return frame;
     }
 }

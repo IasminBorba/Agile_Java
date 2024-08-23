@@ -7,12 +7,9 @@ import util.*;
 import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
-import java.awt.event.InputEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static ui.CoursesPanel.COURSES_TABLE_NAME;
 
 public class SisTest extends TestCase {
     private Sis sis;
@@ -20,6 +17,8 @@ public class SisTest extends TestCase {
     private CoursesPanel panel;
     private Robot robot;
     private FieldCatalog catalog;
+    private JTable table;
+    private CoursesTableModel coursesTableModel;
 
     protected void setUp() throws AWTException {
         sis = new Sis();
@@ -27,6 +26,8 @@ public class SisTest extends TestCase {
         panel = (CoursesPanel) Util.getComponent(frame, CoursesPanel.NAME);
         robot = new Robot();
         catalog = new FieldCatalog();
+        table = panel.getTable();
+        coursesTableModel = (CoursesTableModel) table.getModel();
     }
 
     public void testCreate() {
@@ -82,15 +83,15 @@ public class SisTest extends TestCase {
 
     public void testAddCourse() throws InterruptedException {
         panel.setEnabled(CoursesPanel.ADD_BUTTON_NAME, true);
-        panel.setText(FieldCatalog.DEPARTMENT_FIELD_NAME, "MATH");
-        panel.setText(FieldCatalog.NUMBER_FIELD_NAME, "300");
+        setText(FieldCatalog.DEPARTMENT_FIELD_NAME, "MATH");
+        setText(FieldCatalog.NUMBER_FIELD_NAME, "300");
 
         JButton button = panel.getButton(CoursesPanel.ADD_BUTTON_NAME);
 
         button.doClick();
         Thread.sleep(1000);
 
-        Course course = panel.getCourse(0);
+        Course course = coursesTableModel.get(0);
         assertEquals("MATH", course.getDepartment());
         assertEquals("300", course.getNumber());
     }
@@ -99,24 +100,24 @@ public class SisTest extends TestCase {
         JButton button = panel.getButton(CoursesPanel.REMOVE_BUTTON_NAME);
         assertFalse(button.isEnabled());
 
-        JTable table = panel.getTable(COURSES_TABLE_NAME);
+        JTable table = panel.getTable();
         CoursesTableModel model = (CoursesTableModel) table.getModel();
 
-        Course course1 = new Course("CourseA", "101");
+        Course course1 = new Course("CourseA", "101", "");
         panel.addCourse(course1);
 
-        Course course2 = new Course("CourseB", "202");
+        Course course2 = new Course("CourseB", "202", "");
         panel.addCourse(course2);
 
-        Course course3 = new Course("CourseC", "303");
+        Course course3 = new Course("CourseC", "303", "");
         panel.addCourse(course3);
 
-        Course course4 = new Course("CourseD", "404");
+        Course course4 = new Course("CourseD", "404", "");
         panel.addCourse(course4);
 
         assertTrue(model.getRowCount() == 4);
 
-        panel.setSelected(course1, course3, course4);
+        setSelected(course1, course3, course4);
         sis.setRemoveButtonState();
         assertTrue(button.isEnabled());
 
@@ -126,43 +127,73 @@ public class SisTest extends TestCase {
         assertSame(course2, model.get(0));
     }
 
+    private void setSelected(Course... courses) {
+        List<Integer> indexs = new ArrayList<>();
+
+        for (Course courseTable : coursesTableModel.getCourses())
+            for (Course courseList : courses)
+                if (courseTable.equals(courseList))
+                    indexs.add(coursesTableModel.getIndexCourse(courseList));
+
+        if (!indexs.isEmpty()) {
+            for (int index : indexs) {
+                table.addRowSelectionInterval(index, index);
+            }
+        }
+    }
+
     public void testUpdateCourse() {
-        JTable table = panel.getTable(COURSES_TABLE_NAME);
+        JTable table = panel.getTable();
         CoursesTableModel model = (CoursesTableModel) table.getModel();
 
-        Course course1 = new Course("CourseA", "101");
+        Course course1 = new Course("CourseA", "101", "");
         panel.addCourse(course1);
 
-        Course course2 = new Course("CourseB", "202");
+        Course course2 = new Course("CourseB", "202", "");
         panel.addCourse(course2);
 
-        panel.setCellSelected(0, 0);
-        panel.updateCell("NEWC");
+        setCellSelected(0, 0);
+        updateCell("NEWC");
         assertEquals("NEWC", course1.getDepartment());
 
-        panel.setCellSelected(1, 1);
-        panel.updateCell("999");
+        setCellSelected(1, 1);
+        updateCell("999");
         assertEquals("999", course2.getNumber());
+    }
+
+    void setCellSelected(int row, int column) {
+        table.editCellAt(row, column);
+    }
+
+    void updateCell(String newText) {
+        if (table.getCellEditor() != null) {
+            JTextField editorComponent = (JTextField) table.getEditorComponent();
+            editorComponent.setText(newText);
+
+            if (table.isEditing()) {
+                table.getCellEditor().stopCellEditing();
+            }
+        }
     }
 
     public void testSetAddButtonState() throws Exception {
         JButton button = panel.getButton(CoursesPanel.ADD_BUTTON_NAME);
         assertFalse(button.isEnabled());
 
-        panel.setText(FieldCatalog.DEPARTMENT_FIELD_NAME, "a");
+        setText(FieldCatalog.DEPARTMENT_FIELD_NAME, "a");
         sis.setAddButtonState();
         assertFalse(button.isEnabled());
 
-        panel.setText(FieldCatalog.NUMBER_FIELD_NAME, "1");
+        setText(FieldCatalog.NUMBER_FIELD_NAME, "1");
         sis.setAddButtonState();
         assertTrue(button.isEnabled());
 
-        panel.setText(FieldCatalog.DEPARTMENT_FIELD_NAME, "");
+        setText(FieldCatalog.DEPARTMENT_FIELD_NAME, "");
         sis.setAddButtonState();
         assertFalse(button.isEnabled());
 
-        panel.setText(FieldCatalog.DEPARTMENT_FIELD_NAME, "a");
-        panel.setText(FieldCatalog.NUMBER_FIELD_NAME, "123");
+        setText(FieldCatalog.DEPARTMENT_FIELD_NAME, "a");
+        setText(FieldCatalog.NUMBER_FIELD_NAME, "123");
         sis.setAddButtonState();
         assertTrue(button.isEnabled());
     }
@@ -171,20 +202,20 @@ public class SisTest extends TestCase {
         JButton button = panel.getButton(CoursesPanel.REMOVE_BUTTON_NAME);
         assertFalse(button.isEnabled());
 
-        JTable table = panel.getTable(COURSES_TABLE_NAME);
+        JTable table = panel.getTable();
         CoursesTableModel model = (CoursesTableModel) table.getModel();
 
-        Course course1 = new Course("ENGL", "101");
+        Course course1 = new Course("ENGL", "101", "");
         panel.addCourse(course1);
         assertSame(course1, model.get(0));
 
-        Course course2 = new Course("a", "123");
+        Course course2 = new Course("a", "123", "");
         panel.addCourse(course2);
         assertSame(course2, model.get(1));
 
         assertTrue(model.getRowCount() == 2);
 
-        panel.setSelected(course1);
+        setSelected(course1);
         sis.setRemoveButtonState();
         assertTrue(button.isEnabled());
 
@@ -195,47 +226,17 @@ public class SisTest extends TestCase {
 
     }
 
-//    public void testKeyListeners() throws Exception {
-//        sis.show();
-//        JButton button = panel.getButton(CoursesPanel.ADD_BUTTON_NAME);
-//        assertFalse(button.isEnabled());
-//
-//        selectField(CoursesPanel.DEPARTMENT_FIELD_NAME);
-//        type(KeyEvent.VK_A);
-//
-//        selectField(CoursesPanel.NUMBER_FIELD_NAME);
-//        type(KeyEvent.VK_1);
-//
-//        Thread.sleep(500);
-//
-//        assertTrue(button.isEnabled());
-//    }
-
-    private void selectField(String name) throws Exception {
-        JTextField field = (JTextField) panel.getField(name);
-        Point point = field.getLocationOnScreen();
-        robot.mouseMove(point.x + field.getWidth() / 2, point.y + field.getHeight() / 2);
-        robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-        robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-    }
-
-    private void type(int key) throws Exception {
-        robot.keyPress(key);
-        robot.keyRelease(key);
-        Thread.sleep(500);
-    }
-
     public void testOrderByColumn() throws Exception {
-        JTable table = panel.getTable(COURSES_TABLE_NAME);
+        JTable table = panel.getTable();
         CoursesTableModel model = (CoursesTableModel) table.getModel();
 
-        Course course1 = new Course("CourseA", "777");
+        Course course1 = new Course("CourseA", "777", "");
         panel.addCourse(course1);
 
-        Course course2 = new Course("CourseC", "555");
+        Course course2 = new Course("CourseC", "555", "");
         panel.addCourse(course2);
 
-        Course course3 = new Course("CourseB", "111");
+        Course course3 = new Course("CourseB", "111", "");
         panel.addCourse(course3);
 
         assertTrue(model.getRowCount() == 3);
@@ -252,7 +253,7 @@ public class SisTest extends TestCase {
         assertOrder(model.getCourses(), courses2);
 
 
-        Course course4 = new Course("CourseA", "333");
+        Course course4 = new Course("CourseA", "333", "");
         panel.addCourse(course4);
 
         panel.orderByColumn(model.getColumnIndex(num));
@@ -282,8 +283,8 @@ public class SisTest extends TestCase {
         String[] deptStrings = {"ABC", "CBA", "DEF", "FED"};
         String[] numStrings = {"123", "321", "456", "654"};
 
-        sis.setListStringsBox(deptStrings, numStrings);
-        sis.selectedIndexs(2, 1);
+        setListStringsBox(deptStrings, numStrings);
+        selectedIndexs(2, 1);
 
         assertEquals("DEF", (panel.getComboBoxDept()).getSelectedItem());
         assertEquals("321", (panel.getComboBoxNum()).getSelectedItem());
@@ -294,8 +295,52 @@ public class SisTest extends TestCase {
         button.doClick();
         Thread.sleep(1000);
 
-        Course course = panel.getCourse(0);
+        Course course = coursesTableModel.get(0);
         assertEquals("DEF", course.getDepartment());
         assertEquals("321", course.getNumber());
+    }
+
+    void setListStringsBox(String[] deptStrings, String[] numStrings) {
+        JComboBox comboBoxDept = panel.getComboBoxDept();
+        comboBoxDept.removeAllItems();
+        for (String str : deptStrings)
+            comboBoxDept.addItem(str);
+
+        JComboBox comboBoxNum = panel.getComboBoxNum();
+        comboBoxNum.removeAllItems();
+        for (String str : numStrings)
+            comboBoxNum.addItem(str);
+    }
+
+    void selectedIndexs(int indexDept, int indexNum) {
+        JComboBox comboBoxDept = panel.getComboBoxDept();
+        comboBoxDept.setSelectedIndex(indexDept);
+
+        JComboBox comboBoxNum = panel.getComboBoxNum();
+        comboBoxNum.setSelectedIndex(indexNum);
+    }
+
+    public void testAddCourseDuplicate() {
+        JTable table = panel.getTable();
+        CoursesTableModel model = (CoursesTableModel) table.getModel();
+
+        Course course = new Course("ENGL", "101", "");
+        panel.addCourse(course);
+        assertSame(course, model.get(0));
+
+        Course course2 = new Course("ENGL", "101", "");
+        if (sis.verifyAddCourse(course2))
+            panel.addCourse(course2);
+
+        assertFalse((model.getCourses().size()) == 2);
+    }
+
+    void setText(String textFieldName, String text) {
+        JComponent component = panel.getField(textFieldName);
+
+        if (component instanceof JTextField)
+            ((JTextField) component).setText(text);
+        else if (component instanceof JComboBox)
+            ((Field) component).addComboBoxOptions(text);
     }
 }
