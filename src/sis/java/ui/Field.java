@@ -17,6 +17,7 @@ public class Field<T> extends JTextField {
     private T value;
     private DateTimeFormatter format;
     private List<String> comboBoxOptions;
+    private JComboBox comboBox;
 
     public Field(String fieldName) {
         this.fieldName = fieldName;
@@ -102,8 +103,9 @@ public class Field<T> extends JTextField {
     public void setComboBoxOptions(List<String> options) {
         this.comboBoxOptions = options;
         if (options != null) {
-            JComboBox<Object> comboBox = new JComboBox<>(options.toArray());
+            this.comboBox = new JComboBox<>(options.toArray());
             comboBox.setName(fieldName);
+            comboBox.setEditable(true);
             super.setVisible(false);
             add(comboBox);
         }
@@ -115,6 +117,10 @@ public class Field<T> extends JTextField {
 
     public List<String> getComboBoxOptions() {
         return comboBoxOptions;
+    }
+
+    public JComboBox getComboBox() {
+        return comboBox;
     }
 
     @Override

@@ -15,6 +15,41 @@ public class TextFieldFactory {
                 field.setText(fieldSpec.getInitialValue().toString());
         }
 
+        if (fieldSpec.isComboBox()) {
+            JComboBox comboBox = fieldSpec.getComboBox();
+            field = (JTextField) comboBox.getEditor().getEditorComponent();
+        }
+
+        if (fieldSpec.getLimit() > 0)
+            attachLimitFilter(field, fieldSpec.getLimit());
+
+        if (fieldSpec.isUpcaseOnly())
+            attachUpcaseFilter(field);
+
+        if (fieldSpec.getName().equals("numberField"))
+            attachNumberFilter(field);
+
+        field.setColumns(fieldSpec.getColumns());
+        field.setName(fieldSpec.getName());
+        return field;
+    }
+
+    private static JTextField createFormattedTextField(Field fieldSpec) {
+        JTextField field = new JTextField();
+
+        AbstractDocument document = (AbstractDocument) field.getDocument();
+        ChainableFilter existingFilter = (ChainableFilter) document.getDocumentFilter();
+
+        ChainableFilter filter = new DateFilter();
+        ((AbstractDocument) field.getDocument()).setDocumentFilter(filter);
+
+        return field;
+    }
+
+    public static JTextField createJComboBox(JComboBox comboBox, Field fieldSpec) {
+        JTextField field = (JTextField) comboBox.getEditor().getEditorComponent();
+
+
         if (fieldSpec.getLimit() > 0)
             attachLimitFilter(field, fieldSpec.getLimit());
 
@@ -49,17 +84,5 @@ public class TextFieldFactory {
             ((AbstractDocument) field.getDocument()).setDocumentFilter(filter);
         else
             existingFilter.setNextFilter(filter);
-    }
-
-    private static JTextField createFormattedTextField(Field fieldSpec) {
-        JTextField field = new JTextField();
-
-        AbstractDocument document = (AbstractDocument) field.getDocument();
-        ChainableFilter existingFilter = (ChainableFilter) document.getDocumentFilter();
-
-        ChainableFilter filter = new DateFilter();
-        ((AbstractDocument) field.getDocument()).setDocumentFilter(filter);
-
-        return field;
     }
 }

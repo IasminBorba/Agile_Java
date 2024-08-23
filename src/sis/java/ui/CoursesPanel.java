@@ -22,8 +22,6 @@ public class CoursesPanel extends JPanel {
 
     private final Map<String, JComponent> fieldsMap = new HashMap<>();
     public StatusBar statusBar;
-    private JComboBox boxDept;
-    private JComboBox boxNum;
 
     private JButton addButton;
     static final String ADD_BUTTON_TEXT = "Add";
@@ -52,17 +50,9 @@ public class CoursesPanel extends JPanel {
     }
 
     public CoursesPanel() {
-        createBoxs();
         setName(NAME);
         createLayout();
-    }
-
-    private void createBoxs() {
-        Object[] stringDpt = catalog.get(FieldCatalog.DEPARTMENT_FIELD_NAME).getComboBoxOptions().toArray();
-        boxDept = new JComboBox<>(stringDpt);
-
-        Object[] stringNum = catalog.get(FieldCatalog.NUMBER_FIELD_NAME).getComboBoxOptions().toArray();
-        boxNum = new JComboBox<>(stringNum);
+        clearFields();
     }
 
     private void createLayout() {
@@ -170,29 +160,19 @@ public class CoursesPanel extends JPanel {
 
     JPanel createFieldsPanel() {
         GridBagLayout layout = new GridBagLayout();
-
         JPanel panel = new JPanel(layout);
-        int i = 0;
 
+        int i = 0;
         for (String fieldName : getFieldNames()) {
             Field fieldSpec = catalog.get(fieldName);
+            JTextField textField = TextFieldFactory.create(fieldSpec);
+            statusBar.setInfo(textField, fieldSpec.getInfo());
+            fieldsMap.put(fieldSpec.getName(), textField);
 
-            if (fieldSpec.isComboBox()) {
-                JComboBox comboBox;
-                if (Objects.equals(fieldName, FieldCatalog.DEPARTMENT_FIELD_NAME))
-                    comboBox = boxDept;
-                else
-                    comboBox = boxNum;
-                comboBox.setName(fieldSpec.getName());
-                statusBar.setInfo(comboBox, fieldSpec.getInfo());
-                fieldsMap.put(fieldSpec.getName(), comboBox);
-                addField(panel, layout, i++, createLabel(fieldSpec), comboBox);
-            } else {
-                JTextField textField = TextFieldFactory.create(fieldSpec);
-                statusBar.setInfo(textField, fieldSpec.getInfo());
-                fieldsMap.put(fieldSpec.getName(), textField);
+            if (fieldSpec.isComboBox())
+                addField(panel, layout, i++, createLabel(fieldSpec), fieldSpec.getComboBox());
+            else
                 addField(panel, layout, i++, createLabel(fieldSpec), textField);
-            }
         }
         return panel;
     }
@@ -286,7 +266,7 @@ public class CoursesPanel extends JPanel {
     }
 
     private JLabel createLabel(Field field) {
-        JLabel label = new JLabel(field.getText());
+        JLabel label = new JLabel(field.getLabel());
         label.setName(field.getName());
         return label;
     }
@@ -298,11 +278,13 @@ public class CoursesPanel extends JPanel {
     }
 
     JComboBox getComboBoxDept() {
-        return boxDept;
+        Field fieldSpec = catalog.get(FieldCatalog.DEPARTMENT_FIELD_NAME);
+        return fieldSpec.getComboBox();
     }
 
     JComboBox getComboBoxNum() {
-        return boxNum;
+        Field fieldSpec = catalog.get(FieldCatalog.NUMBER_FIELD_NAME);
+        return fieldSpec.getComboBox();
     }
 
     void addCourseAddListener(ActionListener listener) {
