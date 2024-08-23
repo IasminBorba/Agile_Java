@@ -94,7 +94,7 @@ public class CoursesPanelTest extends TestCase {
 
     public void testAddCourse() {
         Course course = new Course("ENGL", "101", "");
-        panel.addCourse(course);
+        addCourse(course);
 
         JTable table = panel.getTable();
         CoursesTableModel model = (CoursesTableModel) table.getModel();
@@ -114,8 +114,13 @@ public class CoursesPanelTest extends TestCase {
         String textNum = panel.getText(fieldNum);
         assertTrue(panel.getText(fieldNum).equals("101"));
 
-        panel.addCourse(new Course(textDept, textNum, ""));
+        addCourse(new Course(textDept, textNum, ""));
         assertCleanFields();
+    }
+
+    void addCourse(Course course) {
+        panel.getCoursesTableModel().add(course);
+        panel.clearFields();
     }
 
     void assertCleanFields() {

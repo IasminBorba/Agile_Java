@@ -27,7 +27,7 @@ public class SisTest extends TestCase {
         robot = new Robot();
         catalog = new FieldCatalog();
         table = panel.getTable();
-        coursesTableModel = (CoursesTableModel) table.getModel();
+        coursesTableModel = panel.getCoursesTableModel();
     }
 
     public void testCreate() {
@@ -104,16 +104,16 @@ public class SisTest extends TestCase {
         CoursesTableModel model = (CoursesTableModel) table.getModel();
 
         Course course1 = new Course("CourseA", "101", "");
-        panel.addCourse(course1);
+        sis.addCourse(course1);
 
         Course course2 = new Course("CourseB", "202", "");
-        panel.addCourse(course2);
+        sis.addCourse(course2);
 
         Course course3 = new Course("CourseC", "303", "");
-        panel.addCourse(course3);
+        sis.addCourse(course3);
 
         Course course4 = new Course("CourseD", "404", "");
-        panel.addCourse(course4);
+        sis.addCourse(course4);
 
         assertTrue(model.getRowCount() == 4);
 
@@ -147,10 +147,10 @@ public class SisTest extends TestCase {
         CoursesTableModel model = (CoursesTableModel) table.getModel();
 
         Course course1 = new Course("CourseA", "101", "");
-        panel.addCourse(course1);
+        sis.addCourse(course1);
 
         Course course2 = new Course("CourseB", "202", "");
-        panel.addCourse(course2);
+        sis.addCourse(course2);
 
         setCellSelected(0, 0);
         updateCell("NEWC");
@@ -206,11 +206,11 @@ public class SisTest extends TestCase {
         CoursesTableModel model = (CoursesTableModel) table.getModel();
 
         Course course1 = new Course("ENGL", "101", "");
-        panel.addCourse(course1);
+        sis.addCourse(course1);
         assertSame(course1, model.get(0));
 
         Course course2 = new Course("a", "123", "");
-        panel.addCourse(course2);
+        sis.addCourse(course2);
         assertSame(course2, model.get(1));
 
         assertTrue(model.getRowCount() == 2);
@@ -231,13 +231,13 @@ public class SisTest extends TestCase {
         CoursesTableModel model = (CoursesTableModel) table.getModel();
 
         Course course1 = new Course("CourseA", "777", "");
-        panel.addCourse(course1);
+        sis.addCourse(course1);
 
         Course course2 = new Course("CourseC", "555", "");
-        panel.addCourse(course2);
+        sis.addCourse(course2);
 
         Course course3 = new Course("CourseB", "111", "");
-        panel.addCourse(course3);
+        sis.addCourse(course3);
 
         assertTrue(model.getRowCount() == 3);
         String dept = FieldCatalog.DEPARTMENT_FIELD_NAME;
@@ -254,7 +254,7 @@ public class SisTest extends TestCase {
 
 
         Course course4 = new Course("CourseA", "333", "");
-        panel.addCourse(course4);
+        sis.addCourse(course4);
 
         panel.orderByColumn(model.getColumnIndex(num));
         Course[] courses3 = {course3, course4, course2, course1};
@@ -325,12 +325,12 @@ public class SisTest extends TestCase {
         CoursesTableModel model = (CoursesTableModel) table.getModel();
 
         Course course = new Course("ENGL", "101", "");
-        panel.addCourse(course);
+        sis.addCourse(course);
         assertSame(course, model.get(0));
 
         Course course2 = new Course("ENGL", "101", "");
         if (sis.verifyAddCourse(course2))
-            panel.addCourse(course2);
+            sis.addCourse(course2);
 
         assertFalse((model.getCourses().size()) == 2);
     }

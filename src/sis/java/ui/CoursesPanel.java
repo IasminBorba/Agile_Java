@@ -197,11 +197,8 @@ public class CoursesPanel extends JPanel {
         addButton.addActionListener(listener);
     }
 
-    void addCourse(Course course) {
-        coursesTableModel.add(course);
-        clearFields();
-
-        adjustColumnWidthsAverage(coursesTable);
+    void removeCourseAddListener(ActionListener listener) {
+        removeButton.addActionListener(listener);
     }
 
     public static void adjustColumnWidthsAverage(JTable table) {
@@ -222,17 +219,6 @@ public class CoursesPanel extends JPanel {
             int averageWidth = (rowCount > 0) ? totalWidth / rowCount : 0;
             tableColumn.setPreferredWidth(averageWidth + 10);
         }
-    }
-
-    void removeCourseAddListener(ActionListener listener) {
-        removeButton.addActionListener(listener);
-    }
-
-    void removeCourse(Course... courses) {
-        for (Course course : courses)
-            coursesTableModel.remove(course);
-
-        coursesTable.clearSelection();
     }
 
     public List<Course> getSelectedCourses() {
@@ -276,6 +262,10 @@ public class CoursesPanel extends JPanel {
 
     JTable getTable() {
         return (JTable) Util.getComponent(this, COURSES_TABLE_NAME);
+    }
+
+    CoursesTableModel getCoursesTableModel() {
+        return this.coursesTableModel;
     }
 
     JButton getButton(String name) {

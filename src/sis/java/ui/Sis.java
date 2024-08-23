@@ -4,6 +4,8 @@ import studentinfo.Course;
 import util.ImageUtil;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.JTableHeader;
 import javax.swing.text.AbstractDocument;
@@ -61,7 +63,8 @@ public class Sis {
     }
 
     void createListeners() {
-        createBoxsListeners();
+        createDeptBoxListeners();
+        createNumBoxListeners();
         createButtonListeners();
         createTableListeners();
         addFilterUpdate();
@@ -79,7 +82,7 @@ public class Sis {
         }
     }
 
-    void createBoxsListeners() {
+    void createDeptBoxListeners() {
         JComboBox comboBoxDept = panel.getComboBoxDept();
         comboBoxDept.addActionListener(new ActionListener() {
             @Override
@@ -88,10 +91,56 @@ public class Sis {
             }
         });
 
+        JTextField editorComponent = (JTextField) comboBoxDept.getEditor().getEditorComponent();
+        editorComponent.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                textChanged();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                textChanged();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                textChanged();
+            }
+
+            private void textChanged() {
+                setButtonState();
+            }
+        });
+    }
+
+    void createNumBoxListeners() {
         JComboBox comboBoxNum = panel.getComboBoxNum();
         comboBoxNum.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                setButtonState();
+            }
+        });
+
+        JTextField editorComponent = (JTextField) comboBoxNum.getEditor().getEditorComponent();
+        editorComponent.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                textChanged();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                textChanged();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                textChanged();
+            }
+
+            private void textChanged() {
                 setButtonState();
             }
         });
@@ -100,7 +149,7 @@ public class Sis {
     void createButtonListeners () {
         panel.addCourseAddListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                addCourse();
+                startAddCourseWorker();
             }
         });
 
@@ -140,7 +189,7 @@ public class Sis {
         setButtonState();
     }
 
-    private void addCourse() {
+    private void startAddCourseWorker() {
         setWaitCursor(true);
 
         SwingWorker<Void, Void> worker = new SwingWorker<>() {
@@ -168,7 +217,7 @@ public class Sis {
         }
 
         if (verifyAddCourse(course))
-            panel.addCourse(course);
+            addCourse(course);
 
         setAddButtonState();
         return null;
@@ -176,6 +225,35 @@ public class Sis {
 
     private void setWaitCursor(boolean wait) {
         frame.setCursor(wait ? Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR) : Cursor.getDefaultCursor());
+    }
+
+    public void addCourse(Course course) {
+        CoursesTableModel coursesTableModel = panel.getCoursesTableModel();
+        coursesTableModel.add(course);
+
+        addValueJComboBox(course);
+
+        panel.clearFields();
+        panel.adjustColumnWidthsAverage(panel.getTable());
+    }
+
+    void addValueJComboBox(Course course) {
+        String dept =course.getDepartment();
+        if(verifyItens(panel.getComboBoxDept(), dept))
+            panel.getComboBoxDept().addItem(dept);
+
+        String num =course.getNumber();
+        if(verifyItens(panel.getComboBoxNum(), num))
+            panel.getComboBoxNum().addItem(num);
+    }
+
+    boolean verifyItens(JComboBox comboBox, String newItem) {
+        for (int i = 0; i < comboBox.getItemCount(); i++) {
+            Object item = comboBox.getItemAt(i);
+            if(item.toString().equals(newItem))
+                return false;
+        }
+        return true;
     }
 
     boolean verifyAddCourse(Course course) {
@@ -192,9 +270,10 @@ public class Sis {
         if (!selectedCourses.isEmpty())
             for (Course course : selectedCourses) {
                 if (verifyRemoveCourse(course))
-                    panel.removeCourse(course);
+                    panel.getCoursesTableModel().remove(course);
                 setRemoveButtonState();
             }
+        panel.getTable().clearSelection();
     }
 
     boolean verifyRemoveCourse(Course course) {
