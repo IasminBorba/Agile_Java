@@ -8,7 +8,7 @@ public class Student implements Comparable, Serializable {
     static final int CREDITS_REQUIRED_FOR_FULL_TIME = 12;
     static final String IN_STATE = "CO";
     public String state = "";
-    private final String name;
+    private final Name name;
     private int credits;
     public double GPA;
     private final ArrayList<Grade> grades = new ArrayList<>();
@@ -58,11 +58,10 @@ public class Student implements Comparable, Serializable {
     private int settings = 0x0;
 
     public Student(String fullName) {
-        this.name = fullName;
+        this.name = new Name(fullName);
         credits = 0;
 
-        List<String> nameParts = split(fullName);
-
+        List<String> nameParts = name.split(fullName);
         if (nameParts.size() > MAX_NAME_PARTS) {
             String message = String.format(Student.TOO_MANY_NAME_PARTS_MSG, fullName, MAX_NAME_PARTS);
             Student.logger.info(message);
@@ -72,7 +71,7 @@ public class Student implements Comparable, Serializable {
     }
 
     public String getName() {
-        return name;
+        return name.fullName;
     }
 
     boolean isFullTime() {
