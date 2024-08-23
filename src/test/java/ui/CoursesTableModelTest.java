@@ -3,8 +3,6 @@ package ui;
 import junit.framework.TestCase;
 import studentinfo.Course;
 
-import java.time.LocalDate;
-
 public class CoursesTableModelTest extends TestCase {
     private CoursesTableModel model;
 
@@ -28,7 +26,7 @@ public class CoursesTableModelTest extends TestCase {
     }
 
     public void testAddRow() {
-        Course course = new Course("CMSC", "110", LocalDate.of(2006, 3, 17));
+        Course course = new Course("CMSC", "110", "03/17/2006");
 
         model.add(course);
         assertEquals(1, model.getRowCount());

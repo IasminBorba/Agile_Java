@@ -9,7 +9,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class CourseTest extends TestCase {
-    LocalDate date = LocalDate.of(2024, 4, 19);
+    String date = "04/19/2024";
 
     public void testCreate() {
         Course course = new Course("CMSC", "120", date);
@@ -19,11 +19,11 @@ public class CourseTest extends TestCase {
     }
 
     public void testEquality() {
-        Course courseA = new Course("NURS", "201");
-        Course courseAPrime = new Course("NURS", "201");
+        Course courseA = new Course("NURS", "201", "");
+        Course courseAPrime = new Course("NURS", "201", "");
         assertEquals(courseA, courseAPrime);
 
-        Course courseB = new Course("ARTH", "330");
+        Course courseB = new Course("ARTH", "330", "");
         assertFalse(courseA.equals(courseB));
 
         Course courseC = new Course("NURS", "201", date);
@@ -31,7 +31,7 @@ public class CourseTest extends TestCase {
 
         assertEquals(courseA, courseA);
 
-        Course courseAPrime2 = new Course("NURS", "201");
+        Course courseAPrime2 = new Course("NURS", "201", "");
         assertEquals(courseAPrime, courseAPrime2);
         assertEquals(courseA, courseAPrime2);
 
@@ -47,8 +47,8 @@ public class CourseTest extends TestCase {
     }
 
     public void testHashCode() {
-        Course courseA = new Course("NURS", "201");
-        Course courseAPrime = new Course("NURS", "201");
+        Course courseA = new Course("NURS", "201", "");
+        Course courseAPrime = new Course("NURS", "201", "");
         Course courseB = new Course("NURS", "201", date);
 
         assertEquals(courseA.hashCode(), courseAPrime.hashCode());
@@ -62,7 +62,7 @@ public class CourseTest extends TestCase {
         Map<Course, String> map = new HashMap<>();
 
         for (int i = 0; i < count; i++) {
-            Course course = new Course("C" + i, "" + i);
+            Course course = new Course("C" + i, "" + i, "");
             map.put(course, "");
         }
 
@@ -73,7 +73,7 @@ public class CourseTest extends TestCase {
     }
 
     public void testToString() {
-        Course course = new Course("ENGL", "301");
+        Course course = new Course("ENGL", "301", "");
         String localDate = LocalDate.now().format(DateTimeFormatter.ofPattern("MM/dd/yy"));
         assertEquals("ENGL-301: " + localDate, course.toString());
 

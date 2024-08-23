@@ -10,7 +10,7 @@ public class RosterReporterTest extends TestCase {
     private Session session;
 
     protected void setUp() {
-        session = CourseSession.create(new Course("ENGL", "101"), DateUtil.createDate(2003, 1, 6));
+        session = CourseSession.create(new Course("ENGL", "101", ""), DateUtil.createDate(2003, 1, 6));
         session.enroll(new Student("A"));
         session.enroll(new Student("B"));
     }

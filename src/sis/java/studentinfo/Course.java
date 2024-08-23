@@ -10,16 +10,14 @@ public class Course implements java.io.Serializable {
     private String number;
     private LocalDate effectiveDate;
 
-    public Course(String department, String number) {
+    public Course(String department, String number, String effectiveDate) {
         this.department = department;
         this.number = number;
-        this.effectiveDate = LocalDateTime.now().toLocalDate();
-    }
 
-    public Course(String department, String number, LocalDate effectiveDate) {
-        this.department = department;
-        this.number = number;
-        this.effectiveDate = effectiveDate;
+        if (effectiveDate.isBlank())
+            this.effectiveDate = (LocalDateTime.now().toLocalDate());
+        else
+            this.effectiveDate = LocalDate.parse(effectiveDate, FieldCatalog.DEFAULT_DATE_FORMAT);
     }
 
     public String getDepartment() {

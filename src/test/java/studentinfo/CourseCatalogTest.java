@@ -14,8 +14,8 @@ public class CourseCatalogTest extends TestCase {
 
     protected void setUp() {
         catalog = new CourseCatalog();
-        course1 = new Course("a", "1");
-        course2 = new Course("a", "1");
+        course1 = new Course("a", "1", "");
+        course2 = new Course("a", "1", "");
 
         session1 = CourseSession.create(course1, DateUtil.createDate(1, 15, 2005));
         session1.setNumberOfCredits(3);

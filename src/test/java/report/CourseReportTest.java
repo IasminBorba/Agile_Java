@@ -26,6 +26,6 @@ public class CourseReportTest extends TestCase {
     }
 
     private Session create(String name, String number, Date date) {
-        return CourseSession.create(new Course(name, number), date);
+        return CourseSession.create(new Course(name, number, ""), date);
     }
 }

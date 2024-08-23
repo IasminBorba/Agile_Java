@@ -25,9 +25,14 @@ abstract public class Session implements Comparable<Session>, Iterable<Student>,
     }
 
     public int compareTo(Session that) {
-        int compare = this.getDepartment().compareTo(that.getDepartment());
-        if (compare != 0)
-            return compare;
+        int compareDept = this.getDepartment().compareTo(that.getDepartment());
+        if (compareDept != 0)
+            return compareDept;
+
+        int compareDate = this.course.getEffectiveDate().compareTo(that.course.getEffectiveDate());
+        if (compareDate != 0)
+            return compareDate;
+
         return this.getNumber().compareTo(that.getNumber());
     }
 

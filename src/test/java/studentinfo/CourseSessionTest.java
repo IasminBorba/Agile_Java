@@ -23,7 +23,7 @@ public class CourseSessionTest extends SessionTest {
     }
 
     private Course createCourse() {
-        return new Course("ENGL", "101");
+        return new Course("ENGL", "101", "");
     }
 
     protected Session createSession(Course course, Date date) {

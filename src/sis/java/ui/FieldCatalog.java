@@ -80,4 +80,12 @@ public class FieldCatalog {
     public Field get(String fieldName) {
         return fields.get(fieldName);
     }
+
+    public String[] getFieldNames() {
+        return new String[]{
+                DEPARTMENT_FIELD_NAME,
+                NUMBER_FIELD_NAME,
+                EFFECTIVE_DATE_FIELD_NAME,
+        };
+    }
 }
