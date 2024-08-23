@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import javax.swing.*;
 import javax.swing.text.DateFormatter;
+import java.awt.*;
 import java.awt.event.*;
 import java.text.*;
 import java.util.*;
@@ -36,7 +37,7 @@ public class CoursesPanelTest extends TestCase {
 
     private void verifyEffectiveDate() {
         assertLabelText(EFFECTIVE_DATE_FIELD_NAME, EFFECTIVE_DATE_LABEL_TEXT);
-        JTextField field = panel.getField(EFFECTIVE_DATE_FIELD_NAME);
+        JTextField field = (JTextField) panel.getField(EFFECTIVE_DATE_FIELD_NAME);
         if (field instanceof JFormattedTextField dateField) {
             DateFormatter formatter = (DateFormatter) dateField.getFormatter();
             SimpleDateFormat format = (SimpleDateFormat) formatter.getFormat();
@@ -84,7 +85,7 @@ public class CoursesPanelTest extends TestCase {
 
         FieldCatalog catalog = new FieldCatalog();
         for (String fieldName : fieldNames) {
-            JTextField field = panel.getField(fieldName);
+            JTextField field = (JTextField) panel.getField(fieldName);
             Field fieldSpec = catalog.get(fieldName);
             assertEquals(fieldSpec.getInfo(), statusBar.getInfo(field));
             assertLabelText(fieldSpec.getName(), fieldSpec.getLabel());
@@ -132,8 +133,12 @@ public class CoursesPanelTest extends TestCase {
     }
 
     void assertCleanFields() {
-        for (JTextField fieldText : panel.getFields().values())
-            assertEquals("", fieldText.getText());
+        for (Component component : panel.getFields().values())
+            if (component instanceof JTextField fieldText) {
+                assertEquals("", fieldText.getText());
+            } else if (component instanceof JComboBox comboBox) {
+                assertEquals("", comboBox.getSelectedItem());
+            }
     }
 
     public void testEnableDisable() {
@@ -156,7 +161,7 @@ public class CoursesPanelTest extends TestCase {
         KeyListener listener = new KeyAdapter() {
         };
         panel.addFieldListener("deptField", listener);
-        JTextField field = panel.getField(DEPARTMENT_FIELD_NAME);
+        JTextField field = (JTextField) panel.getField(DEPARTMENT_FIELD_NAME);
         KeyListener[] listeners = field.getKeyListeners();
         assertEquals(1, listeners.length);
         assertSame(listener, listeners[0]);

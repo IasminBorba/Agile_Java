@@ -57,7 +57,7 @@ public class SisTest extends TestCase {
 
     private ArrayList<DocumentFilter> getFilters(CoursesPanel panel, String fieldName) {
         ArrayList<DocumentFilter> listFilter = new ArrayList<>();
-        JTextField field = panel.getField(fieldName);
+        JTextField field = (JTextField) panel.getField(fieldName);
         AbstractDocument document = (AbstractDocument) field.getDocument();
         DocumentFilter currentFilter = document.getDocumentFilter();
 
@@ -157,7 +157,7 @@ public class SisTest extends TestCase {
         sis.setAddButtonState();
         assertTrue(button.isEnabled());
 
-        panel.setText(FieldCatalog.DEPARTMENT_FIELD_NAME, " ");
+        panel.setText(FieldCatalog.DEPARTMENT_FIELD_NAME, "");
         sis.setAddButtonState();
         assertFalse(button.isEnabled());
 
@@ -212,7 +212,7 @@ public class SisTest extends TestCase {
 //    }
 
     private void selectField(String name) throws Exception {
-        JTextField field = panel.getField(name);
+        JTextField field = (JTextField) panel.getField(name);
         Point point = field.getLocationOnScreen();
         robot.mouseMove(point.x + field.getWidth() / 2, point.y + field.getHeight() / 2);
         robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
@@ -279,20 +279,23 @@ public class SisTest extends TestCase {
         JButton button = panel.getButton(CoursesPanel.ADD_BUTTON_NAME);
         assertFalse(button.isEnabled());
 
-        String[] deptStrings = {"ENGL", "MATH", "CMSC", "NURS", "ARTH"};
-        String[] numStrings = {"101", "202", "300", "111", "333"};
-        sis.setListStringsBox(deptStrings, numStrings);
+        String[] deptStrings = {"ABC", "CBA", "DEF", "FED"};
+        String[] numStrings = {"123", "321", "456", "654"};
 
+        sis.setListStringsBox(deptStrings, numStrings);
         sis.selectedIndexs(2, 1);
 
+        assertEquals("DEF", (panel.getComboBoxDept()).getSelectedItem());
+        assertEquals("321", (panel.getComboBoxNum()).getSelectedItem());
+
         sis.setAddButtonState();
-//        assertTrue(button.isEnabled());
+        assertTrue(button.isEnabled());
 
         button.doClick();
         Thread.sleep(1000);
 
         Course course = panel.getCourse(0);
-        assertEquals("CMSC", course.getDepartment());
-        assertEquals("202", course.getNumber());
+        assertEquals("DEF", course.getDepartment());
+        assertEquals("321", course.getNumber());
     }
 }

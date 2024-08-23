@@ -31,7 +31,8 @@ public class Sis {
 
     private void initialize() {
         createCoursePanel();
-        createKeyListeners();
+        createBoxsListeners();
+        createTableListeners();
         createHelpPanel();
         panel.update();
 
@@ -127,7 +128,7 @@ public class Sis {
         worker.execute();
     }
 
-    void createKeyListeners() {
+    void createBoxsListeners() {
         JComboBox comboBoxDept = panel.getComboBoxDept();
         comboBoxDept.addActionListener(new ActionListener() {
             @Override
@@ -143,7 +144,9 @@ public class Sis {
                 setButtonState();
             }
         });
+    }
 
+    void createTableListeners() {
         JTable table = panel.getTable(COURSES_TABLE_NAME);
         table.addMouseListener(new MouseAdapter() {
             @Override
@@ -244,5 +247,25 @@ public class Sis {
             }
         }
         return true;
+    }
+
+    void setListStringsBox(String[] deptStrings, String[] numStrings) {
+        JComboBox comboBoxDept = panel.getComboBoxDept();
+        comboBoxDept.removeAllItems();
+        for (String str : deptStrings)
+            comboBoxDept.addItem(str);
+
+        JComboBox comboBoxNum = panel.getComboBoxNum();
+        comboBoxNum.removeAllItems();
+        for (String str : numStrings)
+            comboBoxNum.addItem(str);
+    }
+
+    void selectedIndexs(int indexDept, int indexNum) {
+        JComboBox comboBoxDept = panel.getComboBoxDept();
+        comboBoxDept.setSelectedIndex(indexDept);
+
+        JComboBox comboBoxNum = panel.getComboBoxNum();
+        comboBoxNum.setSelectedIndex(indexNum);
     }
 }
