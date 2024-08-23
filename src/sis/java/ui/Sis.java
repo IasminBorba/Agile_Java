@@ -57,10 +57,8 @@ public class Sis {
 
     void createCoursePanel() {
         panel = new CoursesPanel();
-        System.out.println("ADD_COURSE");
         panel.addCourseAddListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("ADD_COURSE2");
                 addCourse();
             }
         });
@@ -139,7 +137,7 @@ public class Sis {
         });
 
         JComboBox comboBoxNum = panel.getComboBoxNum();
-        comboBoxDept.addActionListener(new ActionListener() {
+        comboBoxNum.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setButtonState();

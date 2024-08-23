@@ -52,9 +52,12 @@ public class CoursesPanel extends JPanel {
     }
 
     public CoursesPanel() {
+        createBoxs();
         setName(NAME);
         createLayout();
+    }
 
+    private void createBoxs() {
         Object[] stringDpt = catalog.get(FieldCatalog.DEPARTMENT_FIELD_NAME).getComboBoxOptions().toArray();
         boxDept = new JComboBox<>(stringDpt);
 
