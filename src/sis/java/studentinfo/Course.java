@@ -5,7 +5,7 @@ import ui.FieldCatalog;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
-public class Course implements java.io.Serializable {
+public class Course implements java.io.Serializable, Cloneable {
     private String department;
     private String number;
     private LocalDate effectiveDate;
@@ -14,10 +14,11 @@ public class Course implements java.io.Serializable {
         this.department = department;
         this.number = number;
 
-        if (effectiveDate.isBlank())
-            this.effectiveDate = (LocalDateTime.now().toLocalDate());
-        else
+        try {
             this.effectiveDate = LocalDate.parse(effectiveDate, FieldCatalog.DEFAULT_DATE_FORMAT);
+        } catch (Exception e) {
+            this.effectiveDate = (LocalDateTime.now().toLocalDate());
+        }
     }
 
     public String getDepartment() {
@@ -74,5 +75,16 @@ public class Course implements java.io.Serializable {
     public void setEffectiveDate(String date) {
         LocalDate newEffectiveDate = LocalDate.parse(date, FieldCatalog.DEFAULT_DATE_FORMAT);
         this.effectiveDate = newEffectiveDate;
+    }
+
+    @Override
+    public Course clone() {
+        Course copy;
+        try {
+            copy = (Course)super.clone();
+        } catch (CloneNotSupportedException impossible) {
+            throw new RuntimeException("unable to clone");
+        }
+        return copy;
     }
 }

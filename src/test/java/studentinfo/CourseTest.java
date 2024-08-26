@@ -3,6 +3,7 @@ package studentinfo;
 import junit.framework.TestCase;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -79,5 +80,15 @@ public class CourseTest extends TestCase {
 
         Course course2 = new Course("NURS", "305", date);
         assertEquals("NURS-305: 04/19/24", course2.toString());
+    }
+
+    public void testClone() {
+        final String department = "CHEM";
+        final String number = "400";
+        final LocalDate date = (LocalDateTime.now().toLocalDate());
+        Course course = new Course(department, number, date.toString());
+
+        Course copy = course.clone();
+        assertTrue(course.equals(copy));
     }
 }
