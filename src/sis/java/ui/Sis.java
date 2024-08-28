@@ -17,7 +17,7 @@ import java.util.List;
 public class Sis {
     static final int WIDTH = 550;
     static final int HEIGHT = 600;
-    private final CoursesPanel panel= new CoursesPanel();
+    private final CoursesPanel panel = new CoursesPanel();
     static final String COURSES_TITLE = "Course Listing";
     private final JFrame frame = new JFrame(COURSES_TITLE);
 
@@ -146,7 +146,7 @@ public class Sis {
         });
     }
 
-    void createButtonListeners () {
+    void createButtonListeners() {
         panel.addCourseAddListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 startAddCourseWorker();
@@ -238,19 +238,19 @@ public class Sis {
     }
 
     void addValueJComboBox(Course course) {
-        String dept =course.getDepartment();
-        if(verifyItens(panel.getComboBoxDept(), dept))
+        String dept = course.getDepartment();
+        if (verifyItens(panel.getComboBoxDept(), dept))
             panel.getComboBoxDept().addItem(dept);
 
-        String num =course.getNumber();
-        if(verifyItens(panel.getComboBoxNum(), num))
+        String num = course.getNumber();
+        if (verifyItens(panel.getComboBoxNum(), num))
             panel.getComboBoxNum().addItem(num);
     }
 
     boolean verifyItens(JComboBox comboBox, String newItem) {
         for (int i = 0; i < comboBox.getItemCount(); i++) {
             Object item = comboBox.getItemAt(i);
-            if(item.toString().equals(newItem))
+            if (item.toString().equals(newItem))
                 return false;
         }
         return true;

@@ -4,10 +4,11 @@ import java.awt.event.*;
 import java.util.IdentityHashMap;
 import java.util.Map;
 import javax.swing.*;
+
 public class StatusBar extends JLabel {
     public static String NAME = "StatusBar";
     private final static String EMPTY = " ";
-    private final Map<JComponent,String> infos = new IdentityHashMap<>();
+    private final Map<JComponent, String> infos = new IdentityHashMap<>();
 
     public StatusBar() {
         super(EMPTY);
@@ -25,6 +26,7 @@ public class StatusBar extends JLabel {
             public void mouseEntered(MouseEvent event) {
                 setText(text);
             }
+
             public void mouseExited(MouseEvent event) {
                 setText(EMPTY);
             }

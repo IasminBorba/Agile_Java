@@ -61,6 +61,7 @@ public class DateFilter extends ChainableFilter {
 
             if (Integer.parseInt(text.substring(3, 5)) > 31)
                 applyNextReplace(bypass, 3, 3, "30/", attr);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
 }

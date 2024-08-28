@@ -1,4 +1,5 @@
 package ui;
+
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 import java.awt.*;
@@ -30,8 +31,7 @@ public class FilteredCellEditor extends DefaultCellEditor {
             if (limit > 0) {
                 document.setDocumentFilter(new LimitFilter(limit));
                 ((ChainableFilter) document.getDocumentFilter()).setNextFilter(filter);
-            }
-            else {
+            } else {
                 ((AbstractDocument) textField.getDocument()).setDocumentFilter(filter);
             }
         }

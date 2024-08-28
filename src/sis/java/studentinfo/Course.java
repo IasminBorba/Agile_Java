@@ -81,7 +81,7 @@ public class Course implements java.io.Serializable, Cloneable {
     public Course clone() {
         Course copy;
         try {
-            copy = (Course)super.clone();
+            copy = (Course) super.clone();
         } catch (CloneNotSupportedException impossible) {
             throw new RuntimeException("unable to clone");
         }

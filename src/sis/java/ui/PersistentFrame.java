@@ -43,8 +43,8 @@ public class PersistentFrame extends JFrame {
         preferences.putInt(HEIGHT, bounds.height);
         try {
             preferences.flush();
+        } catch (BackingStoreException e) {
         }
-        catch (BackingStoreException e) {}
     }
 
     void clearPreferences() throws BackingStoreException {
