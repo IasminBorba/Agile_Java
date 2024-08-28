@@ -3,15 +3,15 @@ package util;
 import java.util.ResourceBundle;
 
 public class Bundle {
-    private static String baseName = "Messages";
+    static String DEFAULT_BASE_NAME = "Messages";
     private static ResourceBundle bundle;
 
     static String getName() {
-        return baseName;
+        return DEFAULT_BASE_NAME;
     }
 
     static void setName(String name) {
-        baseName = name;
+        DEFAULT_BASE_NAME = name;
         bundle = null;
     }
 
@@ -22,6 +22,7 @@ public class Bundle {
     }
 
     private static void loadBundle() {
+        System.out.println("load");
         System.out.println(getName());
         bundle = ResourceBundle.getBundle("util." + getName());
     }
